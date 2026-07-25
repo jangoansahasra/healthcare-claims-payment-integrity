@@ -21,3 +21,10 @@ include validation evidence and corresponding documentation.
 - Automated configuration validation tests
 - GitHub Actions continuous-integration workflow
 - Project-relative VS Code Python and test settings
+- Governed current CMS source manifest
+- Official CMS catalog discovery module
+- Annual CMS distribution resolver for 2019–2024
+- Persisted source-resolution metadata
+- Remote source-size probing without full downloads
+- Persisted remote-file inventory
+- Automated source-governance, catalog, resolver, and probe tests

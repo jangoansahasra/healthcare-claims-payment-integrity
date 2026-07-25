@@ -1,0 +1,191 @@
+manifest_version: 1
+last_reviewed: "2026-07-25"
+
+project_data_policy:
+  maximum_source_lag_years: 3
+  allow_restricted_data: false
+  allow_identifiable_beneficiary_data: false
+  allow_proprietary_cpt_descriptions: false
+  commit_complete_raw_files: false
+  commit_complete_processed_files: false
+  publish_synthetic_samples_only: true
+  require_sha256_checksum: true
+  require_source_documentation: true
+
+sources:
+  - source_id: cms_physician_provider_service
+    name: Medicare Physician and Other Practitioners by Provider and Service
+    catalog_title: Medicare Physician & Other Practitioners - by Provider and Service
+    publisher: Centers for Medicare & Medicaid Services
+    role: observed
+    domain: professional_medical
+    grain: provider_npi_hcpcs_place_of_service_year
+    source_page: https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider-and-service/
+    api_docs: https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider-and-service/api-docs
+    download_method: cms_data_api_catalog
+    requested_years:
+      - 2019
+      - 2020
+      - 2021
+      - 2022
+      - 2023
+      - 2024
+    latest_verified_year: 2024
+    local_directory: data/raw/cms/physician_provider_service
+    ingestion_status: planned
+    contains_real_healthcare_activity: true
+    contains_direct_beneficiary_identifiers: false
+    commit_raw_file: false
+    planned_uses:
+      - Professional service utilization
+      - Submitted versus allowed amount analysis
+      - Medicare payment analysis
+      - HCPCS and provider concentration
+      - Provider peer benchmarking
+      - Synthetic claim calibration
+    limitations:
+      - Represents Original Medicare fee-for-service activity.
+      - Does not represent a provider's entire practice.
+      - Privacy suppression affects low-volume records.
+      - Service counts have HCPCS-specific unit interpretations.
+      - Facility-setting professional payments may exclude facility payments.
+
+  - source_id: cms_inpatient_provider_service
+    name: Medicare Inpatient Hospitals by Provider and Service
+    catalog_title: Medicare Inpatient Hospitals - by Provider and Service
+    publisher: Centers for Medicare & Medicaid Services
+    role: observed
+    domain: inpatient
+    grain: hospital_ccn_ms_drg_year
+    source_page: https://data.cms.gov/provider-summary-by-type-of-service/medicare-inpatient-hospitals/medicare-inpatient-hospitals-by-provider-and-service
+    api_docs: https://data.cms.gov/provider-summary-by-type-of-service/medicare-inpatient-hospitals/medicare-inpatient-hospitals-by-provider-and-service/api-docs
+    download_method: cms_data_api_catalog
+    requested_years:
+      - 2019
+      - 2020
+      - 2021
+      - 2022
+      - 2023
+      - 2024
+    latest_verified_year: 2024
+    local_directory: data/raw/cms/inpatient_provider_service
+    ingestion_status: planned
+    contains_real_healthcare_activity: true
+    contains_direct_beneficiary_identifiers: false
+    commit_raw_file: false
+    planned_uses:
+      - Inpatient utilization
+      - Discharge analysis
+      - DRG concentration
+      - Hospital cost comparison
+      - Charge and payment trends
+      - Synthetic inpatient calibration
+    limitations:
+      - Represents Original Medicare fee-for-service inpatient activity.
+      - Provider and DRG combinations with 10 or fewer discharges are suppressed.
+      - Results do not represent all-payer hospital activity.
+
+  - source_id: cms_outpatient_provider_service
+    name: Medicare Outpatient Hospitals by Provider and Service
+    catalog_title: Medicare Outpatient Hospitals - by Provider and Service
+    publisher: Centers for Medicare & Medicaid Services
+    role: observed
+    domain: outpatient
+    grain: hospital_ccn_apc_service_year
+    source_page: https://data.cms.gov/provider-summary-by-type-of-service/medicare-outpatient-hospitals/medicare-outpatient-hospitals-by-provider-and-service
+    api_docs: https://data.cms.gov/provider-summary-by-type-of-service/medicare-outpatient-hospitals/medicare-outpatient-hospitals-by-provider-and-service/api-docs
+    download_method: cms_data_api_catalog
+    requested_years:
+      - 2019
+      - 2021
+      - 2023
+    latest_verified_year: 2023
+    local_directory: data/raw/cms/outpatient_provider_service
+    ingestion_status: planned
+    contains_real_healthcare_activity: true
+    contains_direct_beneficiary_identifiers: false
+    commit_raw_file: false
+    planned_uses:
+      - Outpatient service utilization
+      - Outpatient payment trends
+      - Hospital and service comparisons
+      - Synthetic outpatient calibration
+    limitations:
+      - The current public series is not available for every calendar year.
+      - Represents Original Medicare fee-for-service outpatient activity.
+      - Published service scope and suppression must be reviewed by year.
+
+  - source_id: cms_part_d_provider_drug
+    name: Medicare Part D Prescribers by Provider and Drug
+    catalog_title: Medicare Part D Prescribers - by Provider and Drug
+    publisher: Centers for Medicare & Medicaid Services
+    role: observed
+    domain: pharmacy
+    grain: prescriber_npi_drug_year
+    source_page: https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/medicare-part-d-prescribers-by-provider-and-drug
+    api_docs: https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/medicare-part-d-prescribers-by-provider-and-drug/api-docs
+    download_method: cms_data_api_catalog
+    requested_years:
+      - 2019
+      - 2020
+      - 2021
+      - 2022
+      - 2023
+      - 2024
+    latest_verified_year: 2024
+    local_directory: data/raw/cms/part_d_provider_drug
+    ingestion_status: planned
+    contains_real_healthcare_activity: true
+    contains_direct_beneficiary_identifiers: false
+    commit_raw_file: false
+    planned_uses:
+      - Prescription volume
+      - Pharmacy cost trends
+      - Drug and prescriber concentration
+      - Generic and brand analysis
+      - Synthetic pharmacy calibration
+    limitations:
+      - Represents Medicare Part D activity rather than all pharmacy claims.
+      - Low-volume records are suppressed.
+      - Total drug cost includes multiple payer components.
+
+  - source_id: cdc_icd10cm_fy2026
+    name: ICD-10-CM Fiscal Year 2026
+    publisher: CDC National Center for Health Statistics
+    role: reference
+    domain: diagnosis
+    grain: diagnosis_code
+    source_page: https://www.cdc.gov/nchs/icd/icd-10-cm/files.html
+    download_method: reviewed_direct_download
+    requested_years:
+      - 2026
+    latest_verified_year: 2026
+    local_directory: data/raw/reference/icd10cm
+    ingestion_status: planned
+    contains_real_healthcare_activity: false
+    contains_direct_beneficiary_identifiers: false
+    commit_raw_file: false
+
+  - source_id: cms_hcpcs_2026
+    name: HCPCS Level II Quarterly Files
+    publisher: Centers for Medicare & Medicaid Services
+    role: reference
+    domain: procedure
+    grain: hcpcs_code_effective_period
+    source_page: https://www.cms.gov/medicare/coding-billing/healthcare-common-procedure-system/quarterly-update
+    download_method: reviewed_direct_download
+    requested_years:
+      - 2026
+    latest_verified_year: 2026
+    local_directory: data/raw/reference/hcpcs
+    ingestion_status: planned
+    contains_real_healthcare_activity: false
+    contains_direct_beneficiary_identifiers: false
+    commit_raw_file: false
+    limitations:
+      - Proprietary CPT descriptions must not be redistributed.
+
+excluded_from_core_analysis:
+  - source: Basic Stand Alone Medicare Claims Public Use Files
+    reason: Available claim-line periods are too old for current cost conclusions.
+    permitted_use: Optional legacy-ingestion appendix only.
