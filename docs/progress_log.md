@@ -62,3 +62,49 @@ request `#2`.
 
 Create a governed source manifest and reproducible ingestion process for
 official CMS public-use datasets.
+
+## 2026-07-25 — Current CMS source governance and discovery
+
+### Completed
+
+- Opened GitHub issue `#3` for current CMS data ingestion.
+- Created the `feature/current-cms-data-ingestion` branch.
+- Replaced legacy claim-line data as the primary source strategy.
+- Registered six current observed and reference sources.
+- Added freshness, privacy, publication, and licensing controls.
+- Connected source discovery to the official CMS machine-readable catalog.
+- Resolved 21 annual CMS distributions across 2019–2024.
+- Recorded official resource identifiers, reporting periods, licenses, and
+  download URLs.
+- Added non-downloading remote-size probes.
+- Added automated tests for the manifest, catalog, resolver, and source probes.
+
+### Validation
+
+- Ruff: passed
+- Pytest: 31 passed
+- Resolved CMS distributions: 21
+- Professional medical detail: 17.37 GiB across six annual files
+- Pharmacy detail: 21.06 GiB across six annual files
+- Known combined source size: 38.43 GiB
+- Inpatient and outpatient remote sizes: not exposed by the CMS server
+- No complete healthcare CSV files were downloaded or committed
+
+### Decision
+
+Complete longitudinal coverage will use smaller CMS provider-level and
+geographic summary products. Detailed provider/service and provider/drug data
+will use reproducible current-year API cohorts. Inpatient and outpatient files
+will be assessed independently before acquisition.
+
+This preserves real national trend coverage while avoiding unnecessary local
+copies of more than 38 GiB of detailed CSV data.
+
+### Current work
+
+Designing the tiered acquisition policy and API cohort specification.
+
+### Next task
+
+Register the smaller longitudinal CMS summary products and implement filtered,
+paginated CMS API extraction.
