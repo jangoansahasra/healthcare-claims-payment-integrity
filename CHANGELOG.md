@@ -16,3 +16,8 @@ include validation evidence and corresponding documentation.
 - Reporting and claims-history decision log
 - Cloud cost-control plan
 - Public GitHub repository
+- Python 3.12 project environment configuration
+- Ruff and pytest project configuration
+- Automated configuration validation tests
+- GitHub Actions continuous-integration workflow
+- Project-relative VS Code Python and test settings
