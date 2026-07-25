@@ -1,0 +1,51 @@
+rules:
+  - rule_id: PI001
+    name: Exact duplicate claim line
+    enabled: true
+    base_severity: high
+    confidence: 0.98
+  - rule_id: PI002
+    name: Near-duplicate claim line
+    enabled: true
+    base_severity: medium
+    confidence: 0.75
+  - rule_id: PI003
+    name: Unresolved payment after reversal
+    enabled: true
+    base_severity: critical
+    confidence: 0.95
+  - rule_id: PI004
+    name: Impossible service and payment dates
+    enabled: true
+    base_severity: high
+    confidence: 0.99
+  - rule_id: PI005
+    name: Claim header and line total mismatch
+    enabled: true
+    base_severity: high
+    confidence: 0.95
+  - rule_id: PI006
+    name: Paid amount exceeds allowed amount
+    enabled: true
+    base_severity: high
+    confidence: 0.90
+  - rule_id: PI007
+    name: Unusual provider billing amount
+    enabled: true
+    base_severity: medium
+    confidence: 0.70
+  - rule_id: PI008
+    name: Sudden provider utilization increase
+    enabled: true
+    base_severity: medium
+    confidence: 0.70
+  - rule_id: PI009
+    name: Repeated procedure above configurable limit
+    enabled: true
+    base_severity: medium
+    confidence: 0.80
+  - rule_id: PI010
+    name: Inconsistent diagnosis and procedure category
+    enabled: true
+    base_severity: medium
+    confidence: 0.65

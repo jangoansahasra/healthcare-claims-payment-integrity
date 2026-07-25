@@ -1,0 +1,23 @@
+project:
+  seed: 20260724
+  currency: USD
+  reporting_start_date: 2025-01-01
+  reporting_end_date: 2026-06-30
+  privacy_minimum_members: 11
+
+generation:
+  members: 10000
+  providers: 200
+  claim_headers: 75000
+  medical_claim_share: 0.82
+  treated_regions:
+    - NORTHEAST
+    - MIDWEST
+  policy_start_date: 2026-01-01
+
+storage:
+  raw_format: csv
+  curated_format: parquet
+  partition_columns:
+    - service_year
+    - service_month

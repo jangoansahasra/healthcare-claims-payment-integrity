@@ -1,0 +1,29 @@
+.DS_Store
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+*.py[cod]
+*.log
+
+# Do not publish downloaded or generated claims.
+data/raw/*
+data/interim/*
+data/processed/*
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!data/sample/**
+
+# Local databases and BI artifacts.
+*.duckdb
+*.db
+*.pbix
+
+# Secrets and local cloud configuration.
+*.pem
+*.key
+local.settings.json
+.azure/
