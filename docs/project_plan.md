@@ -23,8 +23,8 @@ auditors an explainable investigation queue.
 
 | ID | Milestone | Status | Exit criteria |
 |---|---|---|---|
-| M00 | Repository and governance | In progress | GitHub, tracking, CI, and contribution workflow established |
-| M01 | Public-data ingestion | Not started | CMS datasets downloaded reproducibly and source metadata recorded |
+| M00 | Repository and governance | Complete | GitHub, tracking, CI, and contribution workflow established |
+| M01 | Public-data ingestion | In progress | CMS datasets downloaded reproducibly and source metadata recorded |
 | M02 | Synthetic operational data | Not started | Membership, transactions, policy, and audit tables generated |
 | M03 | Anomaly injection | Not started | Ten anomaly types injected with complete ground truth |
 | M04 | Trusted claims model | Not started | Dimensional model built, tested, and reconciled |

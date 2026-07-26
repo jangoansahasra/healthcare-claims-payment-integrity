@@ -108,3 +108,60 @@ Designing the tiered acquisition policy and API cohort specification.
 
 Register the smaller longitudinal CMS summary products and implement filtered,
 paginated CMS API extraction.
+
+## 2026-07-26 — Tiered CMS acquisition and bronze conversion
+
+### Completed
+
+- Expanded the governed source inventory to 34 CMS distributions.
+- Added longitudinal physician-provider and Part D prescriber summaries.
+- Added the Medicare Geographic Variation source covering 2014–2024.
+- Documented full-download strategies and local disk-capacity controls.
+- Implemented resumable streaming downloads with partial-file recovery.
+- Implemented SHA-256 verification and machine-readable acquisition receipts.
+- Implemented string-preserving CSV-to-Parquet conversion using Zstandard
+  compression.
+- Added technical Parquet profiles containing row counts, schemas, sizes, and
+  checksums.
+- Downloaded and converted the first official CMS source.
+
+### Validation
+
+- Ruff: passed
+- Pytest: 47 passed
+- Governed CMS distributions: 34
+- Distributions with known remote sizes: 24
+- Known planned source volume: 44.24 GiB
+- Available local disk before acquisition: 219 GiB
+- Geographic Variation source size: 57,865,948 bytes
+- Geographic Variation source SHA-256:
+  `10c8304012da34da3ecfe4caf4548927095f693383814d0e79ce6711b6806fad`
+- Bronze Parquet rows: 36,994
+- Bronze Parquet columns: 250
+- Bronze Parquet size: 22.78 MiB
+- Bronze Parquet SHA-256:
+  `4b2963651406606e296321b08671acd9a2b000a6b9de8afe7d64e04fc7ca10bd`
+- Source-year coverage: 2014–2024 inclusive
+- Geography levels: National, State, and County
+- Tested rows containing at least one suppression marker: 76
+- Raw and processed healthcare files remain excluded from Git.
+
+### Decision
+
+CMS source values are preserved as strings in the bronze layer. Suppression
+markers such as `*` are retained rather than converted to zero or silently
+discarded. Type conversion, suppression flags, and analytical null handling
+will be performed explicitly in the silver layer.
+
+Complete national files will be acquired because the verified local disk
+capacity supports the planned workload. Raw and processed datasets will remain
+local or cloud-hosted and will not be committed to Git.
+
+### Current work
+
+Publishing the governed CMS acquisition and bronze-conversion framework.
+
+### Next task
+
+Create the typed and quality-tested silver model for Medicare Geographic
+Variation data.
