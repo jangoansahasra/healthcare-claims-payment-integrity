@@ -1,0 +1,1264 @@
+{
+  "column_count": 250,
+  "columns": [
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "YEAR",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENE_GEO_LVL",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENE_GEO_DESC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENE_GEO_CD",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENE_AGE_LVL",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_TOTAL_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_WTH_PTAPTB_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_OM_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_MA_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "MA_PRTCPTN_RATE",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENE_AVG_AGE",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENE_FEML_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENE_MALE_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENE_RACE_WHT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENE_RACE_BLACK_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENE_RACE_HSPNC_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENE_RACE_OTHR_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENE_DUAL_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TOT_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TOT_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TOT_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TOT_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IP_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IP_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IP_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IP_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IP_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IP_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IP_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IP_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_IP_CVRD_STAY_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_IP_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IP_CVRD_STAYS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IP_CVRD_DAYS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "ACUTE_HOSP_READMSN_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "ACUTE_HOSP_READMSN_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_ER_VISITS_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "ER_VISITS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_ER_VISITS_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_OP_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_OP_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_VISITS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "ASC_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "ASC_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "ASC_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "ASC_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "ASC_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "ASC_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "ASC_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "ASC_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_ASC_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_ASC_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "ASC_EVNTS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "SNF_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "SNF_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "SNF_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "SNF_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "SNF_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "SNF_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "SNF_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "SNF_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_SNF_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_SNF_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "SNF_CVRD_STAYS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "SNF_CVRD_DAYS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IRF_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IRF_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IRF_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IRF_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IRF_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IRF_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IRF_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IRF_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_IRF_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_IRF_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IRF_CVRD_STAYS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IRF_CVRD_DAYS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "LTCH_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "LTCH_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "LTCH_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "LTCH_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "LTCH_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "LTCH_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "LTCH_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "LTCH_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_LTCH_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_LTCH_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "LTCH_CVRD_STAYS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "LTCH_CVRD_DAYS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HH_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HH_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HH_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HH_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HH_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HH_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HH_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HH_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_HH_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_HH_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HH_EPISODES_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HH_VISITS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HOSPC_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HOSPC_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HOSPC_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HOSPC_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HOSPC_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HOSPC_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HOSPC_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HOSPC_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_HOSPC_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_HOSPC_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HOSPC_CVRD_STAYS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "HOSPC_CVRD_DAYS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "EM_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "EM_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "EM_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "EM_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "EM_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "EM_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "EM_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "EM_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_EM_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_EM_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "EM_EVNTS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PRCDRS_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PRCDRS_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PRCDRS_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PRCDRS_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PRCDRS_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PRCDRS_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PRCDRS_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PRCDRS_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_PRCDRS_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_PRCDRS_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PRCDR_EVNTS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TESTS_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TESTS_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TESTS_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TESTS_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TESTS_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TESTS_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TESTS_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TESTS_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_TESTS_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_TESTS_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TESTS_EVNTS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IMGNG_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IMGNG_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IMGNG_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IMGNG_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IMGNG_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IMGNG_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IMGNG_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IMGNG_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_IMGNG_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_IMGNG_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "IMGNG_EVNTS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "DME_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "DME_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "DME_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "DME_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "DME_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "DME_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "DME_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "DME_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_DME_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_DME_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "DME_EVNTS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_DLYS_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_DLYS_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_DLYS_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_DLYS_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_DLYS_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_DLYS_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_DLYS_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_DLYS_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_OP_DLYS_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_OP_DLYS_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "OP_DLYS_VISITS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "FQHC_RHC_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "FQHC_RHC_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "FQHC_RHC_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "FQHC_RHC_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "FQHC_RHC_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "FQHC_RHC_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "FQHC_RHC_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "FQHC_RHC_MDCR_STDZD_PYMT_PU",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_FQHC_RHC_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_FQHC_RHC_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "FQHC_RHC_VISITS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "AMBLNC_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "AMBLNC_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "AMBLNC_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "AMBLNC_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "AMBLNC_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "AMBLNC_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "AMBLNC_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "AMBLNC_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_AMBLNC_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_AMBLNC_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "AMBLNC_EVNTS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TRTMNTS_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TRTMNTS_MDCR_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TRTMNTS_MDCR_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TRTMNTS_MDCR_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TRTMNTS_MDCR_STDZD_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TRTMNTS_MDCR_STDZD_PYMT_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TRTMNTS_MDCR_STDZD_PYMT_PC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TRTMNTS_MDCR_STDZD_PYMT_PER_USER",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_TRTMNTS_CNT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "BENES_TRTMNTS_PCT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TRTMNTS_EVNTS_PER_1000_BENES",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PTB_OTHR_SRVCS_MDCR_PYMT_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PTB_OTHR_SRVCS_MDCR_STDZD_PYMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TOT_PBPMT_RDCTN_AMT",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "TOT_PBPMT_RDCTN_PCC",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI03_DBTS_AGE_LT_65",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI03_DBTS_AGE_65_74",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI03_DBTS_AGE_GE_75",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI05_COPD_ASTHMA_AGE_40_64",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI05_COPD_ASTHMA_AGE_65_74",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI05_COPD_ASTHMA_AGE_GE_75",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI07_HYPRTNSN_AGE_LT_65",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI07_HYPRTNSN_AGE_65_74",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI07_HYPRTNSN_AGE_GE_75",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI08_CHF_AGE_LT_65",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI08_CHF_AGE_65_74",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI08_CHF_AGE_GE_75",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI11_BCTRL_PNA_AGE_LT_65",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI11_BCTRL_PNA_AGE_65_74",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI11_BCTRL_PNA_AGE_GE_75",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI12_UTI_AGE_LT_65",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI12_UTI_AGE_65_74",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI12_UTI_AGE_GE_75",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI15_ASTHMA_AGE_LT_40",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI16_LWRXTRMTY_AMPUTN_AGE_LT_65",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI16_LWRXTRMTY_AMPUTN_AGE_65_74",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "PQI16_LWRXTRMTY_AMPUTN_AGE_GE_75",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "_source_id",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "INTEGER",
+      "name": "_reporting_year",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "_source_file",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "_acquired_at_utc",
+      "nullable": "YES"
+    }
+  ],
+  "compression": "zstd",
+  "parquet_path": "data/processed/cms/geographic_variation/2024/geographic_variation.parquet",
+  "profile_version": 1,
+  "reporting_year": 2024,
+  "row_count": 36994,
+  "sha256": "4b2963651406606e296321b08671acd9a2b000a6b9de8afe7d64e04fc7ca10bd",
+  "size_bytes": 23886642,
+  "source_id": "cms_geographic_variation",
+  "source_values_preserved_as_strings": true
+}

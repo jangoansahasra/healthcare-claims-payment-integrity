@@ -149,6 +149,115 @@ sources:
       - Low-volume records are suppressed.
       - Total drug cost includes multiple payer components.
 
+  - source_id: cms_physician_provider_summary
+    name: Medicare Physician and Other Practitioners by Provider
+    catalog_title: Medicare Physician & Other Practitioners - by Provider
+    publisher: Centers for Medicare & Medicaid Services
+    role: observed
+    domain: professional_medical
+    grain: provider_npi_year
+    source_page: https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider
+    api_docs: https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider/api-docs
+    download_method: cms_data_api_catalog
+    requested_years:
+      - 2019
+      - 2020
+      - 2021
+      - 2022
+      - 2023
+      - 2024
+    latest_verified_year: 2024
+    local_directory: data/raw/cms/physician_provider_summary
+    ingestion_status: planned
+    contains_real_healthcare_activity: true
+    contains_direct_beneficiary_identifiers: false
+    commit_raw_file: false
+    planned_uses:
+      - National provider-level longitudinal trends
+      - Submitted, allowed, paid, and standardized payment analysis
+      - Provider specialty comparisons
+      - Provider risk and beneficiary-mix analysis
+      - Synthetic provider calibration
+    limitations:
+      - Represents Original Medicare fee-for-service activity.
+      - Does not represent a provider's entire practice.
+      - Low-volume beneficiary information may be suppressed.
+
+  - source_id: cms_part_d_provider_summary
+    name: Medicare Part D Prescribers by Provider
+    catalog_title: Medicare Part D Prescribers - by Provider
+    publisher: Centers for Medicare & Medicaid Services
+    role: observed
+    domain: pharmacy
+    grain: prescriber_npi_year
+    source_page: https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/medicare-part-d-prescribers-by-provider
+    api_docs: https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/medicare-part-d-prescribers-by-provider/api-docs
+    download_method: cms_data_api_catalog
+    requested_years:
+      - 2019
+      - 2020
+      - 2021
+      - 2022
+      - 2023
+      - 2024
+    latest_verified_year: 2024
+    local_directory: data/raw/cms/part_d_provider_summary
+    ingestion_status: planned
+    contains_real_healthcare_activity: true
+    contains_direct_beneficiary_identifiers: false
+    commit_raw_file: false
+    planned_uses:
+      - National prescriber-level longitudinal trends
+      - Prescription and standardized-fill analysis
+      - Total drug cost analysis
+      - Generic and brand cost analysis
+      - Synthetic pharmacy calibration
+    limitations:
+      - Represents Medicare Part D rather than all pharmacy activity.
+      - Low-volume information is suppressed.
+      - Drug cost includes multiple payer components.
+
+  - source_id: cms_geographic_variation
+    name: Medicare Geographic Variation by National State and County
+    catalog_title: Medicare Geographic Variation - by National, State & County
+    publisher: Centers for Medicare & Medicaid Services
+    role: observed
+    domain: geographic_cost_utilization
+    grain: geography_level_geography_code_year
+    source_page: https://data.cms.gov/summary-statistics-on-use-and-payments/medicare-geographic-comparisons/medicare-geographic-variation-by-national-state-county
+    api_docs: https://data.cms.gov/summary-statistics-on-use-and-payments/medicare-geographic-comparisons/medicare-geographic-variation-by-national-state-county/api-docs
+    download_method: cms_data_api_catalog
+    requested_years:
+      - 2024
+    latest_verified_year: 2024
+    local_directory: data/raw/cms/geographic_variation
+    ingestion_status: planned
+    contains_real_healthcare_activity: true
+    contains_direct_beneficiary_identifiers: false
+    commit_raw_file: false
+    included_source_period:
+      - 2014
+      - 2015
+      - 2016
+      - 2017
+      - 2018
+      - 2019
+      - 2020
+      - 2021
+      - 2022
+      - 2023
+      - 2024
+    planned_uses:
+      - Geographic cost trends
+      - Per-capita and per-user spending
+      - Utilization comparisons
+      - Demographic and risk adjustment
+      - Geographic benchmark calibration
+    limitations:
+      - Represents Original Medicare fee-for-service activity.
+      - County-level values may be suppressed for privacy or reliability.
+      - The distribution reporting year identifies the latest included period.
+
   - source_id: cdc_icd10cm_fy2026
     name: ICD-10-CM Fiscal Year 2026
     publisher: CDC National Center for Health Statistics

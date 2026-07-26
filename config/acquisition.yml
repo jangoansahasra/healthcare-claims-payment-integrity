@@ -1,0 +1,86 @@
+acquisition_version: 1
+last_reviewed: "2026-07-25"
+
+global_controls:
+  api_page_size: 5000
+  request_timeout_seconds: 120
+  request_retry_count: 3
+  require_https: true
+  require_checksum: true
+  preserve_raw_source: true
+  convert_to_parquet: true
+  commit_raw_data: false
+  commit_processed_data: false
+  maximum_single_full_download_gib: 5
+  maximum_planned_local_raw_gib: 70
+  minimum_required_free_disk_gib: 100
+
+source_strategies:
+  cms_geographic_variation:
+    strategy: full_download
+    years:
+      - 2024
+    rationale: One current file contains national, state, and county history from 2014 through 2024.
+
+  cms_physician_provider_summary:
+    strategy: full_download
+    years:
+      - 2019
+      - 2020
+      - 2021
+      - 2022
+      - 2023
+      - 2024
+    rationale: Provider-level national trends require complete annual coverage.
+
+  cms_part_d_provider_summary:
+    strategy: full_download
+    years:
+      - 2019
+      - 2020
+      - 2021
+      - 2022
+      - 2023
+      - 2024
+    rationale: Prescriber-level pharmacy trends require complete annual coverage.
+
+  cms_inpatient_provider_service:
+    strategy: full_download
+    years:
+      - 2019
+      - 2020
+      - 2021
+      - 2022
+      - 2023
+      - 2024
+    rationale: Provider and DRG records are expected to be materially smaller than professional detail.
+
+  cms_outpatient_provider_service:
+    strategy: full_download
+    years:
+      - 2019
+      - 2021
+      - 2023
+    rationale: All published outpatient periods are required for available-year comparisons.
+
+  cms_physician_provider_service:
+    strategy: full_download
+    years:
+       - 2019
+       - 2020
+       - 2021
+       - 2022
+       - 2023
+       - 2024
+    rationale: Complete national detail is feasible within the verified local disk budget and eliminates cohort-selection bias.
+
+  cms_part_d_provider_drug:
+    strategy: full_download
+    years:
+     - 2019
+     - 2020
+     - 2021
+     - 2022
+     - 2023
+     - 2024
+    rationale: Complete national detail is feasible within the verified local disk budget and eliminates cohort-selection bias.

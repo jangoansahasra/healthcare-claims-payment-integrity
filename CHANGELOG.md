@@ -28,3 +28,10 @@ include validation evidence and corresponding documentation.
 - Remote source-size probing without full downloads
 - Persisted remote-file inventory
 - Automated source-governance, catalog, resolver, and probe tests
+- Tiered acquisition policy for seven CMS source families
+- Resumable streaming downloads with disk-capacity controls
+- SHA-256 acquisition receipts for downloaded source files
+- String-preserving bronze Parquet conversion with Zstandard compression
+- Machine-readable Parquet technical profiles
+- Automated acquisition, download, conversion, and profiling tests
+- First validated CMS Geographic Variation bronze dataset covering 2014–2024
