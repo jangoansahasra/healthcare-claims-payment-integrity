@@ -42,3 +42,8 @@ include validation evidence and corresponding documentation.
 - Automated silver range, grain, row-count, and domain validation
 - Controlled end-to-end silver integration tests
 - Machine-readable silver quality report
+- Reusable multi-year CMS source-family bronze converter
+- Cross-year schema consistency and drift metadata
+- Six-year CMS physician provider-summary bronze dataset
+- Provider NPI grain and format reconciliation
+- Automated source-family discovery and conversion tests

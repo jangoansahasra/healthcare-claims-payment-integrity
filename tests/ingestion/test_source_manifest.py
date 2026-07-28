@@ -122,3 +122,14 @@ def test_cms_catalog_sources_have_catalog_titles() -> None:
     for source in load_manifest()["sources"]:
         if source["download_method"] == "cms_data_api_catalog":
             assert source.get("catalog_title")
+
+
+def test_ingestion_status_values_are_governed() -> None:
+    allowed_statuses = {
+        "planned",
+        "bronze_complete",
+        "silver_complete",
+    }
+
+    for source in load_manifest()["sources"]:
+        assert source["ingestion_status"] in allowed_statuses

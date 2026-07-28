@@ -217,3 +217,48 @@ Publishing the typed and quality-tested geographic silver model.
 
 Complete the remaining governed CMS acquisitions and apply reusable bronze and
 silver controls to each source family.
+
+## 2026-07-27 — CMS physician provider-summary bronze family
+
+### Completed
+
+- Downloaded six official CMS provider-summary files for 2019–2024.
+- Verified all six raw files using SHA-256 acquisition receipts.
+- Added a reusable multi-year source-family converter.
+- Added cross-year schema consistency and drift detection.
+- Converted all annual files to Zstandard Parquet.
+- Generated six annual technical profiles and one family inventory.
+- Documented the physician provider-summary bronze dataset.
+
+### Validation
+
+- Ruff: passed
+- Pytest: 71 passed
+- Raw CSV volume: 2.7 GiB
+- Bronze Parquet volume: 835 MiB
+- Total provider-year rows: 7,302,541
+- Reporting years: 2019–2024
+- Source columns per year: 81
+- Schema groups: 1
+- CSV, Parquet, and profile row counts reconciled for every year.
+- Rendering NPI is unique within every reporting year.
+- Null rendering NPIs: 0
+- Invalid rendering NPIs: 0
+- Rendering NPI type: `VARCHAR`
+- Raw and processed datasets remain excluded from Git.
+
+### Decision
+
+Provider identifiers and all other source values remain strings in bronze.
+Typing, suppression handling, and historical provider-attribute treatment will
+be implemented in the physician silver model.
+
+### Current work
+
+Publishing the physician provider-summary bronze acquisition.
+
+### Next task
+
+Create a typed, longitudinal physician provider silver model with explicit
+provider identity, specialty, geography, utilization, payment, and beneficiary
+risk fields.
