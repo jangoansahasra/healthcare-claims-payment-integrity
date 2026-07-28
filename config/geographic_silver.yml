@@ -1,0 +1,149 @@
+contract_version: 1
+last_reviewed: "2026-07-26"
+
+model:
+  name: cms_geographic_variation_silver
+  source_id: cms_geographic_variation
+  source_layer: bronze
+  target_layer: silver
+  grain: one row per year, geography level, normalized geography, and beneficiary age level
+
+paths:
+  bronze_input: data/processed/cms/geographic_variation/2024/geographic_variation.parquet
+  silver_output: data/interim/silver/cms_geographic_variation.parquet
+  value_status_output: data/interim/silver/cms_geographic_variation_value_status.parquet
+  quality_report: data/metadata/quality/cms_geographic_variation_silver.json
+
+business_key:
+  - year
+  - geography_level
+  - geography_id
+  - beneficiary_age_level
+
+source_dimensions:
+  YEAR:
+    target: year
+    type: INTEGER
+    nullable: false
+
+  BENE_GEO_LVL:
+    target: geography_level
+    type: VARCHAR
+    nullable: false
+
+  BENE_GEO_DESC:
+    target: geography_name
+    type: VARCHAR
+    nullable: false
+
+  BENE_GEO_CD:
+    target: source_geography_code
+    type: VARCHAR
+    nullable: true
+
+  BENE_AGE_LVL:
+    target: beneficiary_age_level
+    type: VARCHAR
+    nullable: false
+
+geography_identifier_rules:
+  - geography_level: National
+    geography_name: National
+    source_geography_code: null
+    geography_id: US
+
+  - geography_level: State
+    geography_name: Territory
+    source_geography_code: null
+    geography_id: AGG_TERRITORY
+
+  - geography_level: State
+    geography_name: ZZ
+    source_geography_code: null
+    geography_id: AGG_ZZ
+
+  - geography_level: State
+    use_source_geography_code: true
+
+  - geography_level: County
+    use_source_geography_code: true
+
+measure_typing:
+  excluded_columns:
+    - YEAR
+    - BENE_GEO_LVL
+    - BENE_GEO_DESC
+    - BENE_GEO_CD
+    - BENE_AGE_LVL
+    - _source_id
+    - _reporting_year
+    - _source_file
+    - _acquired_at_utc
+
+  integer_suffixes:
+    - _CNT
+
+  decimal_type: DECIMAL(38, 6)
+  integer_type: BIGINT
+  use_try_cast: true
+
+special_values:
+  suppression_tokens:
+    - "*"
+
+  not_applicable_tokens:
+    - "NA"
+
+  missing_tokens:
+    - ""
+
+  suppressed_values_become_null: true
+  not_applicable_values_become_null: true
+  missing_values_become_null: true
+  preserve_special_value_lineage: true
+
+special_value_lineage:
+  grain: one row per silver business key and special-valued measure
+  allowed_statuses:
+    - suppressed
+    - not_applicable
+  fields:
+    - year
+    - geography_level
+    - geography_id
+    - beneficiary_age_level
+    - measure_name
+    - source_token
+    - value_status
+
+retained_lineage:
+  - _source_id
+  - _reporting_year
+  - _source_file
+  - _acquired_at_utc
+
+allowed_values:
+  geography_level:
+    - National
+    - State
+    - County
+
+  beneficiary_age_level:
+    - All
+    - "<65"
+    - ">=65"
+
+  minimum_year: 2014
+  maximum_year: 2024
+
+quality_rules:
+  preserve_source_row_count: true
+  require_unique_business_key: true
+  require_non_null_business_key: true
+  reject_unmapped_geographies: true
+  reject_unparseable_numeric_values: true
+  require_nonnegative_counts: true
+  require_nonnegative_payment_amounts: true
+  require_percentages_between_zero_and_one_hundred: true
+  retain_all_source_years: true
+  retain_all_geography_levels: true

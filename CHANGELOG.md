@@ -35,3 +35,10 @@ include validation evidence and corresponding documentation.
 - Machine-readable Parquet technical profiles
 - Automated acquisition, download, conversion, and profiling tests
 - First validated CMS Geographic Variation bronze dataset covering 2014–2024
+- Governed CMS Geographic Variation silver contract
+- Typed 241-measure geographic silver transformation
+- Stable identifiers for coded and aggregate geographies
+- Separate suppression and not-applicable value lineage
+- Automated silver range, grain, row-count, and domain validation
+- Controlled end-to-end silver integration tests
+- Machine-readable silver quality report

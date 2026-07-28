@@ -1,0 +1,58 @@
+{
+  "all_checks_passed": true,
+  "beneficiary_age_levels": [
+    "<65",
+    ">=65",
+    "All"
+  ],
+  "bronze_path": "data/processed/cms/geographic_variation/2024/geographic_variation.parquet",
+  "bronze_row_count": 36994,
+  "checks": {
+    "age_levels_retained": true,
+    "business_key_non_null": true,
+    "business_key_unique": true,
+    "counts_nonnegative": true,
+    "geography_levels_retained": true,
+    "payment_amounts_nonnegative": true,
+    "percentages_in_range": true,
+    "source_row_count_preserved": true,
+    "source_years_retained": true
+  },
+  "duplicate_business_key_count": 0,
+  "generated_at_utc": "2026-07-28T03:15:52.965677+00:00",
+  "geography_levels": [
+    "County",
+    "National",
+    "State"
+  ],
+  "measure_count": 241,
+  "model_name": "cms_geographic_variation_silver",
+  "null_business_key_count": 0,
+  "quality_report_version": 1,
+  "range_violation_counts": {
+    "counts": 0,
+    "payment_amounts": 0,
+    "percentages": 0
+  },
+  "silver_path": "data/interim/silver/cms_geographic_variation.parquet",
+  "silver_row_count": 36994,
+  "source_id": "cms_geographic_variation",
+  "special_value_counts": {
+    "not_applicable": 806938,
+    "suppressed": 686853
+  },
+  "value_status_path": "data/interim/silver/cms_geographic_variation_value_status.parquet",
+  "years": [
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ]
+}

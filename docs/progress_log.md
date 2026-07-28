@@ -165,3 +165,55 @@ Publishing the governed CMS acquisition and bronze-conversion framework.
 
 Create the typed and quality-tested silver model for Medicare Geographic
 Variation data.
+
+## 2026-07-27 — CMS Geographic Variation silver model
+
+### Completed
+
+- Defined the silver grain and four-field business key.
+- Added stable identifiers for coded and aggregate geographies.
+- Typed 23 count measures as `BIGINT`.
+- Typed remaining analytical measures as `DECIMAL(38,6)`.
+- Distinguished CMS suppression token `*` from not-applicable token `NA`.
+- Created a long special-value lineage table.
+- Added fail-fast validation for ungoverned numeric values.
+- Added controlled end-to-end transformation tests.
+- Built the real CMS Geographic Variation silver model.
+- Generated a machine-readable quality report.
+
+### Validation
+
+- Ruff: passed
+- Pytest: 64 passed
+- Bronze rows: 36,994
+- Silver rows: 36,994
+- Typed measures: 241
+- Duplicate business keys: 0
+- Null business keys: 0
+- Suppressed values: 686,853
+- Not-applicable values: 806,938
+- Special-value lineage rows: 1,493,791
+- Count-range violations: 0
+- Payment-range violations: 0
+- Percentage-range violations: 0
+- All nine silver quality checks passed.
+- Wide and long special-value counts reconciled exactly.
+- Generated Parquet files remain excluded from Git.
+
+### Decision
+
+Suppressed, not-applicable, and missing values are analytically distinct.
+Suppressed and not-applicable values become null in the wide silver table while
+their original token and status are retained in a separate lineage table.
+
+Aggregate geographies without CMS codes use governed identifiers rather than
+fabricated geographic codes.
+
+### Current work
+
+Publishing the typed and quality-tested geographic silver model.
+
+### Next task
+
+Complete the remaining governed CMS acquisitions and apply reusable bronze and
+silver controls to each source family.
