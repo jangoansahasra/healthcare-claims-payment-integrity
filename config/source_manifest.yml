@@ -168,7 +168,7 @@ sources:
       - 2024
     latest_verified_year: 2024
     local_directory: data/raw/cms/physician_provider_summary
-    ingestion_status: planned
+    ingestion_status: bronze_complete
     contains_real_healthcare_activity: true
     contains_direct_beneficiary_identifiers: false
     commit_raw_file: false
@@ -231,7 +231,7 @@ sources:
       - 2024
     latest_verified_year: 2024
     local_directory: data/raw/cms/geographic_variation
-    ingestion_status: planned
+    ingestion_status: silver_complete
     contains_real_healthcare_activity: true
     contains_direct_beneficiary_identifiers: false
     commit_raw_file: false
