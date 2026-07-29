@@ -8,6 +8,7 @@ from src.ingestion.convert_source_family import (
     build_family_inventory,
     convert_source_family,
     discover_annual_csvs,
+    normalized_column_aliases,
 )
 from src.ingestion.convert_to_parquet import ConversionError
 from src.ingestion.download_sources import receipt_path
@@ -148,6 +149,61 @@ def test_family_inventory_detects_schema_drift() -> None:
 
     assert inventory["schema_group_count"] == 2
     assert inventory["schema_consistent"] is False
+
+
+def test_normalized_column_aliases_selects_observed_source_names(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "part_d.csv"
+    path.write_text(
+        "PRSCRBR_NPI,Tot_Clms\n1000000001,25\n",
+        encoding="utf-8",
+    )
+
+    aliases = normalized_column_aliases(
+        path,
+        {"PRSCRBR_NPI": "Prscrbr_NPI"},
+    )
+
+    assert aliases == {
+        "PRSCRBR_NPI": "Prscrbr_NPI",
+    }
+
+
+def test_normalized_column_aliases_ignores_absent_alias_sources(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "part_d.csv"
+    path.write_text(
+        "Prscrbr_NPI,Tot_Clms\n1000000001,25\n",
+        encoding="utf-8",
+    )
+
+    aliases = normalized_column_aliases(
+        path,
+        {"PRSCRBR_NPI": "Prscrbr_NPI"},
+    )
+
+    assert aliases == {}
+
+
+def test_normalized_column_aliases_rejects_target_collision(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "part_d.csv"
+    path.write_text(
+        ("PRSCRBR_NPI,Prscrbr_NPI,Tot_Clms\n1000000001,1000000001,25\n"),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(
+        ConversionError,
+        match="alias target already exists",
+    ):
+        normalized_column_aliases(
+            path,
+            {"PRSCRBR_NPI": "Prscrbr_NPI"},
+        )
 
 
 def test_convert_source_family_end_to_end(tmp_path: Path) -> None:

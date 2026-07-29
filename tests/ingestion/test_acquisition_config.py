@@ -77,3 +77,14 @@ def test_disk_safety_controls_are_configured() -> None:
 
     assert controls["maximum_planned_local_raw_gib"] <= 70
     assert controls["minimum_required_free_disk_gib"] >= 100
+
+
+def test_part_d_provider_schema_aliases_are_governed() -> None:
+    strategy = load_yaml(ACQUISITION_PATH)["source_strategies"][
+        "cms_part_d_provider_summary"
+    ]
+
+    assert strategy["column_aliases"] == {
+        "PRSCRBR_NPI": "Prscrbr_NPI",
+        "Prscrbr_Type_Src": "Prscrbr_Type_src",
+    }

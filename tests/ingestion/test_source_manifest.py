@@ -133,3 +133,21 @@ def test_ingestion_status_values_are_governed() -> None:
 
     for source in load_manifest()["sources"]:
         assert source["ingestion_status"] in allowed_statuses
+
+
+def test_part_d_provider_schema_drift_is_documented() -> None:
+    sources = {source["source_id"]: source for source in load_manifest()["sources"]}
+    part_d = sources["cms_part_d_provider_summary"]
+    normalization = part_d["schema_normalization"]
+
+    assert part_d["local_directory"] == ("data/raw/cms/cms_part_d_provider_summary")
+    assert normalization["canonical_identifier"] == "Prscrbr_NPI"
+    assert normalization["column_aliases"] == {
+        "PRSCRBR_NPI": "Prscrbr_NPI",
+        "Prscrbr_Type_Src": "Prscrbr_Type_src",
+    }
+    assert normalization["alias_applicability"] == {
+        "PRSCRBR_NPI": [2023, 2024],
+        "Prscrbr_Type_Src": [2019, 2020, 2021, 2022],
+    }
+    assert normalization["preserves_raw_source"] is True

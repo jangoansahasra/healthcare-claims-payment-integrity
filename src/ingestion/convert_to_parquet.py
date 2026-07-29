@@ -27,6 +27,11 @@ def sql_literal(value: str | Path) -> str:
     return f"'{escaped}'"
 
 
+def quote_identifier(value: str) -> str:
+    """Return a safely escaped DuckDB identifier."""
+    return '"' + value.replace('"', '""') + '"'
+
+
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
 
@@ -42,6 +47,7 @@ def convert_csv_to_parquet(
     output_path: Path,
     source_id: str,
     reporting_year: int,
+    column_aliases: dict[str, str] | None = None,
 ) -> None:
     """Convert a verified raw CSV to string-preserving Zstandard Parquet."""
     if not verified_existing_file(input_path):
@@ -57,11 +63,18 @@ def convert_csv_to_parquet(
     source_id_sql = sql_literal(source_id)
     source_file_sql = sql_literal(input_path.name)
     acquired_at_sql = sql_literal(receipt["acquired_at_utc"])
+    projection = "*"
 
+    if column_aliases:
+        rename_items = ", ".join(
+            f"{quote_identifier(source)} AS {quote_identifier(target)}"
+            for source, target in column_aliases.items()
+        )
+        projection = f"* RENAME ({rename_items})"
     query = f"""
         COPY (
             SELECT
-                *,
+                {projection},
                 {source_id_sql} AS _source_id,
                 {reporting_year} AS _reporting_year,
                 {source_file_sql} AS _source_file,

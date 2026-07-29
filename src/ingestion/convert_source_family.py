@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 from datetime import UTC, datetime
@@ -19,6 +20,37 @@ DEFAULT_ACQUISITION_PATH = Path("config/acquisition.yml")
 DEFAULT_RAW_ROOT = Path("data/raw/cms")
 DEFAULT_PROCESSED_ROOT = Path("data/processed/cms")
 DEFAULT_PROFILE_ROOT = Path("data/metadata/profiles")
+
+
+def normalized_column_aliases(
+    csv_path: Path,
+    configured_aliases: dict[str, str] | None,
+) -> dict[str, str]:
+    """Return governed aliases applicable to one observed CSV header."""
+    if not configured_aliases:
+        return {}
+
+    with csv_path.open(
+        encoding="utf-8-sig",
+        newline="",
+    ) as file:
+        header = set(next(csv.reader(file)))
+
+    active_aliases: dict[str, str] = {}
+
+    for source, target in configured_aliases.items():
+        if source not in header:
+            continue
+
+        if target in header and target != source:
+            raise ConversionError(
+                "Cannot normalize column alias because alias target "
+                f"already exists: {source} -> {target}"
+            )
+
+        active_aliases[source] = target
+
+    return active_aliases
 
 
 def discover_annual_csvs(
@@ -131,6 +163,7 @@ def convert_source_family(
     raw_root: Path = DEFAULT_RAW_ROOT,
     processed_root: Path = DEFAULT_PROCESSED_ROOT,
     profile_root: Path = DEFAULT_PROFILE_ROOT,
+    column_aliases: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     """Convert and profile all requested annual files for one source."""
     annual_csvs = discover_annual_csvs(
@@ -145,12 +178,17 @@ def convert_source_family(
             processed_root / source_id / str(year) / f"{source_id}_{year}.parquet"
         )
         profile_path = profile_root / f"{source_id}_{year}.json"
+        active_aliases = normalized_column_aliases(
+            csv_path,
+            column_aliases,
+        )
 
         convert_csv_to_parquet(
             csv_path,
             parquet_path,
             source_id,
             year,
+            active_aliases,
         )
         profile = profile_parquet(
             parquet_path,
@@ -234,6 +272,7 @@ def main() -> None:
         args.raw_root,
         args.processed_root,
         args.profile_root,
+        strategies[args.source_id].get("column_aliases"),
     )
 
 
