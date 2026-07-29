@@ -56,3 +56,8 @@ include validation evidence and corresponding documentation.
 - Provider-size benchmark classification
 - Machine-readable physician silver quality report
 - Automated physician contract, helper, and end-to-end transformation tests
+- Governed schema-alias support for multi-year CMS bronze conversion
+- Six-year CMS Part D prescriber provider-summary bronze dataset
+- Canonical Part D prescriber NPI and provider-type-source fields
+- Seven Part D bronze technical profiles and family inventory
+- Automated schema-alias collision and Parquet-renaming tests

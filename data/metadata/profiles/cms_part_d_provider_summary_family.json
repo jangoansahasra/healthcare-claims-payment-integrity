@@ -1,0 +1,87 @@
+{
+  "family_inventory_version": 1,
+  "generated_at_utc": "2026-07-29T15:48:16.622349+00:00",
+  "reporting_years": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "schema_consistent": true,
+  "schema_group_count": 1,
+  "schema_groups": [
+    {
+      "schema_signature": "899ad18da35656996e16b6de119432fcf7d8191ab4a56dfbb359841032256f82",
+      "source_column_count": 84,
+      "years": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ]
+    }
+  ],
+  "source_id": "cms_part_d_provider_summary",
+  "total_row_count": 7913081,
+  "year_count": 6,
+  "years": [
+    {
+      "parquet_path": "data/processed/cms/cms_part_d_provider_summary/2019/cms_part_d_provider_summary_2019.parquet",
+      "parquet_sha256": "57d5355c6f3ead35977d8929de6105941c59862826f5814cd44dfb7378e811fc",
+      "parquet_size_bytes": 156387035,
+      "reporting_year": 2019,
+      "row_count": 1240595,
+      "schema_signature": "899ad18da35656996e16b6de119432fcf7d8191ab4a56dfbb359841032256f82",
+      "source_column_count": 84
+    },
+    {
+      "parquet_path": "data/processed/cms/cms_part_d_provider_summary/2020/cms_part_d_provider_summary_2020.parquet",
+      "parquet_sha256": "fd0614850414f46ea1c6c494b376b67b249c67f36682e391a916fb7d6d14cd2f",
+      "parquet_size_bytes": 156680046,
+      "reporting_year": 2020,
+      "row_count": 1255175,
+      "schema_signature": "899ad18da35656996e16b6de119432fcf7d8191ab4a56dfbb359841032256f82",
+      "source_column_count": 84
+    },
+    {
+      "parquet_path": "data/processed/cms/cms_part_d_provider_summary/2021/cms_part_d_provider_summary_2021.parquet",
+      "parquet_sha256": "2e3ab4838200f042e11bd6088df69c8dfc45b02cffd53d68b02a288d6826ddc4",
+      "parquet_size_bytes": 160786773,
+      "reporting_year": 2021,
+      "row_count": 1287454,
+      "schema_signature": "899ad18da35656996e16b6de119432fcf7d8191ab4a56dfbb359841032256f82",
+      "source_column_count": 84
+    },
+    {
+      "parquet_path": "data/processed/cms/cms_part_d_provider_summary/2022/cms_part_d_provider_summary_2022.parquet",
+      "parquet_sha256": "4a850adb307f54b44cd5e5d12138e04af57388ad96d55ae6603d30bdb7c0189a",
+      "parquet_size_bytes": 166860425,
+      "reporting_year": 2022,
+      "row_count": 1332309,
+      "schema_signature": "899ad18da35656996e16b6de119432fcf7d8191ab4a56dfbb359841032256f82",
+      "source_column_count": 84
+    },
+    {
+      "parquet_path": "data/processed/cms/cms_part_d_provider_summary/2023/cms_part_d_provider_summary_2023.parquet",
+      "parquet_sha256": "1f3790e98f0e9554a9e9db1b7d6cb541b298c6909dec66f626687928f5a2156a",
+      "parquet_size_bytes": 172868008,
+      "reporting_year": 2023,
+      "row_count": 1380665,
+      "schema_signature": "899ad18da35656996e16b6de119432fcf7d8191ab4a56dfbb359841032256f82",
+      "source_column_count": 84
+    },
+    {
+      "parquet_path": "data/processed/cms/cms_part_d_provider_summary/2024/cms_part_d_provider_summary_2024.parquet",
+      "parquet_sha256": "3e899a3ec0d98c804e2bf0f1f2db191c6597eac24ce0375a3d3e3e5cead083cb",
+      "parquet_size_bytes": 178922300,
+      "reporting_year": 2024,
+      "row_count": 1416883,
+      "schema_signature": "899ad18da35656996e16b6de119432fcf7d8191ab4a56dfbb359841032256f82",
+      "source_column_count": 84
+    }
+  ]
+}

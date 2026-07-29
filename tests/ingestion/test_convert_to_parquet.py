@@ -62,6 +62,53 @@ def test_convert_csv_to_parquet_preserves_source_strings(
     ]
 
 
+def test_convert_csv_to_parquet_applies_governed_column_alias(
+    tmp_path: Path,
+) -> None:
+    input_path = tmp_path / "part_d.csv"
+    output_path = tmp_path / "part_d.parquet"
+    content = b"PRSCRBR_NPI,Tot_Clms\n1000000001,25\n"
+    input_path.write_bytes(content)
+
+    receipt = {
+        "acquired_at_utc": "2026-07-29T00:00:00+00:00",
+        "bytes_downloaded": len(content),
+        "sha256": hashlib.sha256(content).hexdigest(),
+    }
+    receipt_path(input_path).write_text(
+        json.dumps(receipt),
+        encoding="utf-8",
+    )
+
+    convert_csv_to_parquet(
+        input_path,
+        output_path,
+        "cms_part_d_provider_summary",
+        2024,
+        {"PRSCRBR_NPI": "Prscrbr_NPI"},
+    )
+
+    with duckdb.connect() as connection:
+        schema = {
+            row[0]
+            for row in connection.execute(
+                "DESCRIBE SELECT * FROM read_parquet(?)",
+                [str(output_path)],
+            ).fetchall()
+        }
+        row = connection.execute(
+            """
+            SELECT Prscrbr_NPI, Tot_Clms
+            FROM read_parquet(?)
+            """,
+            [str(output_path)],
+        ).fetchone()
+
+    assert "Prscrbr_NPI" in schema
+    assert "PRSCRBR_NPI" not in schema
+    assert row == ("1000000001", "25")
+
+
 def test_convert_csv_to_parquet_requires_verified_receipt(
     tmp_path: Path,
 ) -> None:

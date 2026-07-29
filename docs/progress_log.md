@@ -329,3 +329,54 @@ Publishing the governed physician provider-summary silver model.
 
 Acquire and transform the CMS Part D provider-summary family to establish the
 pharmacy benchmark needed for medical-versus-pharmacy cost intelligence.
+
+## 2026-07-29 — CMS Part D prescriber provider-summary bronze family
+
+### Completed
+
+- Downloaded six official CMS Part D provider-summary files for 2019–2024.
+- Verified every raw file using its SHA-256 acquisition receipt.
+- Detected two capitalization-only schema changes across CMS releases.
+- Added governed, source-specific bronze column aliases.
+- Preserved all raw CSV headers and values unchanged.
+- Normalized the six annual Parquet files to one canonical schema.
+- Generated six annual profiles and one family inventory.
+- Added alias detection, collision, configuration, and integration tests.
+- Documented the observed pharmacy benchmark and its limitations.
+
+### Validation
+
+- Ruff: passed
+- Pytest: 102 passed
+- Raw CSV volume: approximately 3.2 GiB
+- Bronze Parquet volume: approximately 994 MiB
+- Total prescriber-year rows: 7,913,081
+- Reporting years: 2019–2024
+- Source columns per year: 84
+- Canonical schema groups: 1
+- CSV, Parquet, and profile row counts reconciled for every year.
+- Prescriber NPI is unique within every reporting year.
+- Null prescriber NPIs: 0
+- Invalid prescriber NPIs: 0
+- Prescriber NPI type: `VARCHAR`
+- Raw and processed datasets remain excluded from Git.
+
+### Decision
+
+Capitalization-only source drift is handled through explicit aliases configured
+for this source family. Raw source files remain immutable; normalization occurs
+only in bronze Parquet. Alias collisions fail instead of silently overwriting
+a source column.
+
+The real Part D data is used for observed pharmacy benchmarks and synthetic
+calibration. It is not treated as claim-level data, and real prescribers will
+not receive injected payment-integrity anomalies.
+
+### Current work
+
+Publishing the CMS Part D provider-summary bronze family.
+
+### Next task
+
+Profile Part D suppression behavior, numeric domains, cost measures, and
+beneficiary fields before defining the longitudinal pharmacy silver contract.

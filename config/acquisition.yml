@@ -1,5 +1,5 @@
 acquisition_version: 1
-last_reviewed: "2026-07-25"
+last_reviewed: "2026-07-29"
 
 global_controls:
   api_page_size: 5000
@@ -42,6 +42,9 @@ source_strategies:
       - 2022
       - 2023
       - 2024
+    column_aliases:
+      PRSCRBR_NPI: Prscrbr_NPI
+      Prscrbr_Type_Src: Prscrbr_Type_src
     rationale: Prescriber-level pharmacy trends require complete annual coverage.
 
   cms_inpatient_provider_service:

@@ -1,5 +1,5 @@
 manifest_version: 1
-last_reviewed: "2026-07-25"
+last_reviewed: "2026-07-29"
 
 project_data_policy:
   maximum_source_lag_years: 3
@@ -201,8 +201,23 @@ sources:
       - 2023
       - 2024
     latest_verified_year: 2024
-    local_directory: data/raw/cms/part_d_provider_summary
-    ingestion_status: planned
+    local_directory: data/raw/cms/cms_part_d_provider_summary
+    ingestion_status: bronze_complete
+    schema_normalization:
+      canonical_identifier: Prscrbr_NPI
+      column_aliases:
+        PRSCRBR_NPI: Prscrbr_NPI
+        Prscrbr_Type_Src: Prscrbr_Type_src
+      alias_applicability:
+        PRSCRBR_NPI:
+          - 2023
+          - 2024
+        Prscrbr_Type_Src:
+          - 2019
+          - 2020
+          - 2021
+          - 2022
+      preserves_raw_source: true
     contains_real_healthcare_activity: true
     contains_direct_beneficiary_identifiers: false
     commit_raw_file: false
