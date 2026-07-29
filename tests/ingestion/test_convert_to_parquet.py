@@ -109,6 +109,77 @@ def test_convert_csv_to_parquet_applies_governed_column_alias(
     assert row == ("1000000001", "25")
 
 
+def test_convert_csv_to_parquet_transcodes_cp1252_without_changing_raw(
+    tmp_path: Path,
+) -> None:
+    input_path = tmp_path / "inpatient.csv"
+    output_path = tmp_path / "bronze" / "inpatient.parquet"
+    content = "CCN,NAME\n670128,Baylor – Pflugerville\n".encode("cp1252")
+    input_path.write_bytes(content)
+    original_hash = hashlib.sha256(content).hexdigest()
+    receipt_path(input_path).write_text(
+        json.dumps(
+            {
+                "acquired_at_utc": "2026-07-29T00:00:00+00:00",
+                "bytes_downloaded": len(content),
+                "sha256": original_hash,
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    convert_csv_to_parquet(
+        input_path,
+        output_path,
+        "cms_inpatient_provider_service",
+        2019,
+        source_encoding="cp1252",
+    )
+
+    with duckdb.connect() as connection:
+        rows = connection.execute(
+            "SELECT CCN, NAME FROM read_parquet(?)",
+            [str(output_path)],
+        ).fetchall()
+
+    assert rows == [("670128", "Baylor – Pflugerville")]
+    assert hashlib.sha256(input_path.read_bytes()).hexdigest() == original_hash
+    assert not list(output_path.parent.glob("*.utf8.csv"))
+    assert not list(output_path.parent.glob("*.partial"))
+
+
+def test_convert_csv_to_parquet_rejects_wrong_declared_encoding(
+    tmp_path: Path,
+) -> None:
+    input_path = tmp_path / "inpatient.csv"
+    output_path = tmp_path / "inpatient.parquet"
+    content = "CCN,NAME\n670128,Baylor – Pflugerville\n".encode()
+    input_path.write_bytes(content)
+    receipt_path(input_path).write_text(
+        json.dumps(
+            {
+                "acquired_at_utc": "2026-07-29T00:00:00+00:00",
+                "bytes_downloaded": len(content),
+                "sha256": hashlib.sha256(content).hexdigest(),
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ConversionError, match="Cannot transcode"):
+        convert_csv_to_parquet(
+            input_path,
+            output_path,
+            "cms_inpatient_provider_service",
+            2019,
+            source_encoding="ascii",
+        )
+
+    assert not output_path.exists()
+    assert not list(tmp_path.glob("*.utf8.csv"))
+    assert not list(tmp_path.glob("*.partial"))
+
+
 def test_convert_csv_to_parquet_requires_verified_receipt(
     tmp_path: Path,
 ) -> None:

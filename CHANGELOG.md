@@ -68,3 +68,8 @@ include validation evidence and corresponding documentation.
 - Country-safe prescriber benchmark and quartile size-band configuration
 - Machine-readable Part D silver quality report
 - Automated Part D contract, helper, and end-to-end transformation tests
+- Governed per-year source encoding and strict streaming transcoding
+- Six-year CMS inpatient provider-DRG Bronze dataset
+- Seven inpatient Bronze technical profiles and family inventory
+- Atomic Parquet conversion with temporary-file cleanup
+- Automated encoding, raw-integrity, and transcoding tests

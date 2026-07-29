@@ -151,3 +151,22 @@ def test_part_d_provider_schema_drift_is_documented() -> None:
         "Prscrbr_Type_Src": [2019, 2020, 2021, 2022],
     }
     assert normalization["preserves_raw_source"] is True
+
+
+def test_inpatient_source_encoding_is_documented() -> None:
+    sources = {source["source_id"]: source for source in load_manifest()["sources"]}
+    inpatient = sources["cms_inpatient_provider_service"]
+
+    assert inpatient["ingestion_status"] == "bronze_complete"
+    assert inpatient["schema_normalization"] == {
+        "source_encodings": {
+            2019: "cp1252",
+            2020: "cp1252",
+            2021: "cp1252",
+            2022: "cp1252",
+            2023: "cp1252",
+            2024: "utf-8",
+        },
+        "target_encoding": "utf-8",
+        "preserves_raw_source": True,
+    }

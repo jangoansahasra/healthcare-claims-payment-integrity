@@ -442,3 +442,56 @@ Publishing the governed CMS Part D prescriber silver model.
 Continue the M01 source roadmap with the next governed CMS provider-service
 family, while retaining the same acquisition, bronze, silver, and quality
 controls.
+
+## 2026-07-29 — CMS inpatient provider-service bronze family
+
+### Completed
+
+- Downloaded six official CMS inpatient provider-service files for 2019–2024.
+- Verified every raw file using its SHA-256 acquisition receipt.
+- Identified Windows-1252 punctuation in the 2019–2023 source files.
+- Added governed per-year source encodings and strict streaming transcoding.
+- Preserved the raw files unchanged and normalized Bronze text to UTF-8.
+- Added atomic Parquet replacement and temporary-file cleanup.
+- Converted all six annual files to Zstandard Parquet.
+- Generated six annual technical profiles and one family inventory.
+- Reconciled provider-DRG business keys and identifier formats.
+
+### Validation
+
+- Ruff: passed
+- Pytest: 136 passed
+- Raw CSV volume: 232 MiB
+- Bronze Parquet volume: 18 MiB
+- Total provider-DRG-year rows: 936,131
+- Reporting years: 2019–2024
+- Source columns per year: 15
+- Schema groups: 1
+- CSV, Parquet, and profile row counts reconcile for every year.
+- Duplicate business keys: 0
+- Null business keys: 0
+- Invalid six-character CCNs: 0
+- Invalid three-digit DRG codes: 0
+- Unparseable numeric candidates: 0
+- Fractional discharge values: 0
+- Medicare-payment-above-total-payment rows: 0
+- Raw files remain receipt-valid after conversion.
+
+### Decision
+
+Source encoding is governed by year. Windows-1252 files are decoded strictly
+and streamed to temporary UTF-8 inputs; malformed data fails conversion.
+Ignoring decode errors or modifying receipt-governed raw files is prohibited.
+
+The 1,915 observed rows where average total payment exceeds average submitted
+covered charge are retained. This relationship is not a Bronze rejection rule
+and will be documented and profiled before any Silver interpretation.
+
+### Current work
+
+Publishing the CMS inpatient provider-service Bronze family.
+
+### Next task
+
+Define a typed inpatient provider-DRG Silver model with explicit geographic,
+discharge, charge, and payment semantics.

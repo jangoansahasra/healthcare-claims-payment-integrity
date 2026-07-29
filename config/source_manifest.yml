@@ -69,7 +69,17 @@ sources:
       - 2024
     latest_verified_year: 2024
     local_directory: data/raw/cms/inpatient_provider_service
-    ingestion_status: planned
+    ingestion_status: bronze_complete
+    schema_normalization:
+      source_encodings:
+        2019: cp1252
+        2020: cp1252
+        2021: cp1252
+        2022: cp1252
+        2023: cp1252
+        2024: utf-8
+      target_encoding: utf-8
+      preserves_raw_source: true
     contains_real_healthcare_activity: true
     contains_direct_beneficiary_identifiers: false
     commit_raw_file: false

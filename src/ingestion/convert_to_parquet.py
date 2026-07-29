@@ -3,6 +3,10 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import shutil
+import tempfile
+from collections.abc import Iterator
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -42,12 +46,62 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+@contextmanager
+def utf8_csv_input(
+    input_path: Path,
+    output_directory: Path,
+    source_encoding: str,
+) -> Iterator[Path]:
+    """Yield a UTF-8 CSV path without changing the verified raw source."""
+    normalized = source_encoding.lower().replace("_", "-")
+    if normalized in {"utf-8", "utf8", "utf-8-sig"}:
+        yield input_path
+        return
+
+    temporary_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            dir=output_directory,
+            prefix=f".{input_path.stem}.",
+            suffix=".utf8.csv",
+            delete=False,
+        ) as temporary:
+            temporary_path = Path(temporary.name)
+
+        try:
+            with (
+                input_path.open(
+                    "r",
+                    encoding=source_encoding,
+                    errors="strict",
+                    newline="",
+                ) as source,
+                temporary_path.open(
+                    "w",
+                    encoding="utf-8",
+                    errors="strict",
+                    newline="",
+                ) as target,
+            ):
+                shutil.copyfileobj(source, target, length=1024 * 1024)
+        except (LookupError, UnicodeError) as error:
+            raise ConversionError(
+                f"Cannot transcode {input_path} from {source_encoding}: {error}"
+            ) from error
+
+        yield temporary_path
+    finally:
+        if temporary_path is not None:
+            temporary_path.unlink(missing_ok=True)
+
+
 def convert_csv_to_parquet(
     input_path: Path,
     output_path: Path,
     source_id: str,
     reporting_year: int,
     column_aliases: dict[str, str] | None = None,
+    source_encoding: str = "utf-8",
 ) -> None:
     """Convert a verified raw CSV to string-preserving Zstandard Parquet."""
     if not verified_existing_file(input_path):
@@ -58,8 +112,9 @@ def convert_csv_to_parquet(
     receipt = json.loads(receipt_path(input_path).read_text(encoding="utf-8"))
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    input_sql = sql_literal(input_path)
-    output_sql = sql_literal(output_path)
+    partial_output_path = output_path.with_suffix(output_path.suffix + ".partial")
+    partial_output_path.unlink(missing_ok=True)
+    output_sql = sql_literal(partial_output_path)
     source_id_sql = sql_literal(source_id)
     source_file_sql = sql_literal(input_path.name)
     acquired_at_sql = sql_literal(receipt["acquired_at_utc"])
@@ -71,31 +126,42 @@ def convert_csv_to_parquet(
             for source, target in column_aliases.items()
         )
         projection = f"* RENAME ({rename_items})"
-    query = f"""
-        COPY (
-            SELECT
-                {projection},
-                {source_id_sql} AS _source_id,
-                {reporting_year} AS _reporting_year,
-                {source_file_sql} AS _source_file,
-                {acquired_at_sql} AS _acquired_at_utc
-            FROM read_csv(
-                {input_sql},
-                header = true,
-                all_varchar = true,
-                strict_mode = true
-            )
-        )
-        TO {output_sql}
-        (
-            FORMAT PARQUET,
-            COMPRESSION ZSTD,
-            ROW_GROUP_SIZE 100000
-        )
-    """
+    try:
+        with utf8_csv_input(
+            input_path,
+            output_path.parent,
+            source_encoding,
+        ) as conversion_input:
+            input_sql = sql_literal(conversion_input)
+            query = f"""
+                COPY (
+                    SELECT
+                        {projection},
+                        {source_id_sql} AS _source_id,
+                        {reporting_year} AS _reporting_year,
+                        {source_file_sql} AS _source_file,
+                        {acquired_at_sql} AS _acquired_at_utc
+                    FROM read_csv(
+                        {input_sql},
+                        header = true,
+                        all_varchar = true,
+                        strict_mode = true
+                    )
+                )
+                TO {output_sql}
+                (
+                    FORMAT PARQUET,
+                    COMPRESSION ZSTD,
+                    ROW_GROUP_SIZE 100000
+                )
+            """
 
-    with duckdb.connect() as connection:
-        connection.execute(query)
+            with duckdb.connect() as connection:
+                connection.execute(query)
+
+        partial_output_path.replace(output_path)
+    finally:
+        partial_output_path.unlink(missing_ok=True)
 
 
 def profile_parquet(

@@ -1,0 +1,87 @@
+{
+  "family_inventory_version": 1,
+  "generated_at_utc": "2026-07-29T17:05:34.065111+00:00",
+  "reporting_years": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "schema_consistent": true,
+  "schema_group_count": 1,
+  "schema_groups": [
+    {
+      "schema_signature": "1fcff9b1c75bf1b475074a00095759552db33b8226cc152acb2fc62653fdd20e",
+      "source_column_count": 15,
+      "years": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ]
+    }
+  ],
+  "source_id": "cms_inpatient_provider_service",
+  "total_row_count": 936131,
+  "year_count": 6,
+  "years": [
+    {
+      "parquet_path": "data/processed/cms/cms_inpatient_provider_service/2019/cms_inpatient_provider_service_2019.parquet",
+      "parquet_sha256": "f7e15ef52b769afdc1b57f792bfb9f85bfd229908c05541eb99bf056b831dc4a",
+      "parquet_size_bytes": 3784082,
+      "reporting_year": 2019,
+      "row_count": 187719,
+      "schema_signature": "1fcff9b1c75bf1b475074a00095759552db33b8226cc152acb2fc62653fdd20e",
+      "source_column_count": 15
+    },
+    {
+      "parquet_path": "data/processed/cms/cms_inpatient_provider_service/2020/cms_inpatient_provider_service_2020.parquet",
+      "parquet_sha256": "1933d15cefdcf6ffb95b80041f716dd9ac86ceb5b700dea6c04730eb5b445a69",
+      "parquet_size_bytes": 3251471,
+      "reporting_year": 2020,
+      "row_count": 158375,
+      "schema_signature": "1fcff9b1c75bf1b475074a00095759552db33b8226cc152acb2fc62653fdd20e",
+      "source_column_count": 15
+    },
+    {
+      "parquet_path": "data/processed/cms/cms_inpatient_provider_service/2021/cms_inpatient_provider_service_2021.parquet",
+      "parquet_sha256": "8e76108a0981aeb31805a7cea922a55ba1e83b26ce2d3ab478e985aa6df69b4a",
+      "parquet_size_bytes": 3130438,
+      "reporting_year": 2021,
+      "row_count": 151989,
+      "schema_signature": "1fcff9b1c75bf1b475074a00095759552db33b8226cc152acb2fc62653fdd20e",
+      "source_column_count": 15
+    },
+    {
+      "parquet_path": "data/processed/cms/cms_inpatient_provider_service/2022/cms_inpatient_provider_service_2022.parquet",
+      "parquet_sha256": "e03296a30130d967d553c1b1d52b2c714dbeafe9ab7ee252cfb9b51d5195338a",
+      "parquet_size_bytes": 3007065,
+      "reporting_year": 2022,
+      "row_count": 145742,
+      "schema_signature": "1fcff9b1c75bf1b475074a00095759552db33b8226cc152acb2fc62653fdd20e",
+      "source_column_count": 15
+    },
+    {
+      "parquet_path": "data/processed/cms/cms_inpatient_provider_service/2023/cms_inpatient_provider_service_2023.parquet",
+      "parquet_sha256": "c87fdd728263f0433e5ab704c4fd27230a9768d6d9023d79d3cce98475d24585",
+      "parquet_size_bytes": 3005112,
+      "reporting_year": 2023,
+      "row_count": 146427,
+      "schema_signature": "1fcff9b1c75bf1b475074a00095759552db33b8226cc152acb2fc62653fdd20e",
+      "source_column_count": 15
+    },
+    {
+      "parquet_path": "data/processed/cms/cms_inpatient_provider_service/2024/cms_inpatient_provider_service_2024.parquet",
+      "parquet_sha256": "745bd46f5bb01e188380c9dfdc9827632548e30e7fbc1c3f058dce17847460c8",
+      "parquet_size_bytes": 3000394,
+      "reporting_year": 2024,
+      "row_count": 145879,
+      "schema_signature": "1fcff9b1c75bf1b475074a00095759552db33b8226cc152acb2fc62653fdd20e",
+      "source_column_count": 15
+    }
+  ]
+}

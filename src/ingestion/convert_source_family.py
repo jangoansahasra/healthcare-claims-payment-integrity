@@ -25,13 +25,14 @@ DEFAULT_PROFILE_ROOT = Path("data/metadata/profiles")
 def normalized_column_aliases(
     csv_path: Path,
     configured_aliases: dict[str, str] | None,
+    source_encoding: str = "utf-8",
 ) -> dict[str, str]:
     """Return governed aliases applicable to one observed CSV header."""
     if not configured_aliases:
         return {}
 
     with csv_path.open(
-        encoding="utf-8-sig",
+        encoding=source_encoding,
         newline="",
     ) as file:
         header = set(next(csv.reader(file)))
@@ -164,6 +165,7 @@ def convert_source_family(
     processed_root: Path = DEFAULT_PROCESSED_ROOT,
     profile_root: Path = DEFAULT_PROFILE_ROOT,
     column_aliases: dict[str, str] | None = None,
+    source_encodings: dict[int, str] | None = None,
 ) -> dict[str, Any]:
     """Convert and profile all requested annual files for one source."""
     annual_csvs = discover_annual_csvs(
@@ -174,6 +176,7 @@ def convert_source_family(
     annual_profiles: list[dict[str, Any]] = []
 
     for year, csv_path in annual_csvs.items():
+        source_encoding = (source_encodings or {}).get(year, "utf-8")
         parquet_path = (
             processed_root / source_id / str(year) / f"{source_id}_{year}.parquet"
         )
@@ -181,6 +184,7 @@ def convert_source_family(
         active_aliases = normalized_column_aliases(
             csv_path,
             column_aliases,
+            source_encoding,
         )
 
         convert_csv_to_parquet(
@@ -189,6 +193,7 @@ def convert_source_family(
             source_id,
             year,
             active_aliases,
+            source_encoding,
         )
         profile = profile_parquet(
             parquet_path,
@@ -273,6 +278,7 @@ def main() -> None:
         args.processed_root,
         args.profile_root,
         strategies[args.source_id].get("column_aliases"),
+        strategies[args.source_id].get("source_encodings"),
     )
 
 

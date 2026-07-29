@@ -88,3 +88,18 @@ def test_part_d_provider_schema_aliases_are_governed() -> None:
         "PRSCRBR_NPI": "Prscrbr_NPI",
         "Prscrbr_Type_Src": "Prscrbr_Type_src",
     }
+
+
+def test_inpatient_source_encodings_are_governed_by_year() -> None:
+    strategy = load_yaml(ACQUISITION_PATH)["source_strategies"][
+        "cms_inpatient_provider_service"
+    ]
+
+    assert strategy["source_encodings"] == {
+        2019: "cp1252",
+        2020: "cp1252",
+        2021: "cp1252",
+        2022: "cp1252",
+        2023: "cp1252",
+        2024: "utf-8",
+    }

@@ -236,3 +236,37 @@ def test_convert_source_family_end_to_end(tmp_path: Path) -> None:
     ).exists()
     assert (profile_root / "example_source_2019.json").exists()
     assert (profile_root / "example_source_family.json").exists()
+
+
+def test_convert_source_family_applies_per_year_encoding(
+    tmp_path: Path,
+) -> None:
+    raw_root = tmp_path / "raw"
+    processed_root = tmp_path / "processed"
+    profile_root = tmp_path / "profiles"
+    csv_path = raw_root / "inpatient" / "2019" / "inpatient.csv"
+    csv_path.parent.mkdir(parents=True)
+    content = "CCN,NAME\n670128,Baylor – Pflugerville\n".encode("cp1252")
+    csv_path.write_bytes(content)
+    receipt_path(csv_path).write_text(
+        json.dumps(
+            {
+                "acquired_at_utc": "2026-07-29T00:00:00+00:00",
+                "bytes_downloaded": len(content),
+                "sha256": hashlib.sha256(content).hexdigest(),
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    inventory = convert_source_family(
+        "inpatient",
+        [2019],
+        raw_root,
+        processed_root,
+        profile_root,
+        source_encodings={2019: "cp1252"},
+    )
+
+    assert inventory["total_row_count"] == 1
+    assert inventory["schema_consistent"] is True

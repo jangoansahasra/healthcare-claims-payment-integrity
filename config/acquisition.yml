@@ -56,6 +56,13 @@ source_strategies:
       - 2022
       - 2023
       - 2024
+    source_encodings:
+      2019: cp1252
+      2020: cp1252
+      2021: cp1252
+      2022: cp1252
+      2023: cp1252
+      2024: utf-8
     rationale: Provider and DRG records are expected to be materially smaller than professional detail.
 
   cms_outpatient_provider_service:
