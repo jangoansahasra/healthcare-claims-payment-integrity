@@ -202,7 +202,7 @@ sources:
       - 2024
     latest_verified_year: 2024
     local_directory: data/raw/cms/cms_part_d_provider_summary
-    ingestion_status: bronze_complete
+    ingestion_status: silver_complete
     schema_normalization:
       canonical_identifier: Prscrbr_NPI
       column_aliases:

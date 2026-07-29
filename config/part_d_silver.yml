@@ -1,0 +1,456 @@
+contract_version: 1
+last_reviewed: "2026-07-29"
+
+model:
+  name: cms_part_d_provider_summary_silver
+  source_id: cms_part_d_provider_summary
+  source_layer: bronze
+  target_layer: silver
+  data_role: observed_benchmark
+  grain: one row per prescriber NPI and reporting year
+
+governance:
+  source_authority: Centers for Medicare & Medicaid Services
+  official_data_dictionary: https://data.cms.gov/resources/medicare-part-d-prescribers-by-provider-data-dictionary
+  license: https://www.usa.gov/government-works
+  contains_real_provider_identifiers: true
+  contains_beneficiary_identifiers: false
+  permitted_uses:
+    - pharmacy cost and utilization benchmarking
+    - prescriber peer benchmarking
+    - synthetic pharmacy claims calibration
+    - longitudinal Part D trend analysis
+    - data-quality and reconciliation testing
+  prohibited_uses:
+    - attributing injected anomalies to real prescribers
+    - presenting a benchmark outlier as fraud or incorrect payment
+    - reconstructing suppressed values
+    - representing provider summaries as claim-level pharmacy transactions
+    - representing total drug cost as insurer-only liability
+    - representing synthetic audit rules as production pharmacy policy
+
+paths:
+  bronze_glob: data/processed/cms/cms_part_d_provider_summary/*/*.parquet
+  silver_output: data/interim/silver/cms_part_d_provider_summary.parquet
+  suppression_output: data/interim/silver/cms_part_d_provider_suppressions.parquet
+  quality_report: data/metadata/quality/cms_part_d_provider_summary_silver.json
+
+business_key:
+  - prescriber_npi
+  - reporting_year
+
+source_dimensions:
+  Prscrbr_NPI: prescriber_npi
+  Prscrbr_Last_Org_Name: prescriber_last_or_organization_name
+  Prscrbr_First_Name: prescriber_first_name
+  Prscrbr_MI: prescriber_middle_initial
+  Prscrbr_Crdntls: prescriber_credentials
+  Prscrbr_Ent_Cd: prescriber_entity_code
+  Prscrbr_St1: prescriber_street_address_1
+  Prscrbr_St2: prescriber_street_address_2
+  Prscrbr_City: prescriber_city
+  Prscrbr_State_Abrvtn: prescriber_state_abbreviation
+  Prscrbr_State_FIPS: prescriber_state_fips
+  Prscrbr_zip5: prescriber_zip5
+  Prscrbr_RUCA: prescriber_ruca_code
+  Prscrbr_RUCA_Desc: prescriber_ruca_description
+  Prscrbr_Cntry: prescriber_country_code
+  Prscrbr_Type: prescriber_type
+  Prscrbr_Type_src: prescriber_type_source
+
+retained_lineage:
+  - _source_id
+  - _reporting_year
+  - _source_file
+  - _acquired_at_utc
+
+historical_attribute_handling:
+  prescriber_attributes_are_year_specific: true
+  preserve_reported_values_by_year: true
+  do_not_overwrite_history_with_latest_values: true
+  tracked_attributes:
+    - prescriber_last_or_organization_name
+    - prescriber_first_name
+    - prescriber_credentials
+    - prescriber_entity_code
+    - prescriber_city
+    - prescriber_state_abbreviation
+    - prescriber_state_fips
+    - prescriber_zip5
+    - prescriber_ruca_code
+    - prescriber_ruca_description
+    - prescriber_country_code
+    - prescriber_type
+    - prescriber_type_source
+
+nullable_dimension_policy:
+  prescriber_type:
+    observed_null_or_blank_rows: 27
+    silver_value_when_missing: Unknown
+    preserve_missing_indicator: true
+  prescriber_ruca_code:
+    observed_null_or_blank_rows: 8977
+    silver_value_when_missing: Unknown
+    preserve_missing_indicator: true
+  prescriber_country_code:
+    nullable: false
+  prescriber_state_abbreviation:
+    nullable: false
+
+source_schema:
+  expected_source_column_count: 84
+  canonical_identifier: Prscrbr_NPI
+  required_canonical_columns:
+    - Prscrbr_NPI
+    - Prscrbr_Type_src
+  reject_unresolved_schema_aliases: true
+
+numeric_typing:
+  integer_type: BIGINT
+  decimal_type: DECIMAL(38, 6)
+  use_try_cast: true
+
+  integer_columns:
+    - Tot_Clms
+    - Tot_Day_Suply
+    - Tot_Benes
+    - GE65_Tot_Clms
+    - GE65_Tot_Day_Suply
+    - GE65_Tot_Benes
+    - Brnd_Tot_Clms
+    - Gnrc_Tot_Clms
+    - Othr_Tot_Clms
+    - MAPD_Tot_Clms
+    - PDP_Tot_Clms
+    - LIS_Tot_Clms
+    - NonLIS_Tot_Clms
+    - Opioid_Tot_Clms
+    - Opioid_Tot_Suply
+    - Opioid_Tot_Benes
+    - Opioid_LA_Tot_Clms
+    - Opioid_LA_Tot_Suply
+    - Opioid_LA_Tot_Benes
+    - Antbtc_Tot_Clms
+    - Antbtc_Tot_Benes
+    - Antpsyct_GE65_Tot_Clms
+    - Antpsyct_GE65_Tot_Benes
+    - Bene_Age_LT_65_Cnt
+    - Bene_Age_65_74_Cnt
+    - Bene_Age_75_84_Cnt
+    - Bene_Age_GT_84_Cnt
+    - Bene_Feml_Cnt
+    - Bene_Male_Cnt
+    - Bene_Race_Wht_Cnt
+    - Bene_Race_Black_Cnt
+    - Bene_Race_Api_Cnt
+    - Bene_Race_Hspnc_Cnt
+    - Bene_Race_Natind_Cnt
+    - Bene_Race_Othr_Cnt
+    - Bene_Dual_Cnt
+    - Bene_Ndual_Cnt
+
+  decimal_measure_classes:
+    standardized_fills:
+      - Tot_30day_Fills
+      - GE65_Tot_30day_Fills
+    drug_costs:
+      - Tot_Drug_Cst
+      - GE65_Tot_Drug_Cst
+      - Brnd_Tot_Drug_Cst
+      - Gnrc_Tot_Drug_Cst
+      - Othr_Tot_Drug_Cst
+      - MAPD_Tot_Drug_Cst
+      - PDP_Tot_Drug_Cst
+      - LIS_Drug_Cst
+      - NonLIS_Drug_Cst
+      - Opioid_Tot_Drug_Cst
+      - Opioid_LA_Tot_Drug_Cst
+      - Antbtc_Tot_Drug_Cst
+      - Antpsyct_GE65_Tot_Drug_Cst
+    rates:
+      - Opioid_Prscrbr_Rate
+      - Opioid_LA_Prscrbr_Rate
+    age:
+      - Bene_Avg_Age
+    risk:
+      - Bene_Avg_Risk_Scre
+
+  excluded_columns:
+    - Prscrbr_NPI
+    - Prscrbr_Last_Org_Name
+    - Prscrbr_First_Name
+    - Prscrbr_MI
+    - Prscrbr_Crdntls
+    - Prscrbr_Ent_Cd
+    - Prscrbr_St1
+    - Prscrbr_St2
+    - Prscrbr_City
+    - Prscrbr_State_Abrvtn
+    - Prscrbr_State_FIPS
+    - Prscrbr_zip5
+    - Prscrbr_RUCA
+    - Prscrbr_RUCA_Desc
+    - Prscrbr_Cntry
+    - Prscrbr_Type
+    - Prscrbr_Type_src
+    - GE65_Sprsn_Flag
+    - GE65_Bene_Sprsn_Flag
+    - Brnd_Sprsn_Flag
+    - Gnrc_Sprsn_Flag
+    - Othr_Sprsn_Flag
+    - MAPD_Sprsn_Flag
+    - PDP_Sprsn_Flag
+    - LIS_Sprsn_Flag
+    - NonLIS_Sprsn_Flag
+    - Antpsyct_GE65_Sprsn_Flag
+    - Antpsyct_GE65_Bene_Suprsn_Flag
+    - _source_id
+    - _reporting_year
+    - _source_file
+    - _acquired_at_utc
+
+suppression:
+  official_definitions:
+    "*": primary suppression because the associated count is between 1 and 10
+    "#": counter-suppression to prevent derivation of another suppressed value
+
+  statuses:
+    "*": primary_suppressed
+    "#": counter_suppressed
+
+  indicators:
+    GE65_Sprsn_Flag:
+      target_group: age_65_and_older_activity
+      allowed_tokens:
+        - "*"
+        - "#"
+      affected_measures:
+        - GE65_Tot_Clms
+        - GE65_Tot_30day_Fills
+        - GE65_Tot_Drug_Cst
+        - GE65_Tot_Day_Suply
+
+    GE65_Bene_Sprsn_Flag:
+      target_group: age_65_and_older_beneficiaries
+      allowed_tokens:
+        - "*"
+        - "#"
+      affected_measures:
+        - GE65_Tot_Benes
+
+    Brnd_Sprsn_Flag:
+      target_group: brand
+      allowed_tokens:
+        - "*"
+        - "#"
+      affected_measures:
+        - Brnd_Tot_Clms
+        - Brnd_Tot_Drug_Cst
+
+    Gnrc_Sprsn_Flag:
+      target_group: generic
+      allowed_tokens:
+        - "*"
+        - "#"
+      affected_measures:
+        - Gnrc_Tot_Clms
+        - Gnrc_Tot_Drug_Cst
+
+    Othr_Sprsn_Flag:
+      target_group: other_drug
+      allowed_tokens:
+        - "*"
+        - "#"
+      affected_measures:
+        - Othr_Tot_Clms
+        - Othr_Tot_Drug_Cst
+
+    MAPD_Sprsn_Flag:
+      target_group: medicare_advantage_part_d
+      allowed_tokens:
+        - "*"
+        - "#"
+      affected_measures:
+        - MAPD_Tot_Clms
+        - MAPD_Tot_Drug_Cst
+
+    PDP_Sprsn_Flag:
+      target_group: standalone_part_d
+      allowed_tokens:
+        - "*"
+        - "#"
+      affected_measures:
+        - PDP_Tot_Clms
+        - PDP_Tot_Drug_Cst
+
+    LIS_Sprsn_Flag:
+      target_group: low_income_subsidy
+      allowed_tokens:
+        - "*"
+        - "#"
+      affected_measures:
+        - LIS_Tot_Clms
+        - LIS_Drug_Cst
+
+    NonLIS_Sprsn_Flag:
+      target_group: non_low_income_subsidy
+      allowed_tokens:
+        - "*"
+        - "#"
+      affected_measures:
+        - NonLIS_Tot_Clms
+        - NonLIS_Drug_Cst
+
+    Antpsyct_GE65_Sprsn_Flag:
+      target_group: antipsychotic_age_65_and_older_activity
+      allowed_tokens:
+        - "*"
+      affected_measures:
+        - Antpsyct_GE65_Tot_Clms
+        - Antpsyct_GE65_Tot_Drug_Cst
+
+    Antpsyct_GE65_Bene_Suprsn_Flag:
+      target_group: antipsychotic_age_65_and_older_beneficiaries
+      allowed_tokens:
+        - "*"
+      affected_measures:
+        - Antpsyct_GE65_Tot_Benes
+
+  null_indicator_means: not_suppressed
+  suppressed_numeric_values_remain_null: true
+  preserve_indicator_lineage: true
+  prohibit_suppressed_value_reconstruction: true
+  prohibit_zero_imputation: true
+
+suppression_lineage:
+  grain: one row per prescriber, reporting year, and suppressed measure group
+  fields:
+    - prescriber_npi
+    - reporting_year
+    - measure_group
+    - source_indicator
+    - suppression_status
+
+unflagged_null_handling:
+  preserve_all_source_nulls: true
+  do_not_impute_zero: true
+  create_metric_level_null_summary: true
+  source_blank_status: source_blank_reason_unclassified
+  do_not_infer_suppression_reason_without_flag: true
+
+standardized_fill_disclosure:
+  source_method: claim days supplied divided by 30
+  source_event_bottom_code: 1
+  source_event_top_code: 12
+  aggregate_values_are_not_reverse_adjusted: true
+  disclose_in_kpi_dictionary: true
+
+allowed_values:
+  reporting_years:
+    - 2019
+    - 2020
+    - 2021
+    - 2022
+    - 2023
+    - 2024
+
+  prescriber_entity_code:
+    - I
+    - O
+
+  prescriber_type_source:
+    - Claim-Specialty
+    - NPPES-Specialty
+    - NPPES-Taxonomy
+
+prescriber_size_bands:
+  measure: tot_clms
+  derivation: pooled 2019-2024 empirical quartile cut points
+  reference_minimum: 11
+  bands:
+    - name: small
+      minimum_inclusive: 11
+      maximum_inclusive: 55
+    - name: medium
+      minimum_inclusive: 56
+      maximum_inclusive: 200
+    - name: large
+      minimum_inclusive: 201
+      maximum_inclusive: 938
+    - name: very_large
+      minimum_inclusive: 939
+      maximum_inclusive: null
+
+benchmark_cohorts:
+  purpose: calibrate synthetic pharmacy claims and compare similar prescribers
+  dimensions:
+    - prescriber_type
+    - prescriber_type_source
+    - prescriber_country_code
+    - prescriber_state_abbreviation
+    - prescriber_ruca_code
+    - prescriber_entity_code
+    - reporting_year
+  missing_prescriber_type_bucket: Unknown
+  missing_ruca_bucket: Unknown
+  minimum_peer_group_size: 11
+  comparison_statistics:
+    - prescriber_count
+    - median
+    - mean
+    - standard_deviation
+    - percentile_25
+    - percentile_75
+    - percentile_90
+    - percentile_95
+  prohibit_outlier_as_fraud_label: true
+
+geographic_benchmarking:
+  domestic_country_code: US
+  require_country_in_peer_definition: true
+  state_and_ruca_cohorts_domestic_only: true
+  foreign_prescriber_cohort_dimension: prescriber_country_code
+  prohibit_cross_country_peer_comparisons: true
+  retain_foreign_prescriber_rows: true
+
+privacy_and_reporting:
+  contains_beneficiary_identifiers: false
+  prescriber_npi_is_public_identifier: true
+  minimum_public_peer_group_size: 11
+  expose_real_prescriber_anomaly_flags: false
+  label_real_prescriber_results_as_benchmarks: true
+  prohibit_prescriber_fraud_labels: true
+  public_dashboard_excluded_fields:
+    - prescriber_last_or_organization_name
+    - prescriber_first_name
+    - prescriber_middle_initial
+    - prescriber_credentials
+    - prescriber_street_address_1
+    - prescriber_street_address_2
+    - prescriber_zip5
+
+quality_rules:
+  preserve_source_row_count: true
+  require_unique_business_key: true
+  require_non_null_business_key: true
+  require_ten_digit_npi: true
+  retain_all_reporting_years: true
+  require_canonical_source_schema: true
+  reject_unparseable_numeric_values: true
+  require_integer_columns_without_fractional_values: true
+  require_nonnegative_counts: true
+  require_nonnegative_standardized_fills: true
+  require_nonnegative_drug_costs: true
+  require_nonnegative_days_supply: true
+  require_rates_between_zero_and_one_hundred: true
+  require_average_age_between_zero_and_one_hundred_twenty: true
+  require_positive_or_null_risk_score: true
+  require_official_suppression_tokens_only: true
+  require_suppression_detail_consistency: true
+  require_suppression_count_reconciliation: true
+  require_metric_level_null_summary: true
+  require_nullable_dimension_policy: true
+  require_year_specific_prescriber_attributes: true
+  require_peer_group_threshold_configuration: true
+  require_country_safe_peer_configuration: true
+  prohibit_real_prescriber_anomaly_attribution: true
