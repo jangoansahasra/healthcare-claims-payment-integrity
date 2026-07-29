@@ -47,3 +47,12 @@ include validation evidence and corresponding documentation.
 - Six-year CMS physician provider-summary bronze dataset
 - Provider NPI grain and format reconciliation
 - Automated source-family discovery and conversion tests
+- Governed longitudinal CMS physician provider silver contract
+- Typed 62-measure physician provider transformation
+- Historical provider attributes preserved by reporting year
+- Official primary and counter-suppression lineage
+- Chronic-condition percentage top-coding indicators
+- Country-safe provider benchmark configuration
+- Provider-size benchmark classification
+- Machine-readable physician silver quality report
+- Automated physician contract, helper, and end-to-end transformation tests

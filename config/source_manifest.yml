@@ -167,8 +167,8 @@ sources:
       - 2023
       - 2024
     latest_verified_year: 2024
-    local_directory: data/raw/cms/physician_provider_summary
-    ingestion_status: bronze_complete
+    local_directory: data/raw/cms/cms_physician_provider_summary
+    ingestion_status: silver_complete
     contains_real_healthcare_activity: true
     contains_direct_beneficiary_identifiers: false
     commit_raw_file: false
