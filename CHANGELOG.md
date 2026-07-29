@@ -61,3 +61,10 @@ include validation evidence and corresponding documentation.
 - Canonical Part D prescriber NPI and provider-type-source fields
 - Seven Part D bronze technical profiles and family inventory
 - Automated schema-alias collision and Parquet-renaming tests
+- Governed longitudinal CMS Part D prescriber silver contract
+- Typed 56-measure Part D prescriber transformation
+- Official primary and counter-suppression lineage for 11 measure groups
+- Explicit preservation of unflagged source nulls and missing dimensions
+- Country-safe prescriber benchmark and quartile size-band configuration
+- Machine-readable Part D silver quality report
+- Automated Part D contract, helper, and end-to-end transformation tests

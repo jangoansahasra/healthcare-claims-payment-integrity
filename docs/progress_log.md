@@ -380,3 +380,65 @@ Publishing the CMS Part D provider-summary bronze family.
 
 Profile Part D suppression behavior, numeric domains, cost measures, and
 beneficiary fields before defining the longitudinal pharmacy silver contract.
+
+## 2026-07-29 — CMS Part D prescriber silver model
+
+### Completed
+
+- Defined a governed longitudinal prescriber-year silver contract.
+- Classified the real CMS data as an observed benchmark.
+- Typed 37 integer and 19 decimal measures.
+- Preserved year-specific prescriber attributes and acquisition lineage.
+- Added explicit `Unknown` buckets and missing indicators for prescriber type
+  and RUCA.
+- Preserved all unflagged source nulls without zero imputation.
+- Translated 11 CMS suppression indicators into semantic statuses.
+- Created long-form primary and counter-suppression lineage.
+- Added quartile-based prescriber-size bands and country-safe peer controls.
+- Generated the production silver dataset and machine-readable quality report.
+- Added contract, helper, and end-to-end transformation tests.
+
+### Validation
+
+- Ruff: passed
+- Pytest: 132 passed
+- Bronze rows: 7,913,081
+- Silver rows: 7,913,081
+- Typed measures: 56
+- Reporting years: 2019–2024
+- Duplicate business keys: 0
+- Null business keys: 0
+- Invalid ten-digit NPIs: 0
+- Fractional integer violations: 0
+- Numeric range violations: 0
+- Invalid suppression tokens: 0
+- Suppression-detail violations: 0
+- Primary-suppression lineage rows: 16,923,033
+- Counter-suppression lineage rows: 9,825,503
+- Total suppression lineage rows: 26,748,536
+- Source and lineage suppression totals reconcile exactly.
+- Missing prescriber types preserved: 27
+- Missing RUCA codes preserved: 8,977
+- All 24 quality checks passed.
+- Generated Parquet outputs remain excluded from Git.
+
+### Decision
+
+Suppressed values remain null and are never reconstructed. Unflagged nulls
+remain source blanks with an unclassified reason rather than being treated as
+zero or inferred suppression.
+
+Real prescriber records support observed pharmacy benchmarking, longitudinal
+trends, and synthetic calibration only. Benchmark outliers are not fraud
+labels, and injected payment-integrity anomalies remain confined to the
+separate synthetic insurer dataset.
+
+### Current work
+
+Publishing the governed CMS Part D prescriber silver model.
+
+### Next task
+
+Continue the M01 source roadmap with the next governed CMS provider-service
+family, while retaining the same acquisition, bronze, silver, and quality
+controls.
