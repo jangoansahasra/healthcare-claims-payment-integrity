@@ -262,3 +262,70 @@ Publishing the physician provider-summary bronze acquisition.
 Create a typed, longitudinal physician provider silver model with explicit
 provider identity, specialty, geography, utilization, payment, and beneficiary
 risk fields.
+
+
+## 2026-07-28 — CMS physician provider-summary silver model
+
+### Completed
+
+- Defined the longitudinal provider-year silver contract.
+- Classified the source as an observed benchmark rather than claim-line data.
+- Added explicit permitted and prohibited uses for real provider records.
+- Typed 20 governed integer measures and 42 decimal measures.
+- Preserved historical provider attributes by reporting year.
+- Added provider-size classifications based on total beneficiaries.
+- Preserved official CMS primary and counter-suppression semantics.
+- Created long-form suppression lineage.
+- Added per-metric and row-level chronic-condition top-coding indicators.
+- Added country-safe geographic peer configuration.
+- Created metric-level null summaries.
+- Built the real six-year physician provider silver model.
+- Generated a machine-readable quality report.
+- Added controlled helper, contract, and end-to-end transformation tests.
+
+### Validation
+
+- Ruff: passed
+- Pytest: 96 passed
+- Bronze rows: 7,302,541
+- Silver rows: 7,302,541
+- Typed measures: 62
+- Percentage metrics: 25
+- Reporting years: 2019–2024
+- Duplicate business keys: 0
+- Null business keys: 0
+- Invalid ten-digit NPIs: 0
+- Null country codes: 0
+- Primary suppression rows: 835,298
+- Counter-suppression rows: 833,424
+- Total suppression lineage rows: 1,668,722
+- Top-coded chronic-condition cells: 9,602,567
+- Unparseable numeric values: 0
+- Numeric-range violations: 0
+- Suppression-detail violations: 0
+- All 23 silver quality checks passed.
+- Generated Parquet outputs remain excluded from Git.
+
+### Decision
+
+The real CMS provider dataset is used only for observed benchmarking,
+longitudinal trends, and synthetic-data calibration. It will not receive
+injected anomalies and will not be used to label real providers as fraudulent
+or incorrectly paid.
+
+A value of 75 in a governed chronic-condition percentage field is treated as
+75 percent or greater. It is preserved numerically while explicit top-coding
+lineage prevents it from being interpreted as an exact percentage.
+
+Country is required in peer definitions. US state and RUCA comparisons will
+exclude foreign provider rows. Minimum-size peer eligibility will be built and
+tested later in the benchmark gold layer.
+
+### Current work
+
+Publishing the governed physician provider-summary silver model.
+
+### Next task
+
+Acquire and transform the CMS Part D provider-summary family to establish the
+pharmacy benchmark needed for medical-versus-pharmacy cost intelligence.

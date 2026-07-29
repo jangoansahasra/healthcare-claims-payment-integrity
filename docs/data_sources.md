@@ -12,14 +12,23 @@ objective rule evaluation.
 
 ## Official sources
 
-| Source | Publisher | Data type | Planned use | Status |
+| Source | Publisher | Data type | Project use | Status |
 |---|---|---|---|---|
-| Basic Stand Alone Medicare Claims PUF | CMS | De-identified claim-specific public-use data | Claims foundation and SAS ingestion | Planned |
-| Medicare Physician & Other Practitioners | CMS | Aggregated provider and service utilization and payment data | Provider benchmarks and cost analysis | Planned |
+| Medicare Geographic Variation, 2014–2024 | CMS | Aggregated national, state, and county utilization and payment data | Geographic benchmarks and synthetic calibration | Silver complete |
+| Medicare Physician & Other Practitioners by Provider, 2019–2024 | CMS | Aggregated provider utilization, payment, beneficiary-mix, and risk data | Longitudinal provider benchmarks and synthetic calibration | Silver complete |
+| Medicare Part D Prescribers by Provider, 2019–2024 | CMS | Aggregated prescriber, drug-cost, and beneficiary data | Pharmacy benchmarks and synthetic calibration | Source resolved |
+| Medicare Inpatient Hospitals by Provider and Service | CMS | Aggregated inpatient provider-service utilization and payment data | Inpatient utilization, price, and procedure-mix analysis | Source resolved |
+| Medicare Outpatient Hospitals by Provider and Service | CMS | Aggregated outpatient provider-service utilization and payment data | Outpatient utilization, price, and procedure-mix analysis | Source resolved |
+| Medicare Physician & Other Practitioners by Provider and Service | CMS | Aggregated professional provider-service utilization and payment data | Procedure mix and provider-service benchmarks | Source resolved |
 | ICD-10-CM files | CDC/NCHS | Diagnosis reference | Code validation and diagnosis categories | Planned |
-| HCPCS Level II files | CMS | Procedure reference | Procedure validation and categories | Planned |
+| HCPCS Level II files | CMS | Procedure reference | Procedure validation and categories where licensing permits | Planned |
 | Place of Service code set | CMS | Service-location reference | Claims classification | Planned |
 | NPPES public data | CMS | Provider reference | Provider attributes where appropriate | Planned |
+
+The CMS benchmark datasets contain real aggregated healthcare activity, but
+they do not provide an insurer-level claim lifecycle or known incorrect-payment
+labels. Synthetic operational claims will therefore be calibrated to these
+observed benchmarks and kept analytically separate from real provider records.
 
 ## Synthetic operational tables
 

@@ -1,0 +1,284 @@
+contract_version: 1
+last_reviewed: "2026-07-28"
+
+model:
+  name: cms_physician_provider_summary_silver
+  source_id: cms_physician_provider_summary
+  source_layer: bronze
+  target_layer: silver
+  data_role: observed_benchmark
+  grain: one row per rendering provider NPI and reporting year
+
+governance:
+  source_authority: Centers for Medicare & Medicaid Services
+  official_data_dictionary: https://data.cms.gov/resources/medicare-physician-other-practitioners-by-provider-data-dictionary
+  license: https://www.usa.gov/government-works
+  contains_real_provider_identifiers: true
+  contains_beneficiary_identifiers: false
+  permitted_uses:
+    - provider peer benchmarking
+    - utilization and payment trend analysis
+    - synthetic claims calibration
+    - specialty and geographic cohort construction
+    - data-quality and reconciliation testing
+  prohibited_uses:
+    - attributing injected anomalies to real providers
+    - presenting a benchmark outlier as fraud or incorrect payment
+    - reconstructing suppressed beneficiary values
+    - representing aggregated provider summaries as claim-line transactions
+    - representing synthetic audit findings as production medical policy
+
+paths:
+  bronze_glob: data/processed/cms/cms_physician_provider_summary/*/*.parquet
+  silver_output: data/interim/silver/cms_physician_provider_summary.parquet
+  suppression_output: data/interim/silver/cms_physician_provider_suppressions.parquet
+  quality_report: data/metadata/quality/cms_physician_provider_summary_silver.json
+
+business_key:
+  - provider_npi
+  - reporting_year
+
+source_dimensions:
+  Rndrng_NPI: provider_npi
+  Rndrng_Prvdr_Last_Org_Name: provider_last_or_organization_name
+  Rndrng_Prvdr_First_Name: provider_first_name
+  Rndrng_Prvdr_MI: provider_middle_initial
+  Rndrng_Prvdr_Crdntls: provider_credentials
+  Rndrng_Prvdr_Ent_Cd: provider_entity_code
+  Rndrng_Prvdr_St1: provider_street_address_1
+  Rndrng_Prvdr_St2: provider_street_address_2
+  Rndrng_Prvdr_City: provider_city
+  Rndrng_Prvdr_State_Abrvtn: provider_state_abbreviation
+  Rndrng_Prvdr_State_FIPS: provider_state_fips
+  Rndrng_Prvdr_Zip5: provider_zip5
+  Rndrng_Prvdr_RUCA: provider_ruca_code
+  Rndrng_Prvdr_RUCA_Desc: provider_ruca_description
+  Rndrng_Prvdr_Cntry: provider_country_code
+  Rndrng_Prvdr_Type: provider_specialty
+  Rndrng_Prvdr_Mdcr_Prtcptg_Ind: medicare_participation_indicator
+
+retained_lineage:
+  - _source_id
+  - _reporting_year
+  - _source_file
+  - _acquired_at_utc
+
+historical_attribute_handling:
+  provider_attributes_are_year_specific: true
+  preserve_reported_values_by_year: true
+  do_not_overwrite_history_with_latest_values: true
+  tracked_attributes:
+    - provider_last_or_organization_name
+    - provider_first_name
+    - provider_credentials
+    - provider_entity_code
+    - provider_city
+    - provider_state_abbreviation
+    - provider_state_fips
+    - provider_zip5
+    - provider_ruca_code
+    - provider_ruca_description
+    - provider_country_code
+    - provider_specialty
+    - medicare_participation_indicator
+
+numeric_typing:
+  integer_type: BIGINT
+  decimal_type: DECIMAL(38, 6)
+  use_try_cast: true
+
+  integer_columns:
+    - Tot_HCPCS_Cds
+    - Tot_Benes
+    - Drug_Tot_HCPCS_Cds
+    - Drug_Tot_Benes
+    - Med_Tot_HCPCS_Cds
+    - Med_Tot_Benes
+    - Bene_Age_LT_65_Cnt
+    - Bene_Age_65_74_Cnt
+    - Bene_Age_75_84_Cnt
+    - Bene_Age_GT_84_Cnt
+    - Bene_Feml_Cnt
+    - Bene_Male_Cnt
+    - Bene_Race_Wht_Cnt
+    - Bene_Race_Black_Cnt
+    - Bene_Race_API_Cnt
+    - Bene_Race_Hspnc_Cnt
+    - Bene_Race_NatInd_Cnt
+    - Bene_Race_Othr_Cnt
+    - Bene_Dual_Cnt
+    - Bene_Ndual_Cnt
+
+  excluded_columns:
+    - Rndrng_NPI
+    - Rndrng_Prvdr_Last_Org_Name
+    - Rndrng_Prvdr_First_Name
+    - Rndrng_Prvdr_MI
+    - Rndrng_Prvdr_Crdntls
+    - Rndrng_Prvdr_Ent_Cd
+    - Rndrng_Prvdr_St1
+    - Rndrng_Prvdr_St2
+    - Rndrng_Prvdr_City
+    - Rndrng_Prvdr_State_Abrvtn
+    - Rndrng_Prvdr_State_FIPS
+    - Rndrng_Prvdr_Zip5
+    - Rndrng_Prvdr_RUCA
+    - Rndrng_Prvdr_RUCA_Desc
+    - Rndrng_Prvdr_Cntry
+    - Rndrng_Prvdr_Type
+    - Rndrng_Prvdr_Mdcr_Prtcptg_Ind
+    - Drug_Sprsn_Ind
+    - Med_Sprsn_Ind
+    - _source_id
+    - _reporting_year
+    - _source_file
+    - _acquired_at_utc
+
+suppression:
+  official_definitions:
+    "*": value suppressed because the associated beneficiary count is fewer than 11
+    "#": value counter-suppressed to prevent derivation of another suppressed value
+  indicators:
+    Drug_Sprsn_Ind:
+      target_group: drug
+      affected_prefix: Drug_
+    Med_Sprsn_Ind:
+      target_group: medical
+      affected_prefix: Med_
+
+  statuses:
+    "*": primary_suppressed_fewer_than_11
+    "#": counter_suppressed
+
+  null_indicator_means: not_suppressed
+  suppressed_numeric_values_remain_null: true
+  preserve_indicator_lineage: true
+  prohibit_suppressed_value_reconstruction: true
+  prohibit_zero_imputation: true
+
+suppression_lineage:
+  grain: one row per provider, reporting year, and suppressed measure group
+  fields:
+    - provider_npi
+    - reporting_year
+    - measure_group
+    - source_indicator
+    - suppression_status
+
+subgroup_null_handling:
+  beneficiary_count_suffix: _Cnt
+  chronic_condition_percentage_suffix: _Pct
+  preserve_nulls: true
+  create_metric_level_null_summary: true
+  do_not_impute_zero: true
+
+top_coding:
+  create_row_level_top_coded_metric_count: true
+  expected_percentage_metric_count: 25
+  chronic_condition_percentage_suffix: _Pct
+  upper_bound: 75
+  value_at_upper_bound_means: seventy_five_percent_or_greater
+  preserve_numeric_value: true
+  create_top_coded_indicator: true
+  do_not_treat_as_exact_percentage: true
+
+allowed_values:
+  reporting_years:
+    - 2019
+    - 2020
+    - 2021
+    - 2022
+    - 2023
+    - 2024
+
+  provider_entity_code:
+    - I
+    - O
+
+  medicare_participation_indicator:
+    - Y
+    - N
+benchmark_cohorts:
+  purpose: calibrate synthetic claims and create risk-aware provider comparisons
+  dimensions:
+    - provider_specialty
+    - provider_country_code
+    - provider_state_abbreviation
+    - provider_ruca_code
+    - provider_entity_code
+    - reporting_year
+  provider_size_measure: tot_benes
+  provider_size_bands:
+    - name: small
+      minimum_inclusive: 11
+      maximum_inclusive: 49
+    - name: medium
+      minimum_inclusive: 50
+      maximum_inclusive: 199
+    - name: large
+      minimum_inclusive: 200
+      maximum_inclusive: 999
+    - name: very_large
+      minimum_inclusive: 1000
+      maximum_inclusive: null
+  minimum_peer_group_size: 11
+  comparison_statistics:
+    - provider_count
+    - median
+    - mean
+    - standard_deviation
+    - percentile_25
+    - percentile_75
+    - percentile_90
+    - percentile_95
+  prohibit_outlier_as_fraud_label: true
+
+geographic_benchmarking:
+  domestic_country_code: US
+  require_country_in_peer_definition: true
+  state_and_ruca_cohorts_domestic_only: true
+  foreign_provider_cohort_dimension: provider_country_code
+  prohibit_cross_country_peer_comparisons: true
+  retain_foreign_provider_rows: true
+
+privacy_and_reporting:
+  contains_beneficiary_identifiers: false
+  provider_npi_is_public_identifier: true
+  suppress_low_volume_beneficiary_values: true
+  public_dashboard_excluded_fields:
+    - provider_street_address_1
+    - provider_street_address_2
+    - provider_first_name
+    - provider_middle_initial
+    - provider_last_or_organization_name
+    - provider_credentials
+    - provider_zip5
+  minimum_public_peer_group_size: 11
+  expose_real_provider_anomaly_flags: false
+  label_real_provider_results_as_benchmarks: true
+  prohibit_provider_fraud_labels: true
+
+quality_rules:
+  preserve_source_row_count: true
+  require_unique_business_key: true
+  require_non_null_business_key: true
+  require_ten_digit_npi: true
+  retain_all_reporting_years: true
+  reject_unparseable_numeric_values: true
+  require_nonnegative_counts: true
+  require_nonnegative_service_values: true
+  require_nonnegative_financial_values: true
+  require_percentages_between_zero_and_seventy_five: true
+  require_average_age_between_zero_and_one_hundred_twenty: true
+  require_positive_risk_score: true
+  require_suppression_detail_consistency: true
+  require_suppression_count_reconciliation: true
+  require_official_suppression_tokens_only: true
+  require_top_coded_percentage_indicator: true
+  require_metric_level_null_summary: true
+  require_year_specific_provider_attributes: true
+  require_peer_group_threshold_configuration: true
+  prohibit_real_provider_anomaly_attribution: true
+  require_non_null_country_code: true
+  require_country_safe_peer_configuration: true
+  require_top_coding_count_reconciliation: true
