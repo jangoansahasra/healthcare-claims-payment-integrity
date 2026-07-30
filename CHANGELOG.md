@@ -73,3 +73,10 @@ include validation evidence and corresponding documentation.
 - Seven inpatient Bronze technical profiles and family inventory
 - Atomic Parquet conversion with temporary-file cleanup
 - Automated encoding, raw-integrity, and transcoding tests
+- Governed longitudinal CMS inpatient provider-DRG Silver contract
+- Typed discharge, covered-charge, total-payment, and Medicare-payment measures
+- Explicit RUCA missing lineage and year-specific hospital attributes
+- Observed payment-above-charge indicator without false rejection
+- Hospital-DRG discharge-volume benchmark bands
+- Machine-readable inpatient Silver quality report
+- Automated inpatient contract, helper, and end-to-end transformation tests

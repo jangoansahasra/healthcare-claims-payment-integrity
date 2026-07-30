@@ -69,7 +69,7 @@ sources:
       - 2024
     latest_verified_year: 2024
     local_directory: data/raw/cms/inpatient_provider_service
-    ingestion_status: bronze_complete
+    ingestion_status: silver_complete
     schema_normalization:
       source_encodings:
         2019: cp1252

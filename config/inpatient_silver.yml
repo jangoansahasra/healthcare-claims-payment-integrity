@@ -1,0 +1,229 @@
+contract_version: 1
+last_reviewed: "2026-07-30"
+
+model:
+  name: cms_inpatient_provider_service_silver
+  source_id: cms_inpatient_provider_service
+  source_layer: bronze
+  target_layer: silver
+  data_role: observed_benchmark
+  grain: one row per hospital CCN, MS-DRG, and reporting year
+
+governance:
+  source_authority: Centers for Medicare & Medicaid Services
+  official_dataset: https://data.cms.gov/provider-summary-by-type-of-service/medicare-inpatient-hospitals/medicare-inpatient-hospitals-by-provider-and-service
+  official_data_dictionary: https://data.cms.gov/resources/medicare-inpatient-hospitals-by-provider-and-service-data-dictionary-0
+  contains_real_provider_identifiers: true
+  contains_beneficiary_identifiers: false
+  population: Original Medicare fee-for-service Part A beneficiaries at IPPS hospitals
+  permitted_uses:
+    - hospital and MS-DRG utilization benchmarking
+    - covered-charge and payment benchmarking
+    - longitudinal inpatient trend analysis
+    - synthetic inpatient claims calibration
+    - data-quality and reconciliation testing
+  prohibited_uses:
+    - attributing injected anomalies to real hospitals
+    - presenting a benchmark outlier as fraud or incorrect payment
+    - representing provider-DRG summaries as claim-level transactions
+    - representing covered charges as expected payment
+    - representing total payment as Medicare-only payment
+    - reconstructing records excluded by the publication threshold
+
+paths:
+  bronze_glob: data/processed/cms/cms_inpatient_provider_service/*/*.parquet
+  silver_output: data/interim/silver/cms_inpatient_provider_service.parquet
+  quality_report: data/metadata/quality/cms_inpatient_provider_service_silver.json
+
+business_key:
+  - hospital_ccn
+  - ms_drg_code
+  - reporting_year
+
+source_dimensions:
+  Rndrng_Prvdr_CCN: hospital_ccn
+  Rndrng_Prvdr_Org_Name: hospital_name
+  Rndrng_Prvdr_City: hospital_city
+  Rndrng_Prvdr_St: hospital_street_address
+  Rndrng_Prvdr_State_FIPS: hospital_state_fips
+  Rndrng_Prvdr_Zip5: hospital_zip5
+  Rndrng_Prvdr_State_Abrvtn: hospital_state_abbreviation
+  Rndrng_Prvdr_RUCA: hospital_ruca_code
+  Rndrng_Prvdr_RUCA_Desc: hospital_ruca_description
+  DRG_Cd: ms_drg_code
+  DRG_Desc: ms_drg_description
+
+retained_lineage:
+  - _source_id
+  - _reporting_year
+  - _source_file
+  - _acquired_at_utc
+
+source_schema:
+  expected_cms_column_count: 15
+  expected_lineage_column_count: 4
+  required_columns:
+    - Rndrng_Prvdr_CCN
+    - DRG_Cd
+    - Tot_Dschrgs
+    - Avg_Submtd_Cvrd_Chrg
+    - Avg_Tot_Pymt_Amt
+    - Avg_Mdcr_Pymt_Amt
+
+historical_attribute_handling:
+  hospital_attributes_are_year_specific: true
+  preserve_reported_values_by_year: true
+  do_not_overwrite_history_with_latest_values: true
+  observed_hospitals_with_changes:
+    hospital_name: 580
+    hospital_city: 23
+    hospital_street_address: 157
+    hospital_state_fips: 0
+    hospital_zip5: 68
+    hospital_ruca_code: 119
+
+drg_description_handling:
+  descriptions_are_year_specific: true
+  preserve_reported_description_by_year: true
+  do_not_overwrite_history_with_latest_description: true
+  observed_codes_with_description_changes: 11
+
+nullable_dimension_policy:
+  hospital_ruca_code:
+    observed_null_or_blank_rows: 681
+    silver_value_when_missing: Unknown
+    preserve_missing_indicator: true
+  hospital_ruca_description:
+    observed_null_or_blank_rows: 681
+    silver_value_when_missing: Unknown
+    preserve_missing_indicator: true
+  hospital_name:
+    nullable: false
+  hospital_state_fips:
+    nullable: false
+  hospital_state_abbreviation:
+    nullable: false
+  hospital_zip5:
+    nullable: false
+  ms_drg_description:
+    nullable: false
+
+numeric_typing:
+  use_try_cast: true
+  integer_type: BIGINT
+  decimal_type: DECIMAL(38, 6)
+  integer_columns:
+    - Tot_Dschrgs
+  decimal_columns:
+    - Avg_Submtd_Cvrd_Chrg
+    - Avg_Tot_Pymt_Amt
+    - Avg_Mdcr_Pymt_Amt
+
+publication_threshold:
+  measure: total_discharges
+  minimum_published_value: 11
+  cms_rule: provider and MS-DRG combinations with 10 or fewer discharges are suppressed
+  absence_is_not_zero: true
+  prohibit_reconstruction: true
+
+payment_semantics:
+  average_covered_charge:
+    source_column: Avg_Submtd_Cvrd_Chrg
+    meaning: average hospital charge for Medicare-covered services in the MS-DRG
+  average_total_payment:
+    source_column: Avg_Tot_Pymt_Amt
+    meaning: average payment including Medicare, beneficiary cost sharing, and third-party coordination-of-benefits amounts
+  average_medicare_payment:
+    source_column: Avg_Mdcr_Pymt_Amt
+    meaning: average Medicare share excluding beneficiary cost sharing and third-party payments
+  require_medicare_payment_not_above_total_payment: true
+  require_nonnegative_values: true
+  do_not_require_total_payment_below_covered_charge: true
+  preserve_total_payment_above_covered_charge: true
+  create_total_payment_above_covered_charge_indicator: true
+  observed_total_payment_above_covered_charge_rows: 1915
+
+allowed_values:
+  reporting_years:
+    - 2019
+    - 2020
+    - 2021
+    - 2022
+    - 2023
+    - 2024
+  ccn_pattern: "^[0-9A-Za-z]{6}$"
+  ms_drg_pattern: "^[0-9]{3}$"
+  state_fips_pattern: "^[0-9]{2}$"
+  zip5_pattern: "^[0-9]{5}$"
+
+discharge_volume_bands:
+  measure: total_discharges
+  derivation: pooled 2019-2024 empirical quartile cut points
+  bands:
+    - name: low
+      minimum_inclusive: 11
+      maximum_inclusive: 13
+    - name: medium
+      minimum_inclusive: 14
+      maximum_inclusive: 20
+    - name: high
+      minimum_inclusive: 21
+      maximum_inclusive: 35
+    - name: very_high
+      minimum_inclusive: 36
+      maximum_inclusive: null
+
+benchmark_cohorts:
+  purpose: compare similar observed inpatient hospital and MS-DRG activity
+  dimensions:
+    - ms_drg_code
+    - hospital_state_fips
+    - hospital_ruca_code
+    - discharge_volume_band
+    - reporting_year
+  minimum_peer_group_size: 11
+  comparison_statistics:
+    - hospital_count
+    - discharge_count
+    - median
+    - mean
+    - standard_deviation
+    - percentile_25
+    - percentile_75
+    - percentile_90
+    - percentile_95
+  prohibit_outlier_as_fraud_label: true
+
+privacy_and_reporting:
+  hospital_ccn_is_public_identifier: true
+  minimum_public_peer_group_size: 11
+  expose_real_hospital_anomaly_flags: false
+  label_real_hospital_results_as_benchmarks: true
+  prohibit_hospital_fraud_labels: true
+  public_dashboard_excluded_fields:
+    - hospital_name
+    - hospital_street_address
+    - hospital_zip5
+
+quality_rules:
+  preserve_source_row_count: true
+  require_unique_business_key: true
+  require_non_null_business_key: true
+  require_valid_ccn: true
+  require_valid_ms_drg_code: true
+  require_valid_state_fips: true
+  require_valid_zip5: true
+  retain_all_reporting_years: true
+  require_canonical_source_schema: true
+  reject_unparseable_numeric_values: true
+  require_integral_discharges: true
+  require_published_discharge_minimum: true
+  require_nonnegative_discharges: true
+  require_nonnegative_financial_values: true
+  require_medicare_payment_not_above_total_payment: true
+  report_total_payment_above_covered_charge: true
+  require_nullable_dimension_policy: true
+  require_year_specific_hospital_attributes: true
+  require_year_specific_drg_descriptions: true
+  require_peer_group_threshold_configuration: true
+  prohibit_real_hospital_anomaly_attribution: true

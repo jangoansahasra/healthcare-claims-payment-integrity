@@ -495,3 +495,60 @@ Publishing the CMS inpatient provider-service Bronze family.
 
 Define a typed inpatient provider-DRG Silver model with explicit geographic,
 discharge, charge, and payment semantics.
+
+## 2026-07-30 — CMS inpatient provider-DRG silver model
+
+### Completed
+
+- Defined a governed hospital CCN, MS-DRG, and reporting-year contract.
+- Verified charge and payment semantics against official CMS definitions.
+- Typed total discharges as `BIGINT` and three financial measures as
+  `DECIMAL(38,6)`.
+- Preserved hospital and DRG descriptions as year-specific attributes.
+- Added explicit RUCA missing indicators and `Unknown` analytical buckets.
+- Added quartile-based discharge-volume bands.
+- Added an observed total-payment-above-covered-charge indicator.
+- Enforced Medicare payment not exceeding total payment.
+- Generated the production Silver dataset and quality report.
+- Added contract, helper, and end-to-end builder tests.
+
+### Validation
+
+- Ruff: passed
+- Pytest: 165 passed
+- Bronze rows: 936,131
+- Silver rows: 936,131
+- Typed measures: 4
+- Reporting years: 2019–2024
+- Duplicate or null business keys: 0
+- Invalid CCNs, DRGs, state FIPS codes, or ZIP codes: 0
+- Fractional or below-threshold discharges: 0
+- Negative discharge or financial values: 0
+- Medicare-payment-above-total-payment rows: 0
+- Total-payment-above-covered-charge rows retained: 1,915
+- Missing RUCA code and description rows: 681 each
+- All 21 quality checks passed.
+- Generated Silver Parquet remains excluded from Git.
+
+### Decision
+
+Average total payment includes Medicare, beneficiary cost sharing, and
+third-party coordination-of-benefits amounts. Average Medicare payment is the
+Medicare share, so Medicare payment may not exceed total payment.
+
+Covered charge is a hospital charge rather than an expected-payment ceiling.
+The 1,915 total-payment-above-charge rows are retained and flagged rather than
+rejected.
+
+CMS reports the literal description `Unknown` for RUCA code `99`. Missing RUCA
+values also receive an `Unknown` analytical bucket, so missingness must be
+determined from the explicit Boolean indicator rather than the label.
+
+### Current work
+
+Publishing the governed inpatient provider-DRG Silver model.
+
+### Next task
+
+Continue M01 with the next provider-service family while preserving the same
+governed acquisition, Bronze, Silver, and quality controls.
