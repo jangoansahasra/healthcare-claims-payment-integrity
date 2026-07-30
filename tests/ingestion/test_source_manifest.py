@@ -157,7 +157,7 @@ def test_inpatient_source_encoding_is_documented() -> None:
     sources = {source["source_id"]: source for source in load_manifest()["sources"]}
     inpatient = sources["cms_inpatient_provider_service"]
 
-    assert inpatient["ingestion_status"] == "bronze_complete"
+    assert inpatient["ingestion_status"] == "silver_complete"
     assert inpatient["schema_normalization"] == {
         "source_encodings": {
             2019: "cp1252",
