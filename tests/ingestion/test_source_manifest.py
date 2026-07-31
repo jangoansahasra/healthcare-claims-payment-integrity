@@ -176,7 +176,7 @@ def test_outpatient_source_encoding_and_period_gaps_are_documented() -> None:
     sources = {source["source_id"]: source for source in load_manifest()["sources"]}
     outpatient = sources["cms_outpatient_provider_service"]
 
-    assert outpatient["ingestion_status"] == "bronze_complete"
+    assert outpatient["ingestion_status"] == "silver_complete"
     assert outpatient["requested_years"] == [2019, 2021, 2023]
     assert outpatient["local_directory"] == (
         "data/raw/cms/cms_outpatient_provider_service"

@@ -47,6 +47,9 @@ include validation evidence and corresponding documentation.
   2019, 2021, and 2023 periods
 - Strict period-specific Windows-1252 and UTF-8 outpatient decoding
 - Outpatient annual profiles and cross-period schema inventory
+- Governed CMS outpatient hospital-APC Silver contract and transformation
+- Explicit provider-APC, beneficiary-count, and outlier suppression statuses
+- Outpatient payment-relationship checks and machine-readable quality report
 - Cross-year schema consistency and drift metadata
 - Six-year CMS physician provider-summary bronze dataset
 - Provider NPI grain and format reconciliation

@@ -598,3 +598,55 @@ Publishing the CMS outpatient provider-service Bronze family.
 
 Define a typed outpatient hospital-APC Silver model with explicit missingness,
 charge, allowed-amount, payment, and outlier semantics.
+
+## 2026-07-31 — CMS outpatient hospital-APC Silver model
+
+### Completed
+
+- Defined a governed hospital CCN, comprehensive APC, and published-period
+  contract using official CMS definitions.
+- Typed three count and four monetary measures without null imputation.
+- Added independent provider-APC summary, beneficiary-count, and outlier-detail
+  suppression statuses.
+- Preserved period-specific hospital and APC attributes.
+- Added explicit RUCA missing indicators and service-volume bands.
+- Enforced Medicare payment not exceeding allowed amount.
+- Retained and reported valid submitted-charge and outlier relationships.
+- Generated the production Silver dataset and machine-readable quality report.
+- Added contract, helper, and end-to-end builder tests.
+
+### Validation
+
+- Ruff and Ruff formatting: passed
+- Pytest: 189 passed
+- Bronze and Silver rows: 350,393 each
+- Typed measures: 7
+- Published periods: 2019, 2021, and 2023
+- Provider-APC summary suppressions: 157,739
+- Beneficiary-count suppressions: 161,089
+- Outlier-detail suppressions: 211,218
+- Invalid identifiers, fractional counts, and negative values: 0
+- Medicare-payment-above-allowed violations: 0
+- Allowed-above-submitted-charge rows retained: 85
+- Payment-above-submitted-charge rows retained: 49
+- Outlier-above-regular-payment rows retained: 3,082
+- All 26 quality checks passed.
+
+### Decision
+
+CMS suppression rules operate independently at the provider-APC summary,
+beneficiary-count, and outlier-detail levels. Silver preserves those states
+explicitly and prohibits reconstruction or zero imputation.
+
+Medicare payment may not exceed allowed amount. Submitted charge is not a
+payment ceiling, and outlier payments are separate from regular payments, so
+those observed comparisons are reported rather than rejected.
+
+### Current work
+
+Publishing the governed outpatient hospital-APC Silver model.
+
+### Next task
+
+Continue M01 with the physician provider-service acquisition family using the
+same reproducibility, typing, suppression, and observed-benchmark controls.
