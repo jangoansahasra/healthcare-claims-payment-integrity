@@ -1,0 +1,66 @@
+{
+  "all_checks_passed": true,
+  "bronze_row_count": 350393,
+  "checks": {
+    "preserve_numeric_nulls": true,
+    "preserve_source_row_count": true,
+    "prohibit_real_hospital_anomaly_attribution": true,
+    "prohibit_suppressed_value_reconstruction": true,
+    "prohibit_unavailable_period_interpolation": true,
+    "reject_unparseable_numeric_values": true,
+    "report_allowed_above_submitted_charge": true,
+    "report_outlier_above_regular_payment": true,
+    "report_payment_above_submitted_charge": true,
+    "require_canonical_source_schema": true,
+    "require_integral_count_values": true,
+    "require_medicare_payment_not_above_allowed_amount": true,
+    "require_non_null_business_key": true,
+    "require_nonnegative_count_values": true,
+    "require_nonnegative_financial_values": true,
+    "require_nullable_dimension_policy": true,
+    "require_peer_group_threshold_configuration": true,
+    "require_period_specific_apc_descriptions": true,
+    "require_period_specific_hospital_attributes": true,
+    "require_suppression_pattern_reconciliation": true,
+    "require_unique_business_key": true,
+    "require_valid_ccn": true,
+    "require_valid_comprehensive_apc_code": true,
+    "require_valid_state_fips": true,
+    "require_valid_zip5": true,
+    "retain_all_published_periods": true
+  },
+  "data_role": "observed_benchmark",
+  "measure_count": 7,
+  "missing_ruca_code_count": 18,
+  "missing_ruca_description_count": 18,
+  "model_name": "cms_outpatient_provider_service_silver",
+  "observed_relationship_counts": {
+    "allowed_above_submitted_charge": 85,
+    "outlier_above_regular_payment": 3082,
+    "payment_above_submitted_charge": 49
+  },
+  "quality_report_version": 1,
+  "reporting_periods": [
+    2019,
+    2021,
+    2023
+  ],
+  "silver_row_count": 350393,
+  "suppression_counts": {
+    "beneficiary_count": 161089,
+    "outlier_detail": 211218,
+    "provider_apc_summary": 157739
+  },
+  "violation_counts": {
+    "duplicate_business_keys": 0,
+    "fractional_count_values": 0,
+    "invalid_ccns": 0,
+    "invalid_comprehensive_apc_codes": 0,
+    "invalid_state_fips": 0,
+    "invalid_zip5": 0,
+    "medicare_payment_above_allowed_amount": 0,
+    "negative_count_values": 0,
+    "negative_financial_values": 0,
+    "null_business_keys": 0
+  }
+}
