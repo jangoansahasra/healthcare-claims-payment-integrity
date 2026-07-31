@@ -43,6 +43,10 @@ include validation evidence and corresponding documentation.
 - Controlled end-to-end silver integration tests
 - Machine-readable silver quality report
 - Reusable multi-year CMS source-family bronze converter
+- Validated CMS outpatient provider-service Bronze family for the published
+  2019, 2021, and 2023 periods
+- Strict period-specific Windows-1252 and UTF-8 outpatient decoding
+- Outpatient annual profiles and cross-period schema inventory
 - Cross-year schema consistency and drift metadata
 - Six-year CMS physician provider-summary bronze dataset
 - Provider NPI grain and format reconciliation

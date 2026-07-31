@@ -552,3 +552,49 @@ Publishing the governed inpatient provider-DRG Silver model.
 
 Continue M01 with the next provider-service family while preserving the same
 governed acquisition, Bronze, Silver, and quality controls.
+
+## 2026-07-31 — CMS outpatient provider-service Bronze family
+
+### Completed
+
+- Downloaded and receipt-validated all configured published periods: 2019,
+  2021, and 2023.
+- Governed strict Windows-1252 decoding for 2019 and 2021 and UTF-8 decoding
+  for 2023 without modifying raw source files.
+- Converted all three distributions to Zstandard Parquet.
+- Generated three annual technical profiles and one family inventory.
+- Verified a single consistent 18-column source schema.
+- Preserved CCN and APC identifiers as strings.
+- Documented unavailable periods rather than interpolating them.
+
+### Validation
+
+- Raw CSV volume: 81 MiB
+- Bronze Parquet volume: 5.5 MiB
+- Total provider-APC-period rows: 350,393
+- CSV, Parquet, and profile counts reconcile for every period.
+- Duplicate or null business keys: 0
+- Identifier-format violations: 0
+- Nonnumeric tokens: 0
+- Fractional count values: 0
+- Missing RUCA code and description rows: 18 each
+- All raw source files remain receipt-valid after conversion.
+
+### Decision
+
+The published 2019, 2021, and 2023 periods form an available-period series,
+not a complete annual panel. Missing years will not be synthesized,
+interpolated, or interpreted as zero activity.
+
+Numeric source nulls remain null in Bronze. Their suppression,
+non-applicability, and publication semantics must be verified against official
+CMS definitions before the Silver contract is finalized.
+
+### Current work
+
+Publishing the CMS outpatient provider-service Bronze family.
+
+### Next task
+
+Define a typed outpatient hospital-APC Silver model with explicit missingness,
+charge, allowed-amount, payment, and outlier semantics.

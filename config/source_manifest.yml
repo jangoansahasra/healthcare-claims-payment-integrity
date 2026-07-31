@@ -110,8 +110,15 @@ sources:
       - 2021
       - 2023
     latest_verified_year: 2023
-    local_directory: data/raw/cms/outpatient_provider_service
-    ingestion_status: planned
+    local_directory: data/raw/cms/cms_outpatient_provider_service
+    ingestion_status: bronze_complete
+    schema_normalization:
+      source_encodings:
+        2019: cp1252
+        2021: cp1252
+        2023: utf-8
+      target_encoding: utf-8
+      preserves_raw_source: true
     contains_real_healthcare_activity: true
     contains_direct_beneficiary_identifiers: false
     commit_raw_file: false
@@ -121,7 +128,7 @@ sources:
       - Hospital and service comparisons
       - Synthetic outpatient calibration
     limitations:
-      - The current public series is not available for every calendar year.
+      - Only the published 2019, 2021, and 2023 periods are used; unavailable years are not interpolated.
       - Represents Original Medicare fee-for-service outpatient activity.
       - Published service scope and suppression must be reviewed by year.
 
