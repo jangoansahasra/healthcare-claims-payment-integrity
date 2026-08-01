@@ -196,7 +196,7 @@ def test_physician_service_bronze_contract_is_documented() -> None:
     sources = {source["source_id"]: source for source in load_manifest()["sources"]}
     physician = sources["cms_physician_provider_service"]
 
-    assert physician["ingestion_status"] == "bronze_complete"
+    assert physician["ingestion_status"] == "silver_complete"
     assert physician["requested_years"] == list(range(2019, 2025))
     assert physician["local_directory"] == (
         "data/raw/cms/cms_physician_provider_service"

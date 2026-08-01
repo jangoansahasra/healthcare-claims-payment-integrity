@@ -695,3 +695,52 @@ Publishing the CMS physician provider-service Bronze family.
 Define a typed provider-HCPCS-place-of-service Silver model with explicit
 publication thresholds, country-safe geography, service-unit semantics, and
 peer-comparison governance.
+
+## 2026-08-01 — CMS physician provider-service Silver model
+
+### Completed
+
+- Defined a governed NPI, HCPCS, place-of-service, and reporting-year contract.
+- Typed seven measures while preserving fractional HCPCS service units.
+- Added beneficiary-volume bands and country-safe peer geography.
+- Preserved provider attributes and HCPCS descriptions by reporting year.
+- Added explicit state-FIPS and RUCA missing indicators.
+- Enforced Medicare payment not exceeding allowed amount.
+- Retained submitted-charge and standardized-payment comparison exceptions.
+- Added atomic production Parquet replacement and machine-readable quality reporting.
+- Added contract, helper, and end-to-end builder tests.
+
+### Validation
+
+- Ruff and Ruff formatting: passed
+- Pytest: 204 passed
+- Bronze and Silver rows: 58,673,513 each
+- Typed measures: 7
+- Fractional total-service rows retained: 55,901
+- Missing state-FIPS rows: 6,134
+- Missing RUCA-code rows: 41,175
+- Invalid keys, identifiers, domains, or negative measures: 0
+- Medicare-payment-above-allowed violations: 0
+- Foreign peer-geography violations: 0
+- All 24 quality checks passed.
+- Silver Parquet size: 1.7 GiB
+- Available disk after build: 187 GiB
+
+### Decision
+
+Total services remains decimal because CMS counting metrics vary by service.
+Standardized Medicare payment is a geographic adjustment for comparison and
+is not treated as a payment component or constrained below allowed amount.
+
+State and RUCA peer dimensions apply only to U.S. providers. Foreign-provider
+comparisons use country and explicit `Not applicable` domestic geography.
+
+### Current work
+
+Publishing the governed physician provider-service Silver model.
+
+### Next task
+
+Reassess M01 completeness before acquiring another large source family, then
+prioritize synthetic claims, Gold payment-integrity models, and business-facing
+analytics when the benchmark foundation is sufficient.

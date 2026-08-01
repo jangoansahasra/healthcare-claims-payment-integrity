@@ -19,7 +19,7 @@ objective rule evaluation.
 | Medicare Part D Prescribers by Provider, 2019–2024 | CMS | Aggregated prescriber, drug-cost, and beneficiary data | Pharmacy benchmarks and synthetic calibration | Silver complete |
 | Medicare Inpatient Hospitals by Provider and Service, 2019–2024 | CMS | Aggregated inpatient provider-DRG utilization and payment data | Inpatient utilization, price, and DRG-mix analysis | Silver complete |
 | Medicare Outpatient Hospitals by Provider and Service, 2019, 2021, and 2023 | CMS | Aggregated outpatient provider-service utilization and payment data | Outpatient utilization, price, and procedure-mix analysis | Silver complete |
-| Medicare Physician & Other Practitioners by Provider and Service, 2019–2024 | CMS | Aggregated professional provider-service utilization and payment data | Procedure mix and provider-service benchmarks | Bronze complete |
+| Medicare Physician & Other Practitioners by Provider and Service, 2019–2024 | CMS | Aggregated professional provider-service utilization and payment data | Procedure mix and provider-service benchmarks | Silver complete |
 | ICD-10-CM files | CDC/NCHS | Diagnosis reference | Code validation and diagnosis categories | Planned |
 | HCPCS Level II files | CMS | Procedure reference | Procedure validation and categories where licensing permits | Planned |
 | Place of Service code set | CMS | Service-location reference | Claims classification | Planned |
