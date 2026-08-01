@@ -650,3 +650,48 @@ Publishing the governed outpatient hospital-APC Silver model.
 
 Continue M01 with the physician provider-service acquisition family using the
 same reproducibility, typing, suppression, and observed-benchmark controls.
+
+## 2026-08-01 — CMS physician provider-service Bronze family
+
+### Completed
+
+- Downloaded and receipt-validated all six 2019–2024 distributions.
+- Verified one stable 28-column CMS schema with strict UTF-8 decoding.
+- Converted 58,673,513 rows to Zstandard Parquet.
+- Generated six annual technical profiles and one family inventory.
+- Preserved NPI, HCPCS, place-of-service, and all source values as strings.
+- Reconciled CSV, Parquet, and profile row counts for every year.
+- Profiled numeric types, publication thresholds, payment relationships, and
+  missing provider geography.
+
+### Validation
+
+- Raw CSV volume: 17.4 GiB
+- Bronze Parquet volume: 1.9 GiB
+- Duplicate or null business keys: 0
+- Invalid NPIs or HCPCS codes: 0
+- Nonnumeric measure tokens: 0
+- Fractional beneficiary or beneficiary-day counts: 0
+- Fractional total-service rows retained: 55,901
+- Medicare-payment-above-allowed rows: 0
+- All source receipts remain valid after conversion.
+
+### Decision
+
+Total services is not governed as an integer because HCPCS-specific unit
+definitions produce legitimate fractional values. Beneficiary and
+beneficiary-day counts remain integer candidates.
+
+Submitted charge is not a payment ceiling, and standardized payment is an
+adjusted comparison measure rather than a component of allowed amount.
+Observed cross-measure exceptions are retained for Silver reporting.
+
+### Current work
+
+Publishing the CMS physician provider-service Bronze family.
+
+### Next task
+
+Define a typed provider-HCPCS-place-of-service Silver model with explicit
+publication thresholds, country-safe geography, service-unit semantics, and
+peer-comparison governance.

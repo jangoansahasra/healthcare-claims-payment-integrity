@@ -86,6 +86,13 @@ source_strategies:
        - 2022
        - 2023
        - 2024
+    source_encodings:
+      2019: utf-8
+      2020: utf-8
+      2021: utf-8
+      2022: utf-8
+      2023: utf-8
+      2024: utf-8
     rationale: Complete national detail is feasible within the verified local disk budget and eliminates cohort-selection bias.
 
   cms_part_d_provider_drug:
