@@ -1,0 +1,248 @@
+contract_version: 1
+last_reviewed: "2026-08-01"
+
+model:
+  name: cms_physician_provider_service_silver
+  source_id: cms_physician_provider_service
+  source_layer: bronze
+  target_layer: silver
+  data_role: observed_benchmark
+  grain: one row per rendering NPI, HCPCS code, place of service, and reporting year
+
+governance:
+  source_authority: Centers for Medicare & Medicaid Services
+  official_dataset: https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider-and-service/
+  official_data_dictionary: https://data.cms.gov/sites/default/files/2025-03/bbb1e50e-5ba8-42ed-b072-18368b6f37f9/MUP_PHY_RY25_20250312_DD_PRV_SVC_508.pdf
+  contains_real_provider_identifiers: true
+  contains_beneficiary_identifiers: false
+  population: Original Medicare fee-for-service beneficiaries receiving professional services
+  permitted_uses:
+    - provider-HCPCS utilization and payment benchmarking
+    - facility and non-facility comparison
+    - longitudinal procedure-mix analysis
+    - synthetic professional-claim calibration
+    - data-quality and reconciliation testing
+  prohibited_uses:
+    - attributing injected anomalies to real providers
+    - presenting benchmark outliers as fraud or improper payment
+    - representing aggregated records as claim lines
+    - treating submitted charge as an expected-payment ceiling
+    - treating standardized payment as a payment component
+    - reconstructing unpublished low-volume combinations
+
+paths:
+  bronze_glob: data/processed/cms/cms_physician_provider_service/*/*.parquet
+  silver_output: data/interim/silver/cms_physician_provider_service.parquet
+  quality_report: data/metadata/quality/cms_physician_provider_service_silver.json
+
+business_key:
+  - rendering_npi
+  - hcpcs_code
+  - place_of_service_category
+  - reporting_year
+
+source_dimensions:
+  Rndrng_NPI: rendering_npi
+  Rndrng_Prvdr_Last_Org_Name: provider_last_or_organization_name
+  Rndrng_Prvdr_First_Name: provider_first_name
+  Rndrng_Prvdr_MI: provider_middle_initial
+  Rndrng_Prvdr_Crdntls: provider_credentials
+  Rndrng_Prvdr_Ent_Cd: provider_entity_code
+  Rndrng_Prvdr_St1: provider_street_address_1
+  Rndrng_Prvdr_St2: provider_street_address_2
+  Rndrng_Prvdr_City: provider_city
+  Rndrng_Prvdr_State_Abrvtn: provider_state_abbreviation
+  Rndrng_Prvdr_State_FIPS: provider_state_fips
+  Rndrng_Prvdr_Zip5: provider_zip5
+  Rndrng_Prvdr_RUCA: provider_ruca_code
+  Rndrng_Prvdr_RUCA_Desc: provider_ruca_description
+  Rndrng_Prvdr_Cntry: provider_country_code
+  Rndrng_Prvdr_Type: provider_type
+  Rndrng_Prvdr_Mdcr_Prtcptg_Ind: medicare_participation_indicator
+  HCPCS_Cd: hcpcs_code
+  HCPCS_Desc: hcpcs_description
+  HCPCS_Drug_Ind: hcpcs_drug_indicator
+  Place_Of_Srvc: place_of_service_category
+
+retained_lineage:
+  - _source_id
+  - _reporting_year
+  - _source_file
+  - _acquired_at_utc
+
+source_schema:
+  expected_cms_column_count: 28
+  expected_lineage_column_count: 4
+  required_columns:
+    - Rndrng_NPI
+    - HCPCS_Cd
+    - Place_Of_Srvc
+    - Tot_Benes
+    - Tot_Srvcs
+    - Tot_Bene_Day_Srvcs
+    - Avg_Sbmtd_Chrg
+    - Avg_Mdcr_Alowd_Amt
+    - Avg_Mdcr_Pymt_Amt
+    - Avg_Mdcr_Stdzd_Amt
+
+historical_attribute_handling:
+  provider_attributes_are_year_specific: true
+  preserve_reported_values_by_year: true
+  do_not_overwrite_history_with_latest_values: true
+  observed_providers_with_changes:
+    provider_last_or_organization_name: 32196
+    provider_type: 34347
+    provider_state_abbreviation: 87151
+    provider_zip5: 222742
+    provider_ruca_code: 68464
+    provider_country_code: 55
+
+hcpcs_description_handling:
+  descriptions_are_year_specific: true
+  preserve_reported_description_by_year: true
+  do_not_overwrite_history_with_latest_description: true
+  observed_codes_with_description_changes: 4371
+  consumer_friendly_descriptions_not_for_clinical_coding: true
+
+nullable_dimension_policy:
+  provider_state_fips:
+    observed_null_or_blank_rows: 6134
+    silver_value_when_missing: Unknown
+    preserve_missing_indicator: true
+  provider_ruca_code:
+    observed_null_or_blank_rows: 41175
+    silver_value_when_missing: Unknown
+    preserve_missing_indicator: true
+  provider_ruca_description:
+    silver_value_when_missing: Unknown
+    preserve_missing_indicator: true
+  provider_type:
+    nullable: false
+  hcpcs_description:
+    nullable: false
+  provider_country_code:
+    nullable: false
+
+numeric_typing:
+  use_try_cast: true
+  integer_type: BIGINT
+  decimal_type: DECIMAL(38, 6)
+  integer_columns:
+    - Tot_Benes
+    - Tot_Bene_Day_Srvcs
+  decimal_columns:
+    - Tot_Srvcs
+    - Avg_Sbmtd_Chrg
+    - Avg_Mdcr_Alowd_Amt
+    - Avg_Mdcr_Pymt_Amt
+    - Avg_Mdcr_Stdzd_Amt
+  preserve_fractional_service_units: true
+  observed_fractional_service_rows: 55901
+  observed_hcpcs_with_fractional_services: 442
+
+publication_threshold:
+  measure: total_beneficiaries
+  minimum_published_value: 11
+  absence_is_not_zero: true
+  prohibit_reconstruction: true
+
+service_semantics:
+  total_services:
+    source_column: Tot_Srvcs
+    meaning: service count whose counting metric varies by service
+    require_integral_values: false
+  beneficiary_day_services:
+    source_column: Tot_Bene_Day_Srvcs
+    meaning: distinct beneficiary-per-day services that remove same-day double counting
+    require_integral_values: true
+
+payment_semantics:
+  average_submitted_charge:
+    source_column: Avg_Sbmtd_Chrg
+  average_medicare_allowed_amount:
+    source_column: Avg_Mdcr_Alowd_Amt
+    includes_beneficiary_and_third_party_responsibility: true
+  average_medicare_payment:
+    source_column: Avg_Mdcr_Pymt_Amt
+    excludes_deductible_and_coinsurance: true
+  average_standardized_medicare_payment:
+    source_column: Avg_Mdcr_Stdzd_Amt
+    removes_geographic_payment_rate differences: true
+    is_payment_component: false
+  require_medicare_payment_not_above_allowed_amount: true
+  do_not_require_allowed_amount_below_submitted_charge: true
+  do_not_require_standardized_payment_below_allowed_amount: true
+  observed_allowed_above_submitted_charge_rows: 101936
+  observed_payment_above_submitted_charge_rows: 10104
+  observed_standardized_above_allowed_rows: 3258449
+
+allowed_values:
+  reporting_years: [2019, 2020, 2021, 2022, 2023, 2024]
+  npi_pattern: "^[0-9]{10}$"
+  hcpcs_pattern: "^[0-9A-Za-z]{5}$"
+  entity_codes: [I, O]
+  place_of_service_categories: [F, O]
+  drug_indicators: [N, Y]
+  participation_indicators: [N, Y]
+
+beneficiary_volume_bands:
+  measure: total_beneficiaries
+  derivation: pooled 2019-2024 empirical quartile cut points
+  bands:
+    - {name: low, minimum_inclusive: 11, maximum_inclusive: 17}
+    - {name: medium, minimum_inclusive: 18, maximum_inclusive: 31}
+    - {name: high, minimum_inclusive: 32, maximum_inclusive: 72}
+    - {name: very_high, minimum_inclusive: 73, maximum_inclusive: null}
+
+benchmark_cohorts:
+  purpose: compare like provider-service activity
+  dimensions:
+    - hcpcs_code
+    - place_of_service_category
+    - provider_type
+    - provider_country_code
+    - provider_state_fips
+    - beneficiary_volume_band
+    - reporting_year
+  minimum_peer_group_size: 11
+  require_country_safe_geography: true
+  use_state_and_ruca_only_for_us_providers: true
+  prohibit_outlier_as_fraud_label: true
+
+privacy_and_reporting:
+  minimum_public_peer_group_size: 11
+  expose_real_provider_anomaly_flags: false
+  label_real_provider_results_as_benchmarks: true
+  prohibit_provider_fraud_labels: true
+  public_dashboard_excluded_fields:
+    - provider_last_or_organization_name
+    - provider_first_name
+    - provider_street_address_1
+    - provider_street_address_2
+    - provider_zip5
+
+quality_rules:
+  preserve_source_row_count: true
+  require_unique_business_key: true
+  require_non_null_business_key: true
+  require_valid_npi: true
+  require_valid_hcpcs_code: true
+  require_allowed_dimension_domains: true
+  retain_all_reporting_years: true
+  require_canonical_source_schema: true
+  reject_unparseable_numeric_values: true
+  require_integral_beneficiary_counts: true
+  require_integral_beneficiary_day_services: true
+  preserve_fractional_total_services: true
+  require_published_beneficiary_minimum: true
+  require_nonnegative_measures: true
+  require_medicare_payment_not_above_allowed_amount: true
+  report_allowed_above_submitted_charge: true
+  report_payment_above_submitted_charge: true
+  report_standardized_above_allowed_amount: true
+  require_nullable_dimension_policy: true
+  require_year_specific_provider_attributes: true
+  require_year_specific_hcpcs_descriptions: true
+  require_country_safe_peer_configuration: true
+  require_peer_group_threshold_configuration: true
+  prohibit_real_provider_anomaly_attribution: true

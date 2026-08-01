@@ -53,6 +53,9 @@ include validation evidence and corresponding documentation.
 - Validated CMS physician provider-service Bronze family covering 2019–2024
 - Technical profiles for 58.7 million provider-HCPCS-place-of-service rows
 - Explicit preservation of fractional HCPCS service units and source geography missingness
+- Governed physician provider-HCPCS-place-of-service Silver transformation
+- Country-safe provider-service peer geography and beneficiary-volume bands
+- Machine-readable quality report for 58.7 million typed service records
 - Cross-year schema consistency and drift metadata
 - Six-year CMS physician provider-summary bronze dataset
 - Provider NPI grain and format reconciliation
