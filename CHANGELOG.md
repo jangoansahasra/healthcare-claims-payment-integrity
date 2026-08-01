@@ -50,6 +50,9 @@ include validation evidence and corresponding documentation.
 - Governed CMS outpatient hospital-APC Silver contract and transformation
 - Explicit provider-APC, beneficiary-count, and outlier suppression statuses
 - Outpatient payment-relationship checks and machine-readable quality report
+- Validated CMS physician provider-service Bronze family covering 2019–2024
+- Technical profiles for 58.7 million provider-HCPCS-place-of-service rows
+- Explicit preservation of fractional HCPCS service units and source geography missingness
 - Cross-year schema consistency and drift metadata
 - Six-year CMS physician provider-summary bronze dataset
 - Provider NPI grain and format reconciliation

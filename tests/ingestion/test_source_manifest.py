@@ -190,3 +190,19 @@ def test_outpatient_source_encoding_and_period_gaps_are_documented() -> None:
         "target_encoding": "utf-8",
         "preserves_raw_source": True,
     }
+
+
+def test_physician_service_bronze_contract_is_documented() -> None:
+    sources = {source["source_id"]: source for source in load_manifest()["sources"]}
+    physician = sources["cms_physician_provider_service"]
+
+    assert physician["ingestion_status"] == "bronze_complete"
+    assert physician["requested_years"] == list(range(2019, 2025))
+    assert physician["local_directory"] == (
+        "data/raw/cms/cms_physician_provider_service"
+    )
+    assert physician["schema_normalization"] == {
+        "source_encodings": {year: "utf-8" for year in range(2019, 2025)},
+        "target_encoding": "utf-8",
+        "preserves_raw_source": True,
+    }

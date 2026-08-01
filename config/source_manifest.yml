@@ -31,8 +31,18 @@ sources:
       - 2023
       - 2024
     latest_verified_year: 2024
-    local_directory: data/raw/cms/physician_provider_service
-    ingestion_status: planned
+    local_directory: data/raw/cms/cms_physician_provider_service
+    ingestion_status: bronze_complete
+    schema_normalization:
+      source_encodings:
+        2019: utf-8
+        2020: utf-8
+        2021: utf-8
+        2022: utf-8
+        2023: utf-8
+        2024: utf-8
+      target_encoding: utf-8
+      preserves_raw_source: true
     contains_real_healthcare_activity: true
     contains_direct_beneficiary_identifiers: false
     commit_raw_file: false
