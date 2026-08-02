@@ -148,7 +148,7 @@ sources:
     publisher: Centers for Medicare & Medicaid Services
     role: observed
     domain: pharmacy
-    grain: prescriber_npi_drug_year
+    grain: prescriber_npi_brand_generic_year
     source_page: https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/medicare-part-d-prescribers-by-provider-and-drug
     api_docs: https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/medicare-part-d-prescribers-by-provider-and-drug/api-docs
     download_method: cms_data_api_catalog
@@ -160,8 +160,18 @@ sources:
       - 2023
       - 2024
     latest_verified_year: 2024
-    local_directory: data/raw/cms/part_d_provider_drug
-    ingestion_status: planned
+    local_directory: data/raw/cms/cms_part_d_provider_drug
+    ingestion_status: bronze_complete
+    schema_normalization:
+      source_encodings:
+        2019: utf-8
+        2020: cp1252
+        2021: utf-8
+        2022: utf-8
+        2023: utf-8
+        2024: utf-8
+      target_encoding: utf-8
+      preserves_raw_source: true
     contains_real_healthcare_activity: true
     contains_direct_beneficiary_identifiers: false
     commit_raw_file: false
@@ -173,8 +183,10 @@ sources:
       - Synthetic pharmacy calibration
     limitations:
       - Represents Medicare Part D activity rather than all pharmacy claims.
-      - Low-volume records are suppressed.
-      - Total drug cost includes multiple payer components.
+      - Prescriber-drug combinations with 10 or fewer claims are excluded.
+      - Beneficiary and age-group measures may be suppressed and must not be reconstructed.
+      - Total drug cost includes plan, beneficiary, government-subsidy, and third-party amounts rather than Medicare payment alone.
+      - The 2020 source contains an upstream non-UTF-8 city value that is strictly transcoded without altering the receipt-governed raw file.
 
   - source_id: cms_physician_provider_summary
     name: Medicare Physician and Other Practitioners by Provider

@@ -744,3 +744,47 @@ Publishing the governed physician provider-service Silver model.
 Reassess M01 completeness before acquiring another large source family, then
 prioritize synthetic claims, Gold payment-integrity models, and business-facing
 analytics when the benchmark foundation is sufficient.
+
+## 2026-08-02 — CMS Part D provider-drug Bronze family
+
+### Completed
+
+- Downloaded and receipt-validated all six 2019–2024 CMS distributions.
+- Verified one consistent 22-column source schema across all years.
+- Converted 156,531,752 records to Zstandard Parquet.
+- Generated six annual technical profiles and one family inventory.
+- Preserved NPI, brand name, generic name, and source lineage as strings.
+- Governed strict CP1252 transcoding for the anomalous 2020 distribution while
+  leaving the receipt-governed raw file unchanged.
+- Reconciled raw CSV, Bronze Parquet, and profile counts for every year.
+
+### Validation
+
+- Raw CSV volume: 21 GiB
+- Bronze Parquet volume: 2.9 GiB
+- Duplicate or null business keys: 0
+- Invalid ten-digit NPIs: 0
+- Invalid or negative numeric values: 0
+- Fractional integer-candidate values: 0
+- Minimum total claim count: 11
+- Suppression/detail reconciliation violations: 0
+- Available disk after conversion: 164 GiB
+
+### Decision
+
+The governed grain is prescriber NPI, brand name, generic name, and reporting
+year. Total drug cost is an aggregate across plan, beneficiary, subsidy, and
+other third-party amounts; it is not labeled as Medicare payment.
+
+Primary and counter-suppressed measures remain null with their source flags.
+The observed 2020 `Mayagãœez` value is retained as a documented upstream
+encoding defect rather than silently corrected.
+
+### Current work
+
+Publishing the governed CMS Part D provider-drug Bronze family.
+
+### Next task
+
+Confirm M01 ingestion exit criteria and define whether drug-level Silver is
+required before beginning synthetic claim-lifecycle and Gold analytics work.

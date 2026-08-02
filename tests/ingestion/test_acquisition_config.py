@@ -125,3 +125,19 @@ def test_physician_service_source_encodings_are_governed_by_year() -> None:
 
     assert strategy["years"] == list(range(2019, 2025))
     assert strategy["source_encodings"] == {year: "utf-8" for year in range(2019, 2025)}
+
+
+def test_part_d_provider_drug_source_encodings_are_governed_by_year() -> None:
+    strategy = load_yaml(ACQUISITION_PATH)["source_strategies"][
+        "cms_part_d_provider_drug"
+    ]
+
+    assert strategy["years"] == list(range(2019, 2025))
+    assert strategy["source_encodings"] == {
+        2019: "utf-8",
+        2020: "cp1252",
+        2021: "utf-8",
+        2022: "utf-8",
+        2023: "utf-8",
+        2024: "utf-8",
+    }

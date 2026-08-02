@@ -1,0 +1,144 @@
+{
+  "column_count": 26,
+  "columns": [
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Prscrbr_NPI",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Prscrbr_Last_Org_Name",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Prscrbr_First_Name",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Prscrbr_City",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Prscrbr_State_Abrvtn",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Prscrbr_State_FIPS",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Prscrbr_Type",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Prscrbr_Type_Src",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Brnd_Name",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Gnrc_Name",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Tot_Clms",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Tot_30day_Fills",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Tot_Day_Suply",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Tot_Drug_Cst",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "Tot_Benes",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "GE65_Sprsn_Flag",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "GE65_Tot_Clms",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "GE65_Tot_30day_Fills",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "GE65_Tot_Drug_Cst",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "GE65_Tot_Day_Suply",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "GE65_Bene_Sprsn_Flag",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "GE65_Tot_Benes",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "_source_id",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "INTEGER",
+      "name": "_reporting_year",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "_source_file",
+      "nullable": "YES"
+    },
+    {
+      "duckdb_type": "VARCHAR",
+      "name": "_acquired_at_utc",
+      "nullable": "YES"
+    }
+  ],
+  "compression": "zstd",
+  "parquet_path": "data/processed/cms/cms_part_d_provider_drug/2022/cms_part_d_provider_drug_2022.parquet",
+  "profile_version": 1,
+  "reporting_year": 2022,
+  "row_count": 25869521,
+  "sha256": "6fa9c8796063f54cabc3918dc7208ff9ed4a5226c14349b20b70f9181ea72fd1",
+  "size_bytes": 505267545,
+  "source_id": "cms_part_d_provider_drug",
+  "source_values_preserved_as_strings": true
+}
