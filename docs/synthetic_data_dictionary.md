@@ -20,6 +20,7 @@ The authoritative machine-readable contract is
 | Simulated policy start | 2026-01-01 |
 | Deterministic seed | 20260724 |
 | Members | 10,000 |
+| Plans | 4 |
 | Providers | 200 |
 | Claim headers | 75,000 |
 | Currency | USD |

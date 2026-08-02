@@ -32,6 +32,7 @@ governance:
 
 generation:
   members: 10000
+  plans: 4
   providers: 200
   claim_headers: 75000
   medical_claim_share: 0.82

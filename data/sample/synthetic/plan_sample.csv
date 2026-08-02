@@ -1,0 +1,5 @@
+plan_id,plan_type,product_line,effective_date,termination_date
+PLN0001,PPO,commercial,2025-01-01,
+PLN0002,HMO,commercial,2025-01-01,
+PLN0003,PPO,medicare_advantage,2025-01-01,
+PLN0004,POS,commercial,2025-01-01,

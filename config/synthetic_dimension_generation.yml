@@ -1,0 +1,144 @@
+generation_version: 1
+last_reviewed: "2026-08-02"
+contract: config/synthetic_data_contract.yml
+
+member_distribution:
+  sex:
+    - value: F
+      weight: 0.49
+    - value: M
+      weight: 0.49
+    - value: X
+      weight: 0.02
+  birth_year_bands:
+    - minimum: 1940
+      maximum: 1959
+      weight: 0.25
+    - minimum: 1960
+      maximum: 1979
+      weight: 0.35
+    - minimum: 1980
+      maximum: 1999
+      weight: 0.30
+    - minimum: 2000
+      maximum: 2006
+      weight: 0.10
+  maximum_start_month_offset: 3
+  minimum_coverage_months: 6
+  early_termination_share: 0.12
+
+geography_distribution:
+  - state_code: NY
+    region: NORTHEAST
+    weight: 0.10
+  - state_code: PA
+    region: NORTHEAST
+    weight: 0.08
+  - state_code: MA
+    region: NORTHEAST
+    weight: 0.06
+  - state_code: IL
+    region: MIDWEST
+    weight: 0.09
+  - state_code: OH
+    region: MIDWEST
+    weight: 0.07
+  - state_code: MI
+    region: MIDWEST
+    weight: 0.06
+  - state_code: CA
+    region: WEST
+    weight: 0.14
+  - state_code: WA
+    region: WEST
+    weight: 0.06
+  - state_code: TX
+    region: SOUTH
+    weight: 0.14
+  - state_code: FL
+    region: SOUTH
+    weight: 0.10
+  - state_code: GA
+    region: SOUTH
+    weight: 0.06
+  - state_code: NC
+    region: SOUTH
+    weight: 0.04
+
+plans:
+  - plan_id: PLN0001
+    plan_type: PPO
+    product_line: commercial
+    member_weight: 0.35
+    minimum_age: 0
+  - plan_id: PLN0002
+    plan_type: HMO
+    product_line: commercial
+    member_weight: 0.30
+    minimum_age: 0
+  - plan_id: PLN0003
+    plan_type: PPO
+    product_line: medicare_advantage
+    member_weight: 0.20
+    minimum_age: 65
+  - plan_id: PLN0004
+    plan_type: POS
+    product_line: commercial
+    member_weight: 0.15
+    minimum_age: 0
+
+provider_distribution:
+  entity_type:
+    - value: individual
+      weight: 0.82
+    - value: organization
+      weight: 0.18
+  specialties:
+    - value: primary_care
+      weight: 0.30
+      calibration_source_id: cms_physician_provider_summary
+      calibration_version: 2019-2024
+    - value: cardiology
+      weight: 0.12
+      calibration_source_id: cms_physician_provider_service
+      calibration_version: 2019-2024
+    - value: orthopedics
+      weight: 0.12
+      calibration_source_id: cms_physician_provider_service
+      calibration_version: 2019-2024
+    - value: behavioral_health
+      weight: 0.10
+      calibration_source_id: cms_physician_provider_summary
+      calibration_version: 2019-2024
+    - value: inpatient_facility
+      weight: 0.10
+      required_entity_type: organization
+      calibration_source_id: cms_inpatient_provider_service
+      calibration_version: 2019-2024
+    - value: outpatient_facility
+      weight: 0.10
+      required_entity_type: organization
+      calibration_source_id: cms_outpatient_provider_service
+      calibration_version: 2019-2023-published-periods
+    - value: pharmacy_prescriber
+      weight: 0.16
+      calibration_source_id: cms_part_d_provider_summary
+      calibration_version: 2019-2024
+
+provider_contracts:
+  contract_every_provider_with_every_plan: true
+  reimbursement_methods:
+    - value: fee_schedule
+      weight: 0.70
+    - value: case_rate
+      weight: 0.20
+    - value: capitation
+      weight: 0.10
+
+policy_assignment:
+  policy_id: POLICY_2026_REVIEW
+  treated_regions:
+    - NORTHEAST
+    - MIDWEST
+  comparison_label: comparison
+  treatment_label: treated

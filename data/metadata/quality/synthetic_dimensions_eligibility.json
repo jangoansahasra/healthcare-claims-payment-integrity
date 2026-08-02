@@ -1,0 +1,101 @@
+{
+  "all_checks_passed": true,
+  "checks": {
+    "contract_dates_valid": true,
+    "contract_id_format": true,
+    "coverage_dates_valid": true,
+    "facility_providers_are_organizations": true,
+    "member_columns": true,
+    "member_id_format": true,
+    "member_parquet_rows": true,
+    "member_parquet_schema": true,
+    "member_primary_key": true,
+    "member_row_count": true,
+    "members_are_synthetic": true,
+    "membership_month_columns": true,
+    "membership_month_foreign_key_1": true,
+    "membership_month_foreign_key_2": true,
+    "membership_month_parquet_rows": true,
+    "membership_month_parquet_schema": true,
+    "membership_month_primary_key": true,
+    "plan_age_eligibility": true,
+    "plan_columns": true,
+    "plan_id_format": true,
+    "plan_parquet_rows": true,
+    "plan_parquet_schema": true,
+    "plan_primary_key": true,
+    "plan_row_count": true,
+    "policy_assignment_columns": true,
+    "policy_assignment_foreign_key_1": true,
+    "policy_assignment_id_format": true,
+    "policy_assignment_parquet_rows": true,
+    "policy_assignment_parquet_schema": true,
+    "policy_assignment_primary_key": true,
+    "policy_cohorts_nonempty": true,
+    "policy_dates_valid": true,
+    "provider_columns": true,
+    "provider_contract_columns": true,
+    "provider_contract_foreign_key_1": true,
+    "provider_contract_foreign_key_2": true,
+    "provider_contract_parquet_rows": true,
+    "provider_contract_parquet_schema": true,
+    "provider_contract_primary_key": true,
+    "provider_id_format": true,
+    "provider_parquet_rows": true,
+    "provider_parquet_schema": true,
+    "provider_primary_key": true,
+    "provider_row_count": true,
+    "providers_are_synthetic": true
+  },
+  "contract_sha256": "cb03fadd60365c2b9d46ad43661c4ad0ff6edf09ddd3a8507e71dd0975e7b47b",
+  "contract_version": 1,
+  "deterministic_seed": 20260724,
+  "generated_at_utc": "2026-08-02T21:55:02.661400+00:00",
+  "generation_config_sha256": "b311b04b984a319c2bf46cfd008af685225ba89d4acfa330b59a314b89f8d9f9",
+  "generation_version": 1,
+  "report_version": 1,
+  "tables": {
+    "member": {
+      "column_count": 5,
+      "content_sha256": "14bedb39a85e64b080ce02a2943c7a56927bcba9cdcba34209051e31fd6047c0",
+      "parquet_size_bytes": 39402,
+      "row_count": 10000,
+      "sample_row_count": 25
+    },
+    "membership_month": {
+      "column_count": 6,
+      "content_sha256": "6d5a03332c3ac84ea2d9c0bcbbc9c84ced1973fe71acbaaf143105d17090ddb3",
+      "parquet_size_bytes": 90941,
+      "row_count": 158746,
+      "sample_row_count": 25
+    },
+    "plan": {
+      "column_count": 5,
+      "content_sha256": "6ccdc459e23da938454fe1667e210ae691eeacb4c32975a1fc874c0d01917b9b",
+      "parquet_size_bytes": 1600,
+      "row_count": 4,
+      "sample_row_count": 4
+    },
+    "policy_assignment": {
+      "column_count": 6,
+      "content_sha256": "041af6982827f4d840ff068a7fd7184e50003b5435b752f2f7e434e0b9aec5ac",
+      "parquet_size_bytes": 2827,
+      "row_count": 200,
+      "sample_row_count": 25
+    },
+    "provider": {
+      "column_count": 7,
+      "content_sha256": "8be44f2eab34929e6a22873ab705c49324aeec314937bed252899cb5a99ae85b",
+      "parquet_size_bytes": 3234,
+      "row_count": 200,
+      "sample_row_count": 25
+    },
+    "provider_contract": {
+      "column_count": 6,
+      "content_sha256": "d6e0918c555b503dadb5ff4fee178019fe17fa044d2561269514ac9df30c0505",
+      "parquet_size_bytes": 4519,
+      "row_count": 800,
+      "sample_row_count": 25
+    }
+  }
+}

@@ -826,3 +826,46 @@ Publishing the synthetic operational data contract and lifecycle documentation.
 
 Implement deterministic generation of synthetic dimensions, eligibility, clean
 claims, adjudication events, and financial transactions from this contract.
+
+## 2026-08-02 — Synthetic dimensions and eligibility
+
+### Completed
+
+- Added stable SHA-256-derived generation without mutable global random state.
+- Generated 10,000 members, four plans, 200 providers, 800 provider contracts,
+  158,746 membership-month rows, and 200 policy assignments.
+- Derived Arrow schemas directly from the versioned operational contract.
+- Added atomic Zstandard Parquet output and small synthetic-only CSV samples.
+- Added canonical content hashes and a machine-readable quality report.
+- Added deterministic unit, integration, schema, relationship, and repeat-build
+  tests.
+
+### Validation
+
+- Machine-readable quality checks: 45 passed
+- Policy cohorts: 88 treated and 112 comparison providers
+- Eligibility periods: 18 distinct months from January 2025 through June 2026
+- Members represented in eligibility: 10,000
+- Medicare Advantage member ages at baseline: 65–85
+- Facility providers represented as individuals: 0
+- Primary-key, foreign-key, identifier, date, and schema violations: 0
+- Full generated Parquet size: approximately 152 KiB
+
+### Decision
+
+Deterministic choices are derived from the configured seed, entity namespace,
+and row number through SHA-256. This avoids order-dependent random state and
+supports stable content hashes and repeatable Parquet bytes.
+
+Medicare Advantage assignment is limited to members aged 65 or older at the
+reporting-period start. Inpatient and outpatient facility specialties are
+always synthetic organizations. No real member or provider record is copied.
+
+### Current work
+
+Publishing deterministic M02 dimensions and eligibility.
+
+### Next task
+
+Generate the clean claim header, claim line, adjudication event, denial, and
+payment-transaction baseline using these validated dimensions.
