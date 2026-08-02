@@ -93,3 +93,7 @@ include validation evidence and corresponding documentation.
 - Hospital-DRG discharge-volume benchmark bands
 - Machine-readable inpatient Silver quality report
 - Automated inpatient contract, helper, and end-to-end transformation tests
+- Validated CMS Part D provider-drug Bronze family covering 2019–2024
+- Technical profiles for 156.5 million prescriber-brand-generic records
+- Strict year-specific UTF-8 and Windows-1252 source decoding
+- Explicit preservation of beneficiary and age-group suppression lineage
