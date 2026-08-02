@@ -10,6 +10,10 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Versioned synthetic insurer operational-data contract covering 14 tables
+- Deterministic generation, identifier, lifecycle, and reconciliation controls
+- Append-only adjudication, payment, and recovery ledger semantics
+- Automated synthetic contract, key, privacy, and storage-policy tests
 - Initial repository foundation
 - Cost-safe local-to-Fabric architecture
 - Payment-integrity rule configuration

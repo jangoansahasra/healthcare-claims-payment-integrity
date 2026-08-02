@@ -12,6 +12,7 @@ __pycache__/
 data/raw/*
 data/interim/*
 data/processed/*
+data/generated/*
 !data/raw/.gitkeep
 !data/interim/.gitkeep
 !data/processed/.gitkeep
