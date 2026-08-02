@@ -1,0 +1,371 @@
+contract_version: 1
+last_reviewed: "2026-08-02"
+
+dataset:
+  name: synthetic_insurer_operations
+  role: clean_operational_baseline
+  project_config: config/project.yml
+  reporting_start_date: 2025-01-01
+  reporting_end_date: 2026-06-30
+  policy_start_date: 2026-01-01
+  deterministic_seed: 20260724
+  currency: USD
+  monetary_type: "DECIMAL(18,2)"
+
+governance:
+  contains_real_beneficiary_identifiers: false
+  contains_protected_health_information: false
+  contains_real_provider_identities: false
+  synthetic_identifiers_are_labeled: true
+  prohibit_real_provider_anomaly_attribution: true
+  clean_baseline_contains_intentional_anomalies: false
+  anomaly_injection_milestone: M03
+  minimum_public_member_count: 11
+  full_output_committed_to_git: false
+  publishable_samples_are_synthetic_only: true
+  calibration_policy:
+    use_aggregate_cms_distributions: true
+    copy_real_provider_records: false
+    copy_real_beneficiary_records: false
+    retain_calibration_source_id: true
+    retain_calibration_version: true
+
+generation:
+  members: 10000
+  providers: 200
+  claim_headers: 75000
+  medical_claim_share: 0.82
+  deterministic_for_fixed_seed: true
+  stable_sort_before_write: true
+  output_format: parquet
+  compression: zstd
+  full_output_root: data/generated/synthetic
+  publishable_sample_root: data/sample/synthetic
+  partition_columns:
+    - service_year
+    - service_month
+
+identifier_formats:
+  member_id: "^MBR[0-9]{8}$"
+  plan_id: "^PLN[0-9]{4}$"
+  provider_id: "^PRV[0-9]{6}$"
+  contract_id: "^CON[0-9]{8}$"
+  logical_claim_id: "^LCL[0-9]{10}$"
+  claim_id: "^CLM[0-9]{10}V[0-9]{2}$"
+  claim_line_id: "^LIN[0-9]{12}$"
+  adjudication_event_id: "^ADJ[0-9]{12}$"
+  payment_transaction_id: "^PAY[0-9]{12}$"
+  review_id: "^REV[0-9]{10}$"
+  denial_id: "^DEN[0-9]{10}$"
+  policy_assignment_id: "^POL[0-9]{10}$"
+  audit_id: "^AUD[0-9]{10}$"
+  recovery_transaction_id: "^RCV[0-9]{10}$"
+
+allowed_values:
+  claim_type:
+    - professional
+    - inpatient
+    - outpatient
+    - pharmacy
+  claim_status:
+    - received
+    - pending
+    - denied
+    - paid
+    - reversed
+    - adjusted
+  transaction_type:
+    - payment
+    - reversal
+    - adjustment
+  review_status:
+    - not_selected
+    - queued
+    - in_review
+    - completed
+  audit_outcome:
+    - no_issue
+    - confirmed_overpayment
+    - confirmed_underpayment
+    - inconclusive
+
+lifecycle_rules:
+  preserve_all_claim_versions: true
+  overwrite_prior_claim_versions: false
+  require_prior_claim_for_version_above_one: true
+  require_monotonic_version_numbers: true
+  append_only_adjudication_events: true
+  append_only_payment_transactions: true
+  net_paid_formula: SUM(payment_transaction.signed_transaction_amount)
+  current_claim_version_formula: MAX(claim_header.claim_version_number)
+  eligibility_date_role: claim_header.service_from_date
+  utilization_date_role: claim_header.service_from_date
+  operations_date_role: claim_header.adjudication_date
+  finance_date_role: payment_transaction.transaction_date
+  prohibit_unnamed_claim_date: true
+
+reconciliation_rules:
+  - rule_id: SYN001
+    expression: claim_header.total_charge_amount = SUM(claim_line.charge_amount)
+  - rule_id: SYN002
+    expression: claim_header.total_allowed_amount = SUM(claim_line.allowed_amount)
+  - rule_id: SYN003
+    expression: claim_header.total_member_liability_amount = SUM(claim_line.member_liability_amount)
+  - rule_id: SYN004
+    expression: derived net_paid_amount = SUM(payment_transaction.signed_transaction_amount)
+  - rule_id: SYN005
+    expression: payment = positive; reversal = negative; adjustment = signed
+  - rule_id: SYN006
+    expression: membership_month covers claim_header.service_from_date
+  - rule_id: SYN007
+    expression: claim_line.claim_id references claim_header.claim_id
+  - rule_id: SYN008
+    expression: recovery_transaction.recovered_amount <= audit_outcome.confirmed_amount
+
+tables:
+  member:
+    grain: one row per synthetic member
+    primary_key:
+      - member_id
+    columns:
+      member_id: {type: VARCHAR, nullable: false}
+      birth_year: {type: SMALLINT, nullable: false}
+      sex_code: {type: VARCHAR, nullable: false}
+      state_code: {type: VARCHAR, nullable: false}
+      synthetic_record: {type: BOOLEAN, nullable: false}
+
+  plan:
+    grain: one row per synthetic benefit plan
+    primary_key:
+      - plan_id
+    columns:
+      plan_id: {type: VARCHAR, nullable: false}
+      plan_type: {type: VARCHAR, nullable: false}
+      product_line: {type: VARCHAR, nullable: false}
+      effective_date: {type: DATE, nullable: false}
+      termination_date: {type: DATE, nullable: true}
+
+  provider:
+    grain: one row per synthetic provider
+    primary_key:
+      - provider_id
+    columns:
+      provider_id: {type: VARCHAR, nullable: false}
+      provider_entity_type: {type: VARCHAR, nullable: false}
+      specialty_group: {type: VARCHAR, nullable: false}
+      state_code: {type: VARCHAR, nullable: false}
+      calibration_source_id: {type: VARCHAR, nullable: false}
+      calibration_version: {type: VARCHAR, nullable: false}
+      synthetic_record: {type: BOOLEAN, nullable: false}
+
+  provider_contract:
+    grain: one row per synthetic provider-plan contract period
+    primary_key:
+      - contract_id
+    foreign_keys:
+      - columns: [provider_id]
+        references: provider(provider_id)
+      - columns: [plan_id]
+        references: plan(plan_id)
+    columns:
+      contract_id: {type: VARCHAR, nullable: false}
+      provider_id: {type: VARCHAR, nullable: false}
+      plan_id: {type: VARCHAR, nullable: false}
+      effective_date: {type: DATE, nullable: false}
+      termination_date: {type: DATE, nullable: true}
+      reimbursement_method: {type: VARCHAR, nullable: false}
+
+  membership_month:
+    grain: one row per synthetic member, plan, and coverage month
+    primary_key:
+      - member_id
+      - plan_id
+      - coverage_month
+    foreign_keys:
+      - columns: [member_id]
+        references: member(member_id)
+      - columns: [plan_id]
+        references: plan(plan_id)
+    columns:
+      member_id: {type: VARCHAR, nullable: false}
+      plan_id: {type: VARCHAR, nullable: false}
+      coverage_month: {type: DATE, nullable: false}
+      coverage_start_date: {type: DATE, nullable: false}
+      coverage_end_date: {type: DATE, nullable: false}
+      coverage_status: {type: VARCHAR, nullable: false}
+
+  claim_header:
+    grain: one row per synthetic claim version
+    primary_key:
+      - claim_id
+    foreign_keys:
+      - columns: [member_id]
+        references: member(member_id)
+      - columns: [plan_id]
+        references: plan(plan_id)
+      - columns: [billing_provider_id]
+        references: provider(provider_id)
+      - columns: [rendering_provider_id]
+        references: provider(provider_id)
+      - columns: [prior_claim_id]
+        references: claim_header(claim_id)
+    columns:
+      claim_id: {type: VARCHAR, nullable: false}
+      logical_claim_id: {type: VARCHAR, nullable: false}
+      claim_version_number: {type: INTEGER, nullable: false}
+      prior_claim_id: {type: VARCHAR, nullable: true}
+      member_id: {type: VARCHAR, nullable: false}
+      plan_id: {type: VARCHAR, nullable: false}
+      billing_provider_id: {type: VARCHAR, nullable: false}
+      rendering_provider_id: {type: VARCHAR, nullable: true}
+      claim_type: {type: VARCHAR, nullable: false}
+      claim_status: {type: VARCHAR, nullable: false}
+      service_from_date: {type: DATE, nullable: false}
+      service_through_date: {type: DATE, nullable: false}
+      received_date: {type: DATE, nullable: false}
+      adjudication_date: {type: DATE, nullable: true}
+      principal_diagnosis_code: {type: VARCHAR, nullable: true}
+      total_charge_amount: {type: "DECIMAL(18,2)", nullable: false}
+      total_allowed_amount: {type: "DECIMAL(18,2)", nullable: false}
+      total_member_liability_amount: {type: "DECIMAL(18,2)", nullable: false}
+
+  claim_line:
+    grain: one row per synthetic claim version and line number
+    primary_key:
+      - claim_line_id
+    natural_key:
+      - claim_id
+      - line_number
+    foreign_keys:
+      - columns: [claim_id]
+        references: claim_header(claim_id)
+      - columns: [rendering_provider_id]
+        references: provider(provider_id)
+    columns:
+      claim_line_id: {type: VARCHAR, nullable: false}
+      claim_id: {type: VARCHAR, nullable: false}
+      line_number: {type: INTEGER, nullable: false}
+      rendering_provider_id: {type: VARCHAR, nullable: true}
+      service_code_system: {type: VARCHAR, nullable: false}
+      service_code: {type: VARCHAR, nullable: false}
+      service_date: {type: DATE, nullable: false}
+      place_of_service_code: {type: VARCHAR, nullable: true}
+      units: {type: "DECIMAL(18,4)", nullable: false}
+      charge_amount: {type: "DECIMAL(18,2)", nullable: false}
+      allowed_amount: {type: "DECIMAL(18,2)", nullable: false}
+      member_liability_amount: {type: "DECIMAL(18,2)", nullable: false}
+
+  adjudication_event:
+    grain: one row per claim adjudication state change
+    primary_key:
+      - adjudication_event_id
+    natural_key:
+      - claim_id
+      - event_sequence_number
+    foreign_keys:
+      - columns: [claim_id]
+        references: claim_header(claim_id)
+    columns:
+      adjudication_event_id: {type: VARCHAR, nullable: false}
+      claim_id: {type: VARCHAR, nullable: false}
+      event_sequence_number: {type: INTEGER, nullable: false}
+      event_timestamp: {type: TIMESTAMP, nullable: false}
+      prior_status: {type: VARCHAR, nullable: true}
+      resulting_status: {type: VARCHAR, nullable: false}
+      reason_code: {type: VARCHAR, nullable: true}
+
+  payment_transaction:
+    grain: one row per append-only claim financial transaction
+    primary_key:
+      - payment_transaction_id
+    foreign_keys:
+      - columns: [claim_id]
+        references: claim_header(claim_id)
+      - columns: [reverses_transaction_id]
+        references: payment_transaction(payment_transaction_id)
+    columns:
+      payment_transaction_id: {type: VARCHAR, nullable: false}
+      claim_id: {type: VARCHAR, nullable: false}
+      transaction_sequence_number: {type: INTEGER, nullable: false}
+      transaction_date: {type: DATE, nullable: false}
+      transaction_type: {type: VARCHAR, nullable: false}
+      signed_transaction_amount: {type: "DECIMAL(18,2)", nullable: false}
+      reverses_transaction_id: {type: VARCHAR, nullable: true}
+
+  claim_review:
+    grain: one row per claim review episode
+    primary_key:
+      - review_id
+    foreign_keys:
+      - columns: [claim_id]
+        references: claim_header(claim_id)
+    columns:
+      review_id: {type: VARCHAR, nullable: false}
+      claim_id: {type: VARCHAR, nullable: false}
+      review_status: {type: VARCHAR, nullable: false}
+      selected_date: {type: DATE, nullable: true}
+      completed_date: {type: DATE, nullable: true}
+      selection_reason: {type: VARCHAR, nullable: true}
+
+  denial_outcome:
+    grain: one row per denied synthetic claim version
+    primary_key:
+      - denial_id
+    foreign_keys:
+      - columns: [claim_id]
+        references: claim_header(claim_id)
+    columns:
+      denial_id: {type: VARCHAR, nullable: false}
+      claim_id: {type: VARCHAR, nullable: false}
+      denial_date: {type: DATE, nullable: false}
+      denial_reason_code: {type: VARCHAR, nullable: false}
+      denied_amount: {type: "DECIMAL(18,2)", nullable: false}
+
+  policy_assignment:
+    grain: one row per synthetic provider policy assignment period
+    primary_key:
+      - policy_assignment_id
+    foreign_keys:
+      - columns: [provider_id]
+        references: provider(provider_id)
+    columns:
+      policy_assignment_id: {type: VARCHAR, nullable: false}
+      provider_id: {type: VARCHAR, nullable: false}
+      policy_id: {type: VARCHAR, nullable: false}
+      treatment_group: {type: VARCHAR, nullable: false}
+      assignment_start_date: {type: DATE, nullable: false}
+      assignment_end_date: {type: DATE, nullable: true}
+
+  audit_outcome:
+    grain: one row per completed synthetic claim audit
+    primary_key:
+      - audit_id
+    foreign_keys:
+      - columns: [review_id]
+        references: claim_review(review_id)
+      - columns: [claim_id]
+        references: claim_header(claim_id)
+    columns:
+      audit_id: {type: VARCHAR, nullable: false}
+      review_id: {type: VARCHAR, nullable: false}
+      claim_id: {type: VARCHAR, nullable: false}
+      outcome: {type: VARCHAR, nullable: false}
+      confirmed_amount: {type: "DECIMAL(18,2)", nullable: false}
+      outcome_date: {type: DATE, nullable: false}
+
+  recovery_transaction:
+    grain: one row per append-only recovery transaction
+    primary_key:
+      - recovery_transaction_id
+    foreign_keys:
+      - columns: [audit_id]
+        references: audit_outcome(audit_id)
+      - columns: [claim_id]
+        references: claim_header(claim_id)
+    columns:
+      recovery_transaction_id: {type: VARCHAR, nullable: false}
+      audit_id: {type: VARCHAR, nullable: false}
+      claim_id: {type: VARCHAR, nullable: false}
+      recovery_date: {type: DATE, nullable: false}
+      recovered_amount: {type: "DECIMAL(18,2)", nullable: false}
+      recovery_status: {type: VARCHAR, nullable: false}

@@ -60,8 +60,9 @@ tests/        Automated tests
 
 ## Status
 
-Project foundation is being established. Data generation and the trusted claims
-layer are the next milestones.
+Repository governance and public-data ingestion are complete. Synthetic
+operational data generation is in progress, followed by the trusted claims
+layer.
 
 ## Safety and limitations
 

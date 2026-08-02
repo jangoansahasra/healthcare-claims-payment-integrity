@@ -788,3 +788,41 @@ Publishing the governed CMS Part D provider-drug Bronze family.
 
 Confirm M01 ingestion exit criteria and define whether drug-level Silver is
 required before beginning synthetic claim-lifecycle and Gold analytics work.
+
+## 2026-08-02 — Synthetic operational data contract
+
+### Completed
+
+- Closed M01 after all public-data ingestion exit criteria were satisfied.
+- Started M02 with a versioned contract for 14 synthetic operational tables.
+- Defined every table grain, primary key, foreign key, and core column type.
+- Aligned the contract to the existing deterministic seed, reporting window,
+  policy date, population sizes, currency, and partition controls.
+- Defined claim-version history and append-only adjudication, payment, and
+  recovery ledgers.
+- Defined explicit utilization, operations, finance, and eligibility date roles.
+- Added fixed-decimal financial conventions and eight reconciliation rules.
+- Added privacy, calibration, publication, and Git-storage controls.
+- Added structural tests for keys, references, dates, financial types, and
+  M02/M03 separation.
+
+### Decision
+
+M02 produces a clean operational baseline. Intentional payment-integrity
+anomalies and their ground truth remain the responsibility of M03.
+
+The existing 2025-01-01 through 2026-06-30 window is retained. It provides 12
+pre-policy months and six post-policy months around the 2026-01-01 simulated
+policy start date.
+
+Claim adjustments and resubmissions create linked versions; they never replace
+history. Net paid amount is derived from signed append-only transactions.
+
+### Current work
+
+Publishing the synthetic operational data contract and lifecycle documentation.
+
+### Next task
+
+Implement deterministic generation of synthetic dimensions, eligibility, clean
+claims, adjudication events, and financial transactions from this contract.
