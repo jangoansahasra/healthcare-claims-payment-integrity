@@ -10,6 +10,11 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Deterministic synthetic member, plan, provider, contract, eligibility, and
+  policy-assignment generator
+- Contract-derived Arrow schemas and atomic Zstandard Parquet output
+- Machine-readable synthetic dimension quality report and content hashes
+- Small synthetic-only demonstration samples for six operational tables
 - Versioned synthetic insurer operational-data contract covering 14 tables
 - Deterministic generation, identifier, lifecycle, and reconciliation controls
 - Append-only adjudication, payment, and recovery ledger semantics
