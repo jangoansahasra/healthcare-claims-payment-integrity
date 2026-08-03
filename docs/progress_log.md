@@ -995,3 +995,52 @@ Publishing the M03 anomaly-injection and ground-truth contracts.
 
 Implement deterministic baseline cloning, hash-manifest generation, and the
 first bounded group of record-level anomaly scenarios.
+
+## 2026-08-03 — Record-level anomaly injection
+
+### Completed
+
+- Cloned all 14 clean M02 Parquet tables into the isolated anomalous output root.
+- Generated a baseline manifest with row counts, content hashes, schema hashes,
+  and contract lineage.
+- Injected 50 instances each of PI001, PI002, PI005, and PI006.
+- Generated 200 anomaly-instance labels and 1,700 typed field-change records.
+- Added deterministic target ranking and prohibited overlap across all selected
+  claims.
+- Added atomic anomalous Parquet output, synthetic-only samples, and a
+  machine-readable quality report.
+- Added reduced end-to-end repeat-build tests covering output hashes and Parquet
+  bytes.
+
+### Validation
+
+- Record-level injection quality checks: 29 passed
+- Unique anomaly injections: 200
+- Disjoint target claims: 200
+- PI001 expected exposure: $44,821.43
+- PI002 expected exposure: $158,584.83
+- PI005 expected exposure: $500.00
+- PI006 expected exposure: $500.00
+- Baseline hash changes before or after injection: 0
+- Unintended PI005 header mismatches: 0
+- Unintended PI006 excess-payment conditions: 0
+- Full isolated anomalous output volume: approximately 6.4 MiB
+
+### Decision
+
+Duplicate-line scenarios update related synthetic header and payment totals so
+their intended condition remains duplicate behavior rather than an accidental
+reconciliation failure. PI005 and PI006 modify only their governed header or
+ledger field.
+
+Existing lines and non-targeted headers and payments remain equal to M02. All
+other tables retain their clean baseline Parquet bytes.
+
+### Current work
+
+Publishing the first controlled M03 record-level anomaly group.
+
+### Next task
+
+Implement PI003 and PI004 payment-ledger and temporal anomalies with isolated
+ground truth and baseline-preservation checks.

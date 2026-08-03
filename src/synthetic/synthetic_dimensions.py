@@ -294,6 +294,7 @@ def arrow_type(type_name: str) -> pa.DataType:
         "BOOLEAN": pa.bool_(),
         "DATE": pa.date32(),
         "INTEGER": pa.int32(),
+        "BIGINT": pa.int64(),
         "SMALLINT": pa.int16(),
         "TIMESTAMP": pa.timestamp("us"),
         "VARCHAR": pa.string(),
