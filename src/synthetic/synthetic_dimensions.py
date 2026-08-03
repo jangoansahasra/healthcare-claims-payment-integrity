@@ -5,6 +5,7 @@ import json
 import re
 from calendar import monthrange
 from datetime import date
+from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
@@ -331,10 +332,14 @@ def content_hash(rows: list[dict[str, Any]], columns: list[str]) -> str:
     """Hash canonical ordered row content independently of Parquet metadata."""
     digest = hashlib.sha256()
     for row in rows:
-        values = [
-            value.isoformat() if isinstance(value, date) else value
-            for value in (row[column] for column in columns)
-        ]
+        values = []
+        for value in (row[column] for column in columns):
+            if isinstance(value, date):
+                values.append(value.isoformat())
+            elif isinstance(value, Decimal):
+                values.append(format(value, "f"))
+            else:
+                values.append(value)
         digest.update(
             json.dumps(values, ensure_ascii=True, separators=(",", ":")).encode()
         )

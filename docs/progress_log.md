@@ -869,3 +869,47 @@ Publishing deterministic M02 dimensions and eligibility.
 
 Generate the clean claim header, claim line, adjudication event, denial, and
 payment-transaction baseline using these validated dimensions.
+
+## 2026-08-03 — Clean synthetic claim lifecycle
+
+### Completed
+
+- Generated 75,000 immutable claim-header versions across professional,
+  inpatient, outpatient, and pharmacy claim types.
+- Generated 177,206 claim lines, 150,000 adjudication events, 68,877 payment
+  transactions, and 6,123 ordinary denial outcomes.
+- Linked every claim to active service-month eligibility and an applicable
+  synthetic provider-plan contract.
+- Preserved fractional pharmacy units and fixed-decimal financial values.
+- Added linked second claim versions with stable identity and service fields.
+- Added atomic Parquet output, deterministic content hashes, committed
+  synthetic-only samples, and a machine-readable quality report.
+
+### Validation
+
+- Machine-readable quality checks: 92 passed
+- Claim types: 38,840 professional; 7,530 inpatient; 15,097 outpatient; 13,533 pharmacy
+- Claim statuses: 65,671 paid; 3,206 adjusted; 6,123 denied
+- Header/line financial reconciliation violations: 0
+- Payment reconciliation violations: 0
+- Eligibility and provider-contract violations: 0
+- Claim-version identity and sequencing violations: 0
+- Denied claims with positive payment: 0
+- Full generated synthetic Parquet volume: approximately 6.3 MiB
+
+### Decision
+
+Ordinary clean-baseline denials set allowed amount and member liability to zero
+and create no payment transaction. Version-two claims retain the member, plan,
+provider, claim type, service dates, and logical claim identity of version one.
+
+M02 continues to exclude intentional payment-integrity anomalies and labels.
+
+### Current work
+
+Publishing the clean synthetic claim lifecycle.
+
+### Next task
+
+Generate clean review, audit, and recovery workflow records, then close the M02
+operational baseline after end-to-end reconciliation.

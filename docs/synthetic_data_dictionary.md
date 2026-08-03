@@ -1,5 +1,9 @@
 # Synthetic Operational Data Dictionary
 
+Generation details are documented in
+[`synthetic_dimension_generation.md`](synthetic_dimension_generation.md) and
+[`synthetic_claim_generation.md`](synthetic_claim_generation.md).
+
 ## Purpose
 
 The M02 synthetic insurer dataset supplies operational records that unrestricted
