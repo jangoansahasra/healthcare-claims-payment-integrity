@@ -1,0 +1,56 @@
+generation_version: 1
+last_reviewed: "2026-08-03"
+contract: config/synthetic_data_contract.yml
+
+claim_type_distribution:
+  - value: professional
+    weight: 0.52
+    provider_specialties: [primary_care, cardiology, orthopedics, behavioral_health]
+    service_code_system: HCPCS
+    service_codes: [99213, 99214, 93000, 97110, 90834]
+    place_of_service_codes: [11, 22]
+    line_count: {minimum: 1, maximum: 4}
+    unit_limit: 4
+    charge_range: {minimum: 75, maximum: 650}
+    allowed_ratio: {minimum: 0.45, maximum: 0.82}
+  - value: inpatient
+    weight: 0.10
+    provider_specialties: [inpatient_facility]
+    service_code_system: MS-DRG
+    service_codes: [470, 291, 871, 392, 690]
+    place_of_service_codes: [21]
+    line_count: {minimum: 1, maximum: 3}
+    unit_limit: 1
+    charge_range: {minimum: 8000, maximum: 85000}
+    allowed_ratio: {minimum: 0.18, maximum: 0.55}
+  - value: outpatient
+    weight: 0.20
+    provider_specialties: [outpatient_facility]
+    service_code_system: APC
+    service_codes: [5012, 5072, 5112, 5523, 8011]
+    place_of_service_codes: [22]
+    line_count: {minimum: 1, maximum: 4}
+    unit_limit: 3
+    charge_range: {minimum: 300, maximum: 12000}
+    allowed_ratio: {minimum: 0.20, maximum: 0.68}
+  - value: pharmacy
+    weight: 0.18
+    provider_specialties: [pharmacy_prescriber]
+    service_code_system: NDC
+    service_codes: [00093010498, 00078150610, 00185010401, 00378459777, 00591027101]
+    place_of_service_codes: [01]
+    line_count: {minimum: 1, maximum: 3}
+    unit_limit: 90
+    fractional_units: true
+    charge_range: {minimum: 12, maximum: 1800}
+    allowed_ratio: {minimum: 0.55, maximum: 0.95}
+
+ordinary_denial_share: 0.08
+second_version_share: 0.05
+member_liability_ratio: {minimum: 0.05, maximum: 0.30}
+receipt_lag_days: {minimum: 1, maximum: 7}
+adjudication_lag_days: {minimum: 1, maximum: 14}
+payment_lag_days: {minimum: 1, maximum: 7}
+inpatient_stay_days: {minimum: 1, maximum: 8}
+denial_reason_codes: [ELIGIBILITY, NONCOVERED, AUTH_REQUIRED, DUPLICATE]
+diagnosis_codes: [I10, E119, M1711, J449, F329, Z0000]

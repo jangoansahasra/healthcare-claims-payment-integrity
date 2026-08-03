@@ -10,6 +10,10 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Deterministic clean synthetic claim lifecycle with 75,000 versioned headers
+- Contract-conforming claim lines, adjudication events, denials, and payments
+- Eligibility, contract, lifecycle, version, and financial reconciliation checks
+- Machine-readable claim-lifecycle quality report and synthetic-only samples
 - Deterministic synthetic member, plan, provider, contract, eligibility, and
   policy-assignment generator
 - Contract-derived Arrow schemas and atomic Zstandard Parquet output
