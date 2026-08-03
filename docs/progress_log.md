@@ -913,3 +913,44 @@ Publishing the clean synthetic claim lifecycle.
 
 Generate clean review, audit, and recovery workflow records, then close the M02
 operational baseline after end-to-end reconciliation.
+
+## 2026-08-03 — Synthetic review, audit, and recovery workflow
+
+### Completed
+
+- Generated 3,748 deterministic completed claim-review episodes.
+- Generated one clean audit outcome for every completed review.
+- Produced a fully typed zero-row recovery-transaction Parquet table.
+- Validated all 14 governed operational tables together.
+- Added canonical content hashes, synthetic-only samples, and a machine-readable
+  end-to-end quality report.
+- Marked M02 complete in the project plan while retaining the explicit M03
+  anomaly-injection boundary.
+
+### Validation
+
+- End-to-end machine-readable quality checks: 113 passed
+- Clean audit outcomes: 3,140 no issue; 608 inconclusive
+- Confirmed improper-payment amounts: 0
+- Recovery transactions: 0
+- Review, audit, key, relationship, and date violations: 0
+- Claim and payment reconciliation violations: 0
+- Governed operational tables with typed Parquet output: 14 of 14
+
+### Decision
+
+The clean baseline has no confirmed improper-payment findings, so its recovery
+ledger is intentionally empty. The zero-row Parquet retains its full contract
+schema for downstream compatibility.
+
+Review selection is operational activity, not an anomaly label. Confirmed
+overpayments, recoveries, and ground-truth labels remain isolated to M03.
+
+### Current work
+
+Publishing the final M02 operational workflow and completion evidence.
+
+### Next task
+
+Begin M03 controlled anomaly injection only after the M02 parent issue is
+reviewed and closed.

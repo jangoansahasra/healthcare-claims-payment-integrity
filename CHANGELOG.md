@@ -10,6 +10,9 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Deterministic clean claim-review and audit workflow
+- Fully typed zero-row recovery ledger preserving the M02 clean-baseline boundary
+- End-to-end quality validation and content hashes across all 14 operational tables
 - Deterministic clean synthetic claim lifecycle with 75,000 versioned headers
 - Contract-conforming claim lines, adjudication events, denials, and payments
 - Eligibility, contract, lifecycle, version, and financial reconciliation checks

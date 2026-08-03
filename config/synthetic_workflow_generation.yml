@@ -1,0 +1,21 @@
+generation_version: 1
+last_reviewed: "2026-08-03"
+contract: config/synthetic_data_contract.yml
+
+review_selection_share: 0.05
+selection_lag_days: {minimum: 1, maximum: 14}
+completion_lag_days: {minimum: 3, maximum: 30}
+selection_reasons:
+  - value: routine_quality_review
+    weight: 0.55
+  - value: random_post_payment_review
+    weight: 0.30
+  - value: documentation_validation
+    weight: 0.15
+clean_audit_outcomes:
+  - value: no_issue
+    weight: 0.85
+  - value: inconclusive
+    weight: 0.15
+confirmed_amount: 0.00
+generate_recovery_transactions: false
