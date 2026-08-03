@@ -60,9 +60,9 @@ tests/        Automated tests
 
 ## Status
 
-Repository governance and public-data ingestion are complete. Synthetic
-operational data generation is in progress, followed by the trusted claims
-layer.
+Repository governance, public-data ingestion, and clean synthetic operational
+data generation are complete. Controlled synthetic anomaly injection is in
+progress, followed by the trusted claims layer.
 
 ## Safety and limitations
 
