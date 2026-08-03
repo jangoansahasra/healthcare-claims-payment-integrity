@@ -2,7 +2,9 @@
 
 Generation details are documented in
 [`synthetic_dimension_generation.md`](synthetic_dimension_generation.md) and
-[`synthetic_claim_generation.md`](synthetic_claim_generation.md).
+[`synthetic_claim_generation.md`](synthetic_claim_generation.md). Review and
+audit semantics are documented in
+[`synthetic_review_audit_workflow.md`](synthetic_review_audit_workflow.md).
 
 ## Purpose
 
