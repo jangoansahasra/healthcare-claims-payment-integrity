@@ -1044,3 +1044,49 @@ Publishing the first controlled M03 record-level anomaly group.
 
 Implement PI003 and PI004 payment-ledger and temporal anomalies with isolated
 ground truth and baseline-preservation checks.
+
+## 2026-08-03 — Payment-ledger and temporal anomaly injection
+
+### Completed
+
+- Added a composable stage that deterministically rebuilds the prior anomaly
+  group before applying new mutations.
+- Injected 50 PI003 unresolved-payment-after-reversal scenarios.
+- Injected 50 PI004 impossible-payment-date scenarios.
+- Appended 100 payment transactions as full reversal and unresolved repayment
+  pairs.
+- Preserved the existing 200 labels and extended field lineage from 1,700 to
+  2,450 rows.
+- Added dedicated PI003/PI004 samples and a machine-readable quality report.
+- Added reduced end-to-end repeat-build tests for combined ground truth and
+  anomalous payment Parquet bytes.
+
+### Validation
+
+- Ledger-temporal quality checks: 26 passed
+- Total controlled injections: 300
+- PI003 expected exposure: $95,057.12
+- PI004 expected exposure: $0.00
+- Invalid reversal references or amounts: 0
+- Nonmonotonic PI003 transaction sequences: 0
+- PI004 payment-amount changes: 0
+- Prior or cross-scenario target overlaps: 0
+- Clean M02 baseline hash changes: 0
+
+### Decision
+
+PI003 exposure is the positive repayment remaining after a full reversal. PI004
+is a zero-dollar integrity condition because impossible payment timing does not
+alone establish an overpayment amount.
+
+The composed builder writes its internal prerequisite report beneath the ignored
+anomalous output root, avoiding unrelated changes to committed stage evidence.
+
+### Current work
+
+Publishing the PI003 and PI004 anomaly extension.
+
+### Next task
+
+Implement provider-amount and provider-period anomalies PI007 and PI008 with
+governed peer groups and time-series baselines.
