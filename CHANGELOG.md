@@ -10,6 +10,10 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Deterministic PI007 provider-amount and PI008 provider-period utilization
+  anomaly injection
+- Specialty/service-system peer thresholds, historical utilization baselines,
+  complete lifecycle insertion lineage, and exposure reconciliation
 - Composable PI003 reversal-ledger and PI004 impossible-payment-date injection
 - Append-only reversal linkage, temporal lineage, and unresolved-exposure checks
 - Immutable M02 baseline cloning and 14-table hash-manifest generation

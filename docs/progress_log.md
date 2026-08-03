@@ -1090,3 +1090,47 @@ Publishing the PI003 and PI004 anomaly extension.
 
 Implement provider-amount and provider-period anomalies PI007 and PI008 with
 governed peer groups and time-series baselines.
+
+## 2026-08-03 — Provider amount and utilization anomaly injection
+
+### Completed
+
+- Injected 50 PI007 provider amount outliers above governed
+  specialty/service-system peer thresholds.
+- Injected 50 PI008 provider-period utilization surges using complete copied
+  claim, line, adjudication, and payment lifecycles.
+- Preserved all 300 prior labels and prohibited overlap with prior targets.
+- Added complete before-and-after lineage for 143,257 field changes.
+- Added dedicated samples, a machine-readable quality report, and focused
+  deterministic unit and composed-build tests.
+
+### Validation
+
+- Provider-pattern quality checks: 25 passed
+- Total controlled injections: 400
+- PI007 expected exposure: $339,437.25
+- PI008 expected exposure: $14,195,769.67
+- Invalid eligibility or provider-contract relationships: 0
+- Header-line or payment reconciliation violations: 0
+- Duplicate generated identifiers: 0
+- Cross-scenario target overlaps: 0
+- Clean M02 baseline hash changes: 0
+
+### Decision
+
+PI007 raises allowed amounts beyond 1.25 times the observed peer maximum while
+preserving the original charge ratio, member-liability relationship, header
+totals, and payment reconciliation. PI008 measures historical utilization only
+from pre-policy months and inserts positively paid, contract-valid lifecycle
+copies until the provider-period count strictly exceeds three times its
+historical monthly average.
+
+### Current work
+
+Publishing the PI007 and PI008 provider-pattern anomaly extension.
+
+### Next task
+
+Implement PI009 excessive procedure repetition and PI010
+diagnosis-procedure incompatibility, then complete M03 end-to-end ground-truth
+validation.
