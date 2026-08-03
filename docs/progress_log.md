@@ -954,3 +954,44 @@ Publishing the final M02 operational workflow and completion evidence.
 
 Begin M03 controlled anomaly injection only after the M02 parent issue is
 reviewed and closed.
+
+## 2026-08-03 — Controlled anomaly and ground-truth contract
+
+### Completed
+
+- Started M03 after closing the fully reconciled M02 clean baseline.
+- Defined explicit injection semantics for PI001 through PI010.
+- Defined anomaly-injection, field-change, and baseline-hash-manifest grains,
+  keys, columns, and identifier formats.
+- Defined deterministic eligibility, exclusion, mutation, and financial-
+  exposure semantics for every scenario.
+- Defined claim, line, payment-transaction, provider, and provider-period label
+  scopes.
+- Prohibited overlap by default and governed the two permitted multi-label
+  combinations with required overlap groups.
+- Added privacy, clean-baseline immutability, output-isolation, and publication
+  controls.
+- Added automated contract, registry-alignment, lineage, baseline-hash,
+  identifier, overlap, privacy, and storage-policy tests.
+
+### Decision
+
+Anomaly generation writes to `data/generated/synthetic_anomalous/` and never
+edits the clean M02 files. Baseline content hashes are verified before and after
+injection.
+
+Every mutation retains typed before-and-after lineage. Expected exposure may be
+zero for suspicious integrity conditions that do not establish a deterministic
+overpayment amount.
+
+M03 ground truth is synthetic evaluation truth, not evidence of fraud or a
+finding against a real provider.
+
+### Current work
+
+Publishing the M03 anomaly-injection and ground-truth contracts.
+
+### Next task
+
+Implement deterministic baseline cloning, hash-manifest generation, and the
+first bounded group of record-level anomaly scenarios.

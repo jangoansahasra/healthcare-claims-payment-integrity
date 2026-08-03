@@ -10,6 +10,9 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Versioned PI001–PI010 anomaly-injection scenario contracts
+- Ground-truth, field-change lineage, and clean-baseline hash-manifest schemas
+- Deterministic target-selection, overlap, exposure, privacy, and storage controls
 - Deterministic clean claim-review and audit workflow
 - Fully typed zero-row recovery ledger preserving the M02 clean-baseline boundary
 - End-to-end quality validation and content hashes across all 14 operational tables

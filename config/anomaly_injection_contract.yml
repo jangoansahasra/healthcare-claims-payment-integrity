@@ -1,0 +1,246 @@
+contract_version: 1
+last_reviewed: "2026-08-03"
+
+dataset:
+  name: synthetic_payment_integrity_anomalies
+  role: controlled_anomalous_evaluation_dataset
+  deterministic_seed: 20260724
+  clean_baseline_root: data/generated/synthetic
+  anomalous_output_root: data/generated/synthetic_anomalous
+  publishable_sample_root: data/sample/synthetic_anomalies
+  baseline_quality_report: data/metadata/quality/synthetic_operational_baseline.json
+  rule_registry: config/payment_integrity_rules.yml
+  output_format: parquet
+  compression: zstd
+
+governance:
+  contains_real_beneficiary_identifiers: false
+  contains_protected_health_information: false
+  contains_real_provider_identities: false
+  synthetic_records_only: true
+  prohibit_real_provider_anomaly_attribution: true
+  preserve_clean_baseline_files: true
+  verify_baseline_hashes_before_and_after: true
+  default_overlap_policy: prohibited
+  ground_truth_committed_to_git: false
+  full_output_committed_to_git: false
+  publishable_samples_are_synthetic_only: true
+
+identifier_formats:
+  injection_id: "^INJ[0-9]{10}$"
+  claim_id: "^CLM[0-9]{10}V[0-9]{2}$"
+  claim_line_id: "^LIN[0-9]{12}$"
+  payment_transaction_id: "^PAY[0-9]{12}$"
+  provider_id: "^PRV[0-9]{6}$"
+
+allowed_values:
+  injection_method: [row_insertion, field_mutation, ledger_mutation, temporal_pattern, provider_period_pattern]
+  label_scope: [claim, claim_line, payment_transaction, provider, provider_period]
+  field_operation: [insert, update]
+  governed_value_type: [VARCHAR, DATE, INTEGER, DECIMAL_18_2, DECIMAL_18_4, NULL]
+
+overlap_policy:
+  default: prohibited
+  allow_configured_multi_label: true
+  require_overlap_group: true
+  allowed_rule_combinations:
+    - [PI001, PI006]
+    - [PI007, PI008]
+  selection_precedence: [PI004, PI003, PI005, PI006, PI001, PI002, PI009, PI010, PI007, PI008]
+
+tables:
+  anomaly_injection:
+    grain: one row per controlled anomaly instance
+    primary_key: [injection_id]
+    columns:
+      injection_id: {type: VARCHAR, nullable: false}
+      rule_id: {type: VARCHAR, nullable: false}
+      target_table: {type: VARCHAR, nullable: false}
+      target_record_id: {type: VARCHAR, nullable: false}
+      claim_id: {type: VARCHAR, nullable: true}
+      claim_line_id: {type: VARCHAR, nullable: true}
+      payment_transaction_id: {type: VARCHAR, nullable: true}
+      provider_id: {type: VARCHAR, nullable: true}
+      reporting_period: {type: DATE, nullable: true}
+      injection_method: {type: VARCHAR, nullable: false}
+      label_scope: {type: VARCHAR, nullable: false}
+      overlap_group: {type: VARCHAR, nullable: true}
+      expected_financial_exposure: {type: "DECIMAL(18,2)", nullable: false}
+      deterministic_seed: {type: INTEGER, nullable: false}
+      contract_version: {type: INTEGER, nullable: false}
+      synthetic_record: {type: BOOLEAN, nullable: false}
+
+  anomaly_field_change:
+    grain: one row per inserted or modified target field
+    primary_key: [injection_id, change_sequence_number]
+    foreign_keys:
+      - columns: [injection_id]
+        references: anomaly_injection(injection_id)
+    columns:
+      injection_id: {type: VARCHAR, nullable: false}
+      change_sequence_number: {type: INTEGER, nullable: false}
+      field_operation: {type: VARCHAR, nullable: false}
+      target_table: {type: VARCHAR, nullable: false}
+      target_record_id: {type: VARCHAR, nullable: false}
+      column_name: {type: VARCHAR, nullable: false}
+      governed_value_type: {type: VARCHAR, nullable: false}
+      before_value: {type: VARCHAR, nullable: true}
+      after_value: {type: VARCHAR, nullable: true}
+      expected_contract_violation: {type: BOOLEAN, nullable: false}
+
+  baseline_hash_manifest:
+    grain: one row per clean M02 operational table
+    primary_key: [table_name]
+    columns:
+      table_name: {type: VARCHAR, nullable: false}
+      row_count: {type: BIGINT, nullable: false}
+      content_sha256: {type: VARCHAR, nullable: false}
+      schema_sha256: {type: VARCHAR, nullable: false}
+      baseline_contract_version: {type: INTEGER, nullable: false}
+
+scenario_defaults:
+  enabled: true
+  target_count: 50
+  allow_overlap: false
+  retain_before_after_lineage: true
+  unchanged_fields_must_match_baseline: true
+
+scenarios:
+  - rule_id: PI001
+    name: Exact duplicate claim line
+    target_table: claim_line
+    target_grain: claim_line_id
+    injection_method: row_insertion
+    label_scope: claim_line
+    eligibility:
+      claim_status: [paid, adjusted]
+      minimum_source_lines: 1
+    exclusions: [previously_selected_line, denied_claim]
+    mutations: [insert_exact_copy_with_new_claim_line_id_and_line_number]
+    expected_violation: duplicate_service_signature_within_claim
+    financial_exposure_formula: inserted_line.allowed_amount - inserted_line.member_liability_amount
+
+  - rule_id: PI002
+    name: Near-duplicate claim line
+    target_table: claim_line
+    target_grain: claim_line_id
+    injection_method: row_insertion
+    label_scope: claim_line
+    eligibility:
+      claim_status: [paid, adjusted]
+      minimum_source_lines: 1
+    exclusions: [previously_selected_line, denied_claim]
+    mutations: [copy_line_with_new_id_and_small_units_or_service_date_change]
+    expected_violation: near_duplicate_service_signature_within_claim
+    financial_exposure_formula: inserted_line.allowed_amount - inserted_line.member_liability_amount
+
+  - rule_id: PI003
+    name: Unresolved payment after reversal
+    target_table: payment_transaction
+    target_grain: payment_transaction_id
+    injection_method: ledger_mutation
+    label_scope: payment_transaction
+    eligibility:
+      transaction_type: [payment]
+      minimum_signed_amount: 0.01
+    exclusions: [denied_claim, previously_reversed_transaction]
+    mutations: [insert_full_reversal, insert_unresolved_positive_repayment]
+    expected_violation: positive_net_payment_after_full_reversal
+    financial_exposure_formula: unresolved_repayment.signed_transaction_amount
+
+  - rule_id: PI004
+    name: Impossible service and payment dates
+    target_table: payment_transaction
+    target_grain: payment_transaction_id
+    injection_method: field_mutation
+    label_scope: payment_transaction
+    eligibility:
+      transaction_type: [payment]
+    exclusions: [previously_selected_transaction]
+    mutations: [set_transaction_date_before_claim_service_from_date]
+    expected_violation: payment_precedes_service
+    financial_exposure_formula: "0.00"
+
+  - rule_id: PI005
+    name: Claim header and line total mismatch
+    target_table: claim_header
+    target_grain: claim_id
+    injection_method: field_mutation
+    label_scope: claim
+    eligibility:
+      claim_status: [paid, adjusted]
+      minimum_total_allowed_amount: 0.01
+    exclusions: [previously_selected_claim]
+    mutations: [increase_header_total_allowed_without_line_change]
+    expected_violation: header_allowed_not_equal_line_allowed_sum
+    financial_exposure_formula: anomalous_header.total_allowed_amount - baseline_header.total_allowed_amount
+
+  - rule_id: PI006
+    name: Paid amount exceeds allowed amount
+    target_table: payment_transaction
+    target_grain: payment_transaction_id
+    injection_method: ledger_mutation
+    label_scope: claim
+    eligibility:
+      claim_status: [paid, adjusted]
+      minimum_total_allowed_amount: 0.01
+    exclusions: [denied_claim]
+    mutations: [increase_positive_payment_above_allowed_less_member_liability]
+    expected_violation: net_paid_exceeds_allowed_less_member_liability
+    financial_exposure_formula: anomalous_net_paid - baseline_net_paid
+
+  - rule_id: PI007
+    name: Unusual provider billing amount
+    target_table: claim_line
+    target_grain: claim_line_id
+    injection_method: field_mutation
+    label_scope: provider
+    eligibility:
+      claim_status: [paid, adjusted]
+      minimum_provider_peer_count: 11
+    exclusions: [facility_and_professional_peer_mix, previously_selected_line]
+    mutations: [multiply_charge_and_allowed_by_governed_outlier_factor]
+    expected_violation: provider_amount_above_specialty_peer_threshold
+    financial_exposure_formula: anomalous_line.allowed_amount - baseline_line.allowed_amount
+
+  - rule_id: PI008
+    name: Sudden provider utilization increase
+    target_table: claim_header
+    target_grain: provider_id_reporting_period
+    injection_method: provider_period_pattern
+    label_scope: provider_period
+    eligibility:
+      minimum_baseline_months: 6
+      minimum_baseline_claims: 11
+    exclusions: [reporting_period_before_policy_start, previously_selected_provider_period]
+    mutations: [insert_claims_and_lines_above_provider_baseline_volume_factor]
+    expected_violation: provider_month_volume_above_historical_threshold
+    financial_exposure_formula: inserted_claim_net_paid_sum
+
+  - rule_id: PI009
+    name: Repeated procedure above configurable limit
+    target_table: claim_line
+    target_grain: claim_id_service_code
+    injection_method: row_insertion
+    label_scope: claim
+    eligibility:
+      claim_type: [professional, outpatient]
+      minimum_source_lines: 1
+    exclusions: [denied_claim, service_code_without_configured_limit]
+    mutations: [insert_repeated_service_lines_above_configured_limit]
+    expected_violation: service_code_frequency_above_claim_limit
+    financial_exposure_formula: inserted_line_net_paid_sum
+
+  - rule_id: PI010
+    name: Inconsistent diagnosis and procedure category
+    target_table: claim_header
+    target_grain: claim_id
+    injection_method: field_mutation
+    label_scope: claim
+    eligibility:
+      claim_status: [paid, adjusted]
+      claim_type: [professional, inpatient, outpatient]
+    exclusions: [diagnosis_or_procedure_without_category_mapping, previously_selected_claim]
+    mutations: [replace_principal_diagnosis_with_incompatible_governed_category]
+    expected_violation: diagnosis_procedure_category_mismatch
+    financial_exposure_formula: "0.00"
