@@ -62,3 +62,6 @@ remain outside Git; only small synthetic demonstration samples may be committed.
 
 M03 labels are designed for later rule-engine recall, precision, and
 false-positive measurement. They do not establish fraud.
+
+The first implemented scenario group is documented in
+[`record_level_anomaly_injection.md`](record_level_anomaly_injection.md).

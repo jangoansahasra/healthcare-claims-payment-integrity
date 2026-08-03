@@ -10,6 +10,9 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Immutable M02 baseline cloning and 14-table hash-manifest generation
+- Deterministic PI001, PI002, PI005, and PI006 record-level anomaly injection
+- Field-level mutation lineage, exposure reconciliation, and isolation validation
 - Versioned PI001–PI010 anomaly-injection scenario contracts
 - Ground-truth, field-change lineage, and clean-baseline hash-manifest schemas
 - Deterministic target-selection, overlap, exposure, privacy, and storage controls

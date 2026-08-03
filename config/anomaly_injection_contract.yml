@@ -37,7 +37,7 @@ allowed_values:
   injection_method: [row_insertion, field_mutation, ledger_mutation, temporal_pattern, provider_period_pattern]
   label_scope: [claim, claim_line, payment_transaction, provider, provider_period]
   field_operation: [insert, update]
-  governed_value_type: [VARCHAR, DATE, INTEGER, DECIMAL_18_2, DECIMAL_18_4, NULL]
+  governed_value_type: [VARCHAR, DATE, INTEGER, BOOLEAN, DECIMAL_18_2, DECIMAL_18_4, NULL]
 
 overlap_policy:
   default: prohibited

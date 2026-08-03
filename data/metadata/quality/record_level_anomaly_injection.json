@@ -1,0 +1,70 @@
+{
+  "all_checks_passed": true,
+  "anomaly_contract_sha256": "f33c16d99bf80fef55482e363e22cc7cb580bd50b03bce2fd65d6ac06c7f9405",
+  "anomaly_contract_version": 1,
+  "baseline_contract_sha256": "cb03fadd60365c2b9d46ad43661c4ad0ff6edf09ddd3a8507e71dd0975e7b47b",
+  "baseline_contract_version": 1,
+  "baseline_table_count": 14,
+  "checks": {
+    "all_injections_have_lineage": true,
+    "anomaly_field_change_rows": true,
+    "anomaly_field_change_schema": true,
+    "anomaly_injection_rows": true,
+    "anomaly_injection_schema": true,
+    "baseline_content_hashes": true,
+    "baseline_hash_manifest_rows": true,
+    "baseline_hash_manifest_schema": true,
+    "baseline_report_passed": true,
+    "baseline_table_count": true,
+    "baseline_unchanged_after_injection": true,
+    "disjoint_claim_targets": true,
+    "duplicate_line_delta": true,
+    "existing_lines_equal_baseline": true,
+    "header_line_reconciliation_isolated": true,
+    "initial_clone_byte_identity": true,
+    "nontarget_headers_equal_baseline": true,
+    "nontarget_payments_equal_baseline": true,
+    "payment_reconciliation_isolated": true,
+    "pi001_exact_duplicates": true,
+    "pi002_near_duplicates": true,
+    "pi005_mismatch_count": true,
+    "pi006_excess_count": true,
+    "positive_exposure": true,
+    "rule_counts": true,
+    "synthetic_targets_only": true,
+    "unchanged_clone_bytes": true,
+    "unique_injection_ids": true,
+    "untouched_tables_equal_baseline": true
+  },
+  "deterministic_seed": 20260724,
+  "field_change_count": 1700,
+  "generated_at_utc": "2026-08-03T17:12:44.550041+00:00",
+  "ground_truth": {
+    "anomaly_field_change": {
+      "content_sha256": "beeea8cea8ce7bb9b2ce75e94e8ef13b9edf8ff31e9fbbb44591ca488a3b8e5c",
+      "row_count": 1700
+    },
+    "anomaly_injection": {
+      "content_sha256": "6dc49f9f1aac25227e9518252a0e717956d4c953f2cb8fae3486701041595ec6",
+      "row_count": 200
+    },
+    "baseline_hash_manifest": {
+      "content_sha256": "b70bf9c70dc3da5df7f3e0732daefc6ab9edcf6a419c02f11165737fcbb039a2",
+      "row_count": 14
+    }
+  },
+  "injection_count": 200,
+  "report_version": 1,
+  "rule_counts": {
+    "PI001": 50,
+    "PI002": 50,
+    "PI005": 50,
+    "PI006": 50
+  },
+  "rule_expected_financial_exposure": {
+    "PI001": "44821.43",
+    "PI002": "158584.83",
+    "PI005": "500.00",
+    "PI006": "500.00"
+  }
+}
