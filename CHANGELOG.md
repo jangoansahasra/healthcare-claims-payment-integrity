@@ -10,6 +10,8 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Composable PI003 reversal-ledger and PI004 impossible-payment-date injection
+- Append-only reversal linkage, temporal lineage, and unresolved-exposure checks
 - Immutable M02 baseline cloning and 14-table hash-manifest generation
 - Deterministic PI001, PI002, PI005, and PI006 record-level anomaly injection
 - Field-level mutation lineage, exposure reconciliation, and isolation validation

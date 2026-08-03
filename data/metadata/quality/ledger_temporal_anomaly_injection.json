@@ -1,0 +1,72 @@
+{
+  "all_checks_passed": true,
+  "anomaly_contract_version": 1,
+  "baseline_contract_version": 1,
+  "checks": {
+    "all_injections_have_lineage": true,
+    "anomaly_field_change_rows": true,
+    "anomaly_field_change_schema": true,
+    "anomaly_injection_rows": true,
+    "anomaly_injection_schema": true,
+    "baseline_hash_manifest_rows": true,
+    "baseline_hash_manifest_schema": true,
+    "baseline_unchanged": true,
+    "no_prior_target_overlap": true,
+    "nonpayment_tables_unchanged": true,
+    "nontarget_payments_unchanged": true,
+    "payment_row_delta": true,
+    "pi003_count": true,
+    "pi003_pi004_disjoint": true,
+    "pi003_reversal_count": true,
+    "pi003_reversal_references_valid": true,
+    "pi003_sequences_monotonic": true,
+    "pi003_unresolved_positive_net": true,
+    "pi004_amounts_unchanged": true,
+    "pi004_count": true,
+    "pi004_dates_impossible": true,
+    "pi004_zero_exposure": true,
+    "prior_rule_counts_preserved": true,
+    "total_injection_count": true,
+    "unique_injection_ids": true,
+    "unique_payment_ids": true
+  },
+  "deterministic_seed": 20260724,
+  "field_change_count": 2450,
+  "generated_at_utc": "2026-08-03T17:28:53.966842+00:00",
+  "ground_truth": {
+    "anomaly_field_change": {
+      "content_sha256": "3e96b142ee49bb0172b84252bd16d7824c7b3fe96429c379c0968dbed3bc1a9d",
+      "row_count": 2450
+    },
+    "anomaly_injection": {
+      "content_sha256": "34bbed84e2aa974461ea152827cd9c9f45f409e99f5ef3ef61ac3c92281e5f56",
+      "row_count": 300
+    },
+    "baseline_hash_manifest": {
+      "content_sha256": "b70bf9c70dc3da5df7f3e0732daefc6ab9edcf6a419c02f11165737fcbb039a2",
+      "row_count": 14
+    }
+  },
+  "injection_count": 300,
+  "payment_transaction": {
+    "content_sha256": "41299a97917ab86f22420315416b9a3f5fa39f2aa92fb0e8369d1dfda1d0d264",
+    "row_count": 68977
+  },
+  "report_version": 1,
+  "rule_counts": {
+    "PI001": 50,
+    "PI002": 50,
+    "PI003": 50,
+    "PI004": 50,
+    "PI005": 50,
+    "PI006": 50
+  },
+  "rule_expected_financial_exposure": {
+    "PI001": "44821.43",
+    "PI002": "158584.83",
+    "PI003": "95057.12",
+    "PI004": "0.00",
+    "PI005": "500.00",
+    "PI006": "500.00"
+  }
+}
