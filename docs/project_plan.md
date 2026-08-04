@@ -27,13 +27,13 @@ auditors an explainable investigation queue.
 | M01 | Public-data ingestion | Complete | CMS datasets downloaded reproducibly and source metadata recorded |
 | M02 | Synthetic operational data | Complete | All 14 governed operational tables generated and validated |
 | M03 | Anomaly injection | Complete | Ten anomaly types injected with complete ground truth |
-| M04 | Trusted claims model | Not started | Dimensional model built, tested, and reconciled |
+| M04 | Trusted claims model | In progress | Dimensional model built, tested, and reconciled |
 | M05 | Payment-integrity engine | Not started | Explainable rules evaluated against ground truth |
 | M06 | Cost intelligence | Not started | Cost, utilization, concentration, and early-warning metrics validated |
 | M07 | Policy-impact analysis | Not started | Difference-in-differences estimate and diagnostics completed |
 | M08 | SAS reconciliation | Not started | Key totals independently reproduced in SAS |
 | M09 | Fabric and Azure | Not started | Curated data and pipelines demonstrated in the cloud |
-| M10 | Power BI | Not started | Six report pages and documented semantic model completed |
+| M10 | BI dashboards | Not started | Six-page Looker Studio report, compact Power BI validation report, and documented semantic model completed |
 | M11 | Portfolio delivery | Not started | README, results, screenshots, presentation, and demo completed |
 
 ## Success measures

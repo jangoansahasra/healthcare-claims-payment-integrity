@@ -62,7 +62,8 @@ tests/        Automated tests
 
 Repository governance, public-data ingestion, clean synthetic operational data
 generation, and controlled synthetic anomaly injection are complete. The next
-milestone builds the trusted claims layer.
+milestone builds the trusted claims layer; its versioned dimensional contract
+is now defined.
 
 ## Safety and limitations
 

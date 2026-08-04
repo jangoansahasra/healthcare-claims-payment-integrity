@@ -1179,3 +1179,38 @@ Publishing the final PI009/PI010 increment and M03 completion evidence.
 
 Begin M04 by building the reconciled trusted claims dimensional model. M05 can
 then execute the ten explainable rules against the complete M03 ground truth.
+
+## 2026-08-04 — Trusted claims dimensional contract
+
+### Completed
+
+- Defined five conformed dimensions, five analytical facts, and two governed
+  bridges for the M04 trusted model.
+- Preserved every claim version while requiring exactly one deterministic
+  current version per logical claim.
+- Defined stable integer surrogate keys without discarding synthetic business
+  identifiers.
+- Assigned explicit service, adjudication, payment, review, coverage, and
+  policy date roles.
+- Separated M03 ground truth into an evaluation-only bridge prohibited from
+  ordinary model features.
+- Added curated-output Git exclusion and automated contract, key, type,
+  reconciliation, privacy, and storage-control tests.
+- Recorded Looker Studio as the primary portfolio dashboard and Power BI as a
+  compact independent KPI-validation deliverable.
+
+### Decision
+
+Default financial reporting uses current claim versions only; all versions
+remain available for operational history. Net paid is always derived from the
+append-only signed transaction ledger. Claim anomaly truth is joined only for
+evaluation and never embedded in the ordinary claim fact.
+
+### Current work
+
+Publishing the versioned trusted-claims contract.
+
+### Next task
+
+Generate and reconcile the twelve trusted dimensional tables as deterministic
+typed Parquet with machine-readable quality evidence and synthetic samples.

@@ -44,3 +44,11 @@ members contribute. This is a portfolio control, not a universal legal rule.
 
 Public ICD-10-CM and HCPCS Level II sources may be used. Proprietary CPT
 descriptions will not be redistributed.
+
+## DL-009: Portfolio visualization tools
+
+Looker Studio is the primary six-page portfolio dashboard because it supports
+browser-based authoring on macOS and straightforward public demonstration. A
+compact Power BI report will independently reproduce selected executive KPIs
+to retain Microsoft Fabric and Power BI interoperability evidence without
+making Windows-only authoring the critical path.
