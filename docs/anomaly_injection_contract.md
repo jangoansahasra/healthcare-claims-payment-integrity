@@ -69,3 +69,5 @@ The composed payment stage is documented in
 [`ledger_temporal_anomaly_injection.md`](ledger_temporal_anomaly_injection.md).
 The provider-pattern stage is documented in
 [`provider_pattern_anomaly_injection.md`](provider_pattern_anomaly_injection.md).
+The final procedure and clinical stage is documented in
+[`procedure_clinical_anomaly_injection.md`](procedure_clinical_anomaly_injection.md).

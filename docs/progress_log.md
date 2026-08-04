@@ -1134,3 +1134,48 @@ Publishing the PI007 and PI008 provider-pattern anomaly extension.
 Implement PI009 excessive procedure repetition and PI010
 diagnosis-procedure incompatibility, then complete M03 end-to-end ground-truth
 validation.
+
+## 2026-08-04 — Procedure-frequency and clinical-compatibility anomalies
+
+### Completed
+
+- Added explicit claim/service-code repetition ceilings for professional and
+  outpatient services.
+- Added governed diagnosis and procedure category mappings with deterministic
+  incompatible replacement codes.
+- Injected 50 PI009 excessive procedure-frequency anomalies while preserving
+  claim and payment reconciliation.
+- Injected 50 PI010 diagnosis-procedure incompatibilities without changing
+  service, adjudication, payment, or exposure values.
+- Preserved all 400 prior labels and prohibited overlap with prior targets.
+- Completed the M03 ten-rule dataset with 500 labels and 145,547 field-lineage
+  rows.
+
+### Validation
+
+- Final-stage quality checks: 24 passed
+- PI009 expected exposure: $78,308.43
+- PI010 expected exposure: $0.00
+- Invalid repetition-limit outcomes: 0
+- Invalid diagnosis-procedure compatibility outcomes: 0
+- Header-line or payment reconciliation violations: 0
+- Missing mutation lineage: 0
+- Cross-scenario overlaps: 0
+- Clean M02 baseline hash changes: 0
+- Deterministic focused and composed-build tests passed
+
+### Decision
+
+PI009 exposure equals the inserted repeated lines' net paid amounts. PI010 is a
+zero-dollar integrity condition because clinical incompatibility alone does not
+establish an overpayment. Clinical mappings are deliberately small, explicit,
+synthetic evaluation controls and are not production coverage policy.
+
+### Current work
+
+Publishing the final PI009/PI010 increment and M03 completion evidence.
+
+### Next task
+
+Begin M04 by building the reconciled trusted claims dimensional model. M05 can
+then execute the ten explainable rules against the complete M03 ground truth.
