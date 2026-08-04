@@ -235,6 +235,20 @@ scenarios:
       minimum_source_lines: 1
     exclusions: [denied_claim, service_code_without_configured_limit]
     mutations: [insert_repeated_service_lines_above_configured_limit]
+    injection_parameters:
+      service_code_frequency_limits:
+        HCPCS:
+          "99213": 4
+          "99214": 4
+          "93000": 2
+          "97110": 4
+          "90834": 2
+        APC:
+          "5012": 3
+          "5072": 3
+          "5112": 3
+          "5523": 3
+          "8011": 3
     expected_violation: service_code_frequency_above_claim_limit
     financial_exposure_formula: inserted_line_net_paid_sum
 
@@ -249,5 +263,46 @@ scenarios:
       claim_type: [professional, inpatient, outpatient]
     exclusions: [diagnosis_or_procedure_without_category_mapping, previously_selected_claim]
     mutations: [replace_principal_diagnosis_with_incompatible_governed_category]
+    injection_parameters:
+      diagnosis_categories:
+        cardiovascular: [I10]
+        endocrine: [E119]
+        musculoskeletal: [M1711]
+        respiratory: [J449]
+        behavioral: [F329]
+        preventive: [Z0000]
+      procedure_categories:
+        HCPCS:
+          "99213": evaluation_management
+          "99214": evaluation_management
+          "93000": cardiovascular
+          "97110": musculoskeletal
+          "90834": behavioral
+        MS-DRG:
+          "470": musculoskeletal
+          "291": cardiovascular
+          "871": respiratory
+          "392": evaluation_management
+          "690": endocrine
+        APC:
+          "5012": evaluation_management
+          "5072": cardiovascular
+          "5112": musculoskeletal
+          "5523": respiratory
+          "8011": behavioral
+      compatible_diagnosis_categories:
+        evaluation_management: [cardiovascular, endocrine, musculoskeletal, respiratory, behavioral, preventive]
+        cardiovascular: [cardiovascular]
+        endocrine: [endocrine]
+        musculoskeletal: [musculoskeletal]
+        respiratory: [respiratory]
+        behavioral: [behavioral]
+      incompatible_replacement_codes:
+        evaluation_management: null
+        cardiovascular: M1711
+        endocrine: J449
+        musculoskeletal: F329
+        respiratory: E119
+        behavioral: I10
     expected_violation: diagnosis_procedure_category_mismatch
     financial_exposure_formula: "0.00"

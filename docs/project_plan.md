@@ -26,7 +26,7 @@ auditors an explainable investigation queue.
 | M00 | Repository and governance | Complete | GitHub, tracking, CI, and contribution workflow established |
 | M01 | Public-data ingestion | Complete | CMS datasets downloaded reproducibly and source metadata recorded |
 | M02 | Synthetic operational data | Complete | All 14 governed operational tables generated and validated |
-| M03 | Anomaly injection | In progress | Ten anomaly types injected with complete ground truth |
+| M03 | Anomaly injection | Complete | Ten anomaly types injected with complete ground truth |
 | M04 | Trusted claims model | Not started | Dimensional model built, tested, and reconciled |
 | M05 | Payment-integrity engine | Not started | Explainable rules evaluated against ground truth |
 | M06 | Cost intelligence | Not started | Cost, utilization, concentration, and early-warning metrics validated |

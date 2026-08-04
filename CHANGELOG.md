@@ -10,6 +10,10 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Deterministic PI009 procedure-frequency and PI010 diagnosis-procedure
+  incompatibility anomaly injection
+- Complete ten-rule M03 ground truth with governed clinical mappings,
+  repetition ceilings, isolation checks, and reproducible Parquet output
 - Deterministic PI007 provider-amount and PI008 provider-period utilization
   anomaly injection
 - Specialty/service-system peer thresholds, historical utilization baselines,
