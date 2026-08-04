@@ -1,0 +1,317 @@
+contract_version: 1
+last_reviewed: "2026-08-04"
+
+dataset:
+  name: trusted_claims_analytics
+  milestone: M04
+  role: reconciled_dimensional_model
+  operational_contract: config/synthetic_data_contract.yml
+  anomaly_contract: config/anomaly_injection_contract.yml
+  clean_source_root: data/generated/synthetic
+  anomalous_source_root: data/generated/synthetic_anomalous
+  trusted_output_root: data/curated/trusted_claims
+  quality_report: data/metadata/quality/trusted_claims_model.json
+  publishable_sample_root: data/sample/trusted_claims
+  default_source_variant: anomalous_evaluation
+  deterministic_seed: 20260724
+  output_format: parquet
+  compression: zstd
+  full_output_committed_to_git: false
+
+governance:
+  synthetic_records_only: true
+  contains_protected_health_information: false
+  contains_real_member_identifiers: false
+  contains_real_provider_identities: false
+  preserve_source_business_identifiers: true
+  ground_truth_is_evaluation_only: true
+  prohibit_ground_truth_as_model_feature: true
+  prohibit_real_provider_anomaly_attribution: true
+  publishable_samples_are_synthetic_only: true
+
+key_policy:
+  surrogate_key_type: BIGINT
+  deterministic_method: stable_row_number_over_sorted_business_key
+  start_value: 1
+  prohibit_hash_collision_risk: true
+  retain_business_keys: true
+  unknown_dimension_member: false
+  fail_on_unresolved_foreign_key: true
+
+claim_version_policy:
+  preserve_all_versions: true
+  current_version_rule: maximum_claim_version_number_per_logical_claim_id
+  exactly_one_current_version: true
+  retain_prior_claim_relationship: true
+  default_financial_reporting_scope: current_versions_only
+  historical_operations_scope: all_versions
+  prohibit_cross_version_amount_summing_without_explicit_scope: true
+
+date_roles:
+  service_date: claim_header.service_from_date
+  service_through_date: claim_header.service_through_date
+  received_date: claim_header.received_date
+  adjudication_date: claim_header.adjudication_date
+  transaction_date: payment_transaction.transaction_date
+  review_selected_date: claim_review.selected_date
+  review_completed_date: claim_review.completed_date
+  coverage_month: membership_month.coverage_month
+  policy_start_date: policy_assignment.assignment_start_date
+
+measure_policy:
+  currency: USD
+  monetary_type: "DECIMAL(18,2)"
+  units_type: "DECIMAL(18,4)"
+  claim_net_paid_formula: SUM(payment_transaction.signed_transaction_amount)
+  claim_line_plan_paid_formula: allowed_amount - member_liability_amount
+  claim_line_totals_reconcile_to_header: true
+  payment_ledger_reconciles_to_claim_net_paid: true
+  denied_claim_positive_net_paid_prohibited: true
+  reversal_sign: negative
+  payment_sign: positive
+  adjustment_sign: signed
+  anomaly_exposure_is_evaluation_measure: true
+
+tables:
+  dim_member:
+    grain: one row per synthetic member
+    primary_key: [member_key]
+    natural_key: [member_id]
+    columns:
+      member_key: {type: BIGINT, nullable: false}
+      member_id: {type: VARCHAR, nullable: false}
+      birth_year: {type: SMALLINT, nullable: false}
+      sex_code: {type: VARCHAR, nullable: false}
+      state_code: {type: VARCHAR, nullable: false}
+      synthetic_record: {type: BOOLEAN, nullable: false}
+
+  dim_provider:
+    grain: one row per synthetic provider
+    primary_key: [provider_key]
+    natural_key: [provider_id]
+    columns:
+      provider_key: {type: BIGINT, nullable: false}
+      provider_id: {type: VARCHAR, nullable: false}
+      provider_entity_type: {type: VARCHAR, nullable: false}
+      specialty_group: {type: VARCHAR, nullable: false}
+      state_code: {type: VARCHAR, nullable: false}
+      calibration_source_id: {type: VARCHAR, nullable: false}
+      calibration_version: {type: VARCHAR, nullable: false}
+      synthetic_record: {type: BOOLEAN, nullable: false}
+
+  dim_plan:
+    grain: one row per synthetic benefit plan
+    primary_key: [plan_key]
+    natural_key: [plan_id]
+    columns:
+      plan_key: {type: BIGINT, nullable: false}
+      plan_id: {type: VARCHAR, nullable: false}
+      plan_type: {type: VARCHAR, nullable: false}
+      product_line: {type: VARCHAR, nullable: false}
+      effective_date: {type: DATE, nullable: false}
+      termination_date: {type: DATE, nullable: true}
+
+  dim_date:
+    grain: one row per calendar date in the governed reporting window
+    primary_key: [date_key]
+    natural_key: [calendar_date]
+    columns:
+      date_key: {type: INTEGER, nullable: false}
+      calendar_date: {type: DATE, nullable: false}
+      calendar_year: {type: SMALLINT, nullable: false}
+      calendar_quarter: {type: TINYINT, nullable: false}
+      calendar_month: {type: TINYINT, nullable: false}
+      month_start_date: {type: DATE, nullable: false}
+      year_month: {type: VARCHAR, nullable: false}
+      policy_period: {type: VARCHAR, nullable: false}
+
+  dim_service:
+    grain: one row per service-code system and service code
+    primary_key: [service_key]
+    natural_key: [service_code_system, service_code]
+    columns:
+      service_key: {type: BIGINT, nullable: false}
+      service_code_system: {type: VARCHAR, nullable: false}
+      service_code: {type: VARCHAR, nullable: false}
+      service_category: {type: VARCHAR, nullable: false}
+
+  fact_membership_month:
+    grain: one row per member, plan, and coverage month
+    primary_key: [membership_month_key]
+    natural_key: [member_id, plan_id, coverage_month]
+    foreign_keys:
+      - {columns: [member_key], references: "dim_member(member_key)"}
+      - {columns: [plan_key], references: "dim_plan(plan_key)"}
+      - {columns: [coverage_month_date_key], references: "dim_date(date_key)"}
+    columns:
+      membership_month_key: {type: BIGINT, nullable: false}
+      member_key: {type: BIGINT, nullable: false}
+      plan_key: {type: BIGINT, nullable: false}
+      coverage_month_date_key: {type: INTEGER, nullable: false}
+      member_id: {type: VARCHAR, nullable: false}
+      plan_id: {type: VARCHAR, nullable: false}
+      coverage_month: {type: DATE, nullable: false}
+      coverage_start_date: {type: DATE, nullable: false}
+      coverage_end_date: {type: DATE, nullable: false}
+      coverage_status: {type: VARCHAR, nullable: false}
+
+  fact_claim:
+    grain: one row per synthetic claim version
+    primary_key: [claim_key]
+    natural_key: [claim_id]
+    foreign_keys:
+      - {columns: [member_key], references: "dim_member(member_key)"}
+      - {columns: [plan_key], references: "dim_plan(plan_key)"}
+      - {columns: [billing_provider_key], references: "dim_provider(provider_key)"}
+      - {columns: [rendering_provider_key], references: "dim_provider(provider_key)"}
+      - {columns: [service_date_key], references: "dim_date(date_key)"}
+      - {columns: [service_through_date_key], references: "dim_date(date_key)"}
+      - {columns: [received_date_key], references: "dim_date(date_key)"}
+      - {columns: [adjudication_date_key], references: "dim_date(date_key)"}
+      - {columns: [prior_claim_key], references: "fact_claim(claim_key)"}
+    columns:
+      claim_key: {type: BIGINT, nullable: false}
+      prior_claim_key: {type: BIGINT, nullable: true}
+      member_key: {type: BIGINT, nullable: false}
+      plan_key: {type: BIGINT, nullable: false}
+      billing_provider_key: {type: BIGINT, nullable: false}
+      rendering_provider_key: {type: BIGINT, nullable: true}
+      service_date_key: {type: INTEGER, nullable: false}
+      service_through_date_key: {type: INTEGER, nullable: false}
+      received_date_key: {type: INTEGER, nullable: false}
+      adjudication_date_key: {type: INTEGER, nullable: true}
+      claim_id: {type: VARCHAR, nullable: false}
+      logical_claim_id: {type: VARCHAR, nullable: false}
+      claim_version_number: {type: INTEGER, nullable: false}
+      prior_claim_id: {type: VARCHAR, nullable: true}
+      claim_type: {type: VARCHAR, nullable: false}
+      claim_status: {type: VARCHAR, nullable: false}
+      principal_diagnosis_code: {type: VARCHAR, nullable: true}
+      is_current_version: {type: BOOLEAN, nullable: false}
+      total_charge_amount: {type: "DECIMAL(18,2)", nullable: false}
+      total_allowed_amount: {type: "DECIMAL(18,2)", nullable: false}
+      total_member_liability_amount: {type: "DECIMAL(18,2)", nullable: false}
+      net_paid_amount: {type: "DECIMAL(18,2)", nullable: false}
+      line_count: {type: INTEGER, nullable: false}
+      source_variant: {type: VARCHAR, nullable: false}
+
+  fact_claim_line:
+    grain: one row per synthetic claim version and line number
+    primary_key: [claim_line_key]
+    natural_key: [claim_line_id]
+    foreign_keys:
+      - {columns: [claim_key], references: "fact_claim(claim_key)"}
+      - {columns: [rendering_provider_key], references: "dim_provider(provider_key)"}
+      - {columns: [service_key], references: "dim_service(service_key)"}
+      - {columns: [service_date_key], references: "dim_date(date_key)"}
+    columns:
+      claim_line_key: {type: BIGINT, nullable: false}
+      claim_key: {type: BIGINT, nullable: false}
+      rendering_provider_key: {type: BIGINT, nullable: true}
+      service_key: {type: BIGINT, nullable: false}
+      service_date_key: {type: INTEGER, nullable: false}
+      claim_line_id: {type: VARCHAR, nullable: false}
+      claim_id: {type: VARCHAR, nullable: false}
+      line_number: {type: INTEGER, nullable: false}
+      place_of_service_code: {type: VARCHAR, nullable: true}
+      units: {type: "DECIMAL(18,4)", nullable: false}
+      charge_amount: {type: "DECIMAL(18,2)", nullable: false}
+      allowed_amount: {type: "DECIMAL(18,2)", nullable: false}
+      member_liability_amount: {type: "DECIMAL(18,2)", nullable: false}
+      plan_paid_amount: {type: "DECIMAL(18,2)", nullable: false}
+      source_variant: {type: VARCHAR, nullable: false}
+
+  fact_payment_transaction:
+    grain: one row per append-only claim financial transaction
+    primary_key: [payment_transaction_key]
+    natural_key: [payment_transaction_id]
+    foreign_keys:
+      - {columns: [claim_key], references: "fact_claim(claim_key)"}
+      - {columns: [transaction_date_key], references: "dim_date(date_key)"}
+      - {columns: [reverses_transaction_key], references: "fact_payment_transaction(payment_transaction_key)"}
+    columns:
+      payment_transaction_key: {type: BIGINT, nullable: false}
+      claim_key: {type: BIGINT, nullable: false}
+      transaction_date_key: {type: INTEGER, nullable: false}
+      reverses_transaction_key: {type: BIGINT, nullable: true}
+      payment_transaction_id: {type: VARCHAR, nullable: false}
+      claim_id: {type: VARCHAR, nullable: false}
+      transaction_sequence_number: {type: INTEGER, nullable: false}
+      transaction_type: {type: VARCHAR, nullable: false}
+      signed_transaction_amount: {type: "DECIMAL(18,2)", nullable: false}
+      reverses_transaction_id: {type: VARCHAR, nullable: true}
+      source_variant: {type: VARCHAR, nullable: false}
+
+  fact_claim_review:
+    grain: one row per claim review episode
+    primary_key: [review_key]
+    natural_key: [review_id]
+    foreign_keys:
+      - {columns: [claim_key], references: "fact_claim(claim_key)"}
+      - {columns: [selected_date_key], references: "dim_date(date_key)"}
+      - {columns: [completed_date_key], references: "dim_date(date_key)"}
+    columns:
+      review_key: {type: BIGINT, nullable: false}
+      claim_key: {type: BIGINT, nullable: false}
+      selected_date_key: {type: INTEGER, nullable: true}
+      completed_date_key: {type: INTEGER, nullable: true}
+      review_id: {type: VARCHAR, nullable: false}
+      claim_id: {type: VARCHAR, nullable: false}
+      review_status: {type: VARCHAR, nullable: false}
+      selection_reason: {type: VARCHAR, nullable: true}
+      audit_outcome: {type: VARCHAR, nullable: true}
+      confirmed_amount: {type: "DECIMAL(18,2)", nullable: false}
+      source_variant: {type: VARCHAR, nullable: false}
+
+  bridge_provider_policy:
+    grain: one row per provider policy assignment period
+    primary_key: [provider_policy_key]
+    natural_key: [policy_assignment_id]
+    foreign_keys:
+      - {columns: [provider_key], references: "dim_provider(provider_key)"}
+      - {columns: [assignment_start_date_key], references: "dim_date(date_key)"}
+      - {columns: [assignment_end_date_key], references: "dim_date(date_key)"}
+    columns:
+      provider_policy_key: {type: BIGINT, nullable: false}
+      provider_key: {type: BIGINT, nullable: false}
+      assignment_start_date_key: {type: INTEGER, nullable: false}
+      assignment_end_date_key: {type: INTEGER, nullable: true}
+      policy_assignment_id: {type: VARCHAR, nullable: false}
+      policy_id: {type: VARCHAR, nullable: false}
+      treatment_group: {type: VARCHAR, nullable: false}
+
+  bridge_claim_anomaly:
+    grain: one row per controlled anomaly injection
+    primary_key: [anomaly_injection_key]
+    natural_key: [injection_id]
+    foreign_keys:
+      - {columns: [claim_key], references: "fact_claim(claim_key)"}
+      - {columns: [claim_line_key], references: "fact_claim_line(claim_line_key)"}
+      - {columns: [payment_transaction_key], references: "fact_payment_transaction(payment_transaction_key)"}
+      - {columns: [reporting_period_date_key], references: "dim_date(date_key)"}
+    columns:
+      anomaly_injection_key: {type: BIGINT, nullable: false}
+      claim_key: {type: BIGINT, nullable: true}
+      claim_line_key: {type: BIGINT, nullable: true}
+      payment_transaction_key: {type: BIGINT, nullable: true}
+      reporting_period_date_key: {type: INTEGER, nullable: true}
+      injection_id: {type: VARCHAR, nullable: false}
+      rule_id: {type: VARCHAR, nullable: false}
+      label_scope: {type: VARCHAR, nullable: false}
+      target_table: {type: VARCHAR, nullable: false}
+      target_record_id: {type: VARCHAR, nullable: false}
+      provider_id: {type: VARCHAR, nullable: true}
+      expected_financial_exposure: {type: "DECIMAL(18,2)", nullable: false}
+      overlap_group: {type: VARCHAR, nullable: true}
+      evaluation_only: {type: BOOLEAN, nullable: false}
+
+reconciliation_checks:
+  - {check_id: TRU001, expression: one current fact_claim row per logical_claim_id}
+  - {check_id: TRU002, expression: fact_claim totals equal grouped fact_claim_line totals}
+  - {check_id: TRU003, expression: fact_claim.net_paid_amount equals grouped payment ledger sum}
+  - {check_id: TRU004, expression: denied current claims have nonpositive net paid amount}
+  - {check_id: TRU005, expression: every claim service date resolves to covered membership month}
+  - {check_id: TRU006, expression: all fact and bridge foreign keys resolve}
+  - {check_id: TRU007, expression: all 500 M03 injections resolve in bridge_claim_anomaly}
+  - {check_id: TRU008, expression: bridge_claim_anomaly is excluded from ordinary feature sets}
+  - {check_id: TRU009, expression: stable repeated builds produce identical content hashes}

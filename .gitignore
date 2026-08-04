@@ -13,9 +13,11 @@ data/raw/*
 data/interim/*
 data/processed/*
 data/generated/*
+data/curated/*
 !data/raw/.gitkeep
 !data/interim/.gitkeep
 !data/processed/.gitkeep
+!data/curated/.gitkeep
 !data/sample/**
 
 # Local databases and BI artifacts.

@@ -10,6 +10,10 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Versioned M04 trusted-claims dimensional contract with deterministic
+  surrogate keys, explicit claim-version scope, and reconciled fact measures
+- Evaluation-only anomaly bridge, conformed date roles, and curated-output
+  privacy and publication controls
 - Deterministic PI009 procedure-frequency and PI010 diagnosis-procedure
   incompatibility anomaly injection
 - Complete ten-rule M03 ground truth with governed clinical mappings,
