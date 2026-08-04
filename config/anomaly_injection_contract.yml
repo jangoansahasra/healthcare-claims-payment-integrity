@@ -200,6 +200,9 @@ scenarios:
       minimum_provider_peer_count: 11
     exclusions: [facility_and_professional_peer_mix, previously_selected_line]
     mutations: [multiply_charge_and_allowed_by_governed_outlier_factor]
+    injection_parameters:
+      peer_threshold_multiplier: 1.25
+      minimum_peer_count: 11
     expected_violation: provider_amount_above_specialty_peer_threshold
     financial_exposure_formula: anomalous_line.allowed_amount - baseline_line.allowed_amount
 
@@ -214,6 +217,10 @@ scenarios:
       minimum_baseline_claims: 11
     exclusions: [reporting_period_before_policy_start, previously_selected_provider_period]
     mutations: [insert_claims_and_lines_above_provider_baseline_volume_factor]
+    injection_parameters:
+      utilization_surge_factor: 3.0
+      minimum_historical_months: 6
+      minimum_historical_claims: 11
     expected_violation: provider_month_volume_above_historical_threshold
     financial_exposure_formula: inserted_claim_net_paid_sum
 

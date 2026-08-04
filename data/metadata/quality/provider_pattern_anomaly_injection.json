@@ -1,0 +1,89 @@
+{
+  "all_checks_passed": true,
+  "anomaly_contract_version": 1,
+  "baseline_contract_version": 1,
+  "changed_tables": {
+    "adjudication_event": {
+      "content_sha256": "830f2cdaaae7e4bec7c5f8d35e2414b7ff9de1e6d63aa754f817417da77edc3b",
+      "row_count": 154190
+    },
+    "claim_header": {
+      "content_sha256": "37631896180aa28a1c5e1ca4c335f95bc21260d1bc04856f97f7ba380f01868b",
+      "row_count": 77095
+    },
+    "claim_line": {
+      "content_sha256": "36967f0c42128ebad7908e274224d1dcabb9f77f364b7ffbb97486fbb3e12f09",
+      "row_count": 182202
+    },
+    "payment_transaction": {
+      "content_sha256": "d93d25ff750863f48306a27f2525eec0d21726602f1f3b2b7facc07332b0f843",
+      "row_count": 71072
+    }
+  },
+  "checks": {
+    "all_identifiers_unique": true,
+    "all_injections_have_lineage": true,
+    "anomaly_field_change_rows": true,
+    "anomaly_field_change_schema": true,
+    "anomaly_injection_rows": true,
+    "anomaly_injection_schema": true,
+    "baseline_hash_manifest_rows": true,
+    "baseline_hash_manifest_schema": true,
+    "baseline_unchanged": true,
+    "existing_lines_except_pi007_unchanged": true,
+    "pi007_above_peer_threshold": true,
+    "pi007_count": true,
+    "pi007_pi008_disjoint": true,
+    "pi007_reconciliation": true,
+    "pi008_contracts_valid": true,
+    "pi008_count": true,
+    "pi008_eligibility_valid": true,
+    "pi008_inserted_claims_nonempty": true,
+    "pi008_reconciliation": true,
+    "pi008_surges_exceed_factor": true,
+    "positive_provider_exposure": true,
+    "prior_counts_preserved": true,
+    "provider_targets_avoid_prior_claims": true,
+    "total_injection_count": true,
+    "unchanged_tables_preserved": true
+  },
+  "deterministic_seed": 20260724,
+  "field_change_count": 143257,
+  "generated_at_utc": "2026-08-03T18:00:33.571785+00:00",
+  "ground_truth": {
+    "anomaly_field_change": {
+      "content_sha256": "a43f36b171915914ef88b593e3e64d71dcbf00915ec4284246d023905041cd70",
+      "row_count": 143257
+    },
+    "anomaly_injection": {
+      "content_sha256": "7cd0030d427aeec48bf9db94f7bb4eb8cdf9842d913dfb873ae5eea59ae61b19",
+      "row_count": 400
+    },
+    "baseline_hash_manifest": {
+      "content_sha256": "b70bf9c70dc3da5df7f3e0732daefc6ab9edcf6a419c02f11165737fcbb039a2",
+      "row_count": 14
+    }
+  },
+  "injection_count": 400,
+  "report_version": 1,
+  "rule_counts": {
+    "PI001": 50,
+    "PI002": 50,
+    "PI003": 50,
+    "PI004": 50,
+    "PI005": 50,
+    "PI006": 50,
+    "PI007": 50,
+    "PI008": 50
+  },
+  "rule_expected_financial_exposure": {
+    "PI001": "44821.43",
+    "PI002": "158584.83",
+    "PI003": "95057.12",
+    "PI004": "0.00",
+    "PI005": "500.00",
+    "PI006": "500.00",
+    "PI007": "339437.25",
+    "PI008": "14195769.67"
+  }
+}

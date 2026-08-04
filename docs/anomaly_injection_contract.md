@@ -67,3 +67,5 @@ The first implemented scenario group is documented in
 [`record_level_anomaly_injection.md`](record_level_anomaly_injection.md).
 The composed payment stage is documented in
 [`ledger_temporal_anomaly_injection.md`](ledger_temporal_anomaly_injection.md).
+The provider-pattern stage is documented in
+[`provider_pattern_anomaly_injection.md`](provider_pattern_anomaly_injection.md).
