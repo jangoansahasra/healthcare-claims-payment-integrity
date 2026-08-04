@@ -1214,3 +1214,48 @@ Publishing the versioned trusted-claims contract.
 
 Generate and reconcile the twelve trusted dimensional tables as deterministic
 typed Parquet with machine-readable quality evidence and synthetic samples.
+
+## 2026-08-04 — Trusted claims dimensional model generation
+
+### Completed
+
+- Generated all twelve contract-conforming trusted dimensions, facts, and
+  bridges from the isolated PI001–PI010 anomalous dataset.
+- Assigned deterministic surrogate keys while preserving source business IDs.
+- Retained 77,095 claim versions and marked 73,606 deterministic current
+  versions.
+- Derived ledger-based claim net paid and line-based plan-paid measures.
+- Resolved 182,348 claim lines, 71,072 payment transactions, 3,748 reviews, 200
+  policy assignments, and all 500 anomaly labels.
+- Published a machine-readable quality report and twelve 25-row synthetic-only
+  samples while keeping full curated Parquet outside Git.
+
+### Validation
+
+- Trusted tables: 12
+- Machine-readable quality checks: 67 passed
+- Primary or natural-key violations: 0
+- Unresolved dimension, fact, self-reference, date, or bridge foreign keys: 0
+- Logical claims without exactly one current version: 0
+- Ungoverned header-line reconciliation mismatches: 0
+- Ledger net-paid reconciliation violations: 0
+- Current denied claims with positive payment: 0
+- Service-date eligibility violations: 0
+- Missing anomaly labels: 0
+- Full trusted output volume: approximately 8.7 MiB
+
+### Decision
+
+The trusted model uses the isolated anomalous evaluation variant so M05 can
+measure rule performance, but labels remain available only through the
+evaluation bridge. Ordinary claim and line facts contain no rule IDs or ground
+truth exposure.
+
+### Current work
+
+Publishing the reconciled M04 dimensional model and completion evidence.
+
+### Next task
+
+Begin M05 with versioned explainable rule-output and evaluation contracts, then
+run the ten governed rules against the trusted model and 500-label ground truth.

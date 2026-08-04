@@ -62,8 +62,8 @@ tests/        Automated tests
 
 Repository governance, public-data ingestion, clean synthetic operational data
 generation, and controlled synthetic anomaly injection are complete. The next
-milestone builds the trusted claims layer; its versioned dimensional contract
-is now defined.
+trusted claims dimensional layer is also complete. The next milestone builds
+the explainable payment-integrity engine against the 500-label ground truth.
 
 ## Safety and limitations
 

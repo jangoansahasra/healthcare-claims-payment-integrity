@@ -10,6 +10,10 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Deterministic twelve-table trusted claims generator with typed Zstandard
+  Parquet, stable surrogate keys, and synthetic demonstration samples
+- End-to-end current-version, financial, eligibility, foreign-key, policy, and
+  500-label anomaly-bridge reconciliation evidence
 - Versioned M04 trusted-claims dimensional contract with deterministic
   surrogate keys, explicit claim-version scope, and reconciled fact measures
 - Evaluation-only anomaly bridge, conformed date roles, and curated-output

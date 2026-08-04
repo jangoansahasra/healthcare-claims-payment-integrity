@@ -55,6 +55,7 @@ date_roles:
   transaction_date: payment_transaction.transaction_date
   review_selected_date: claim_review.selected_date
   review_completed_date: claim_review.completed_date
+  audit_outcome_date: audit_outcome.outcome_date
   coverage_month: membership_month.coverage_month
   policy_start_date: policy_assignment.assignment_start_date
 
@@ -250,11 +251,13 @@ tables:
       - {columns: [claim_key], references: "fact_claim(claim_key)"}
       - {columns: [selected_date_key], references: "dim_date(date_key)"}
       - {columns: [completed_date_key], references: "dim_date(date_key)"}
+      - {columns: [audit_outcome_date_key], references: "dim_date(date_key)"}
     columns:
       review_key: {type: BIGINT, nullable: false}
       claim_key: {type: BIGINT, nullable: false}
       selected_date_key: {type: INTEGER, nullable: true}
       completed_date_key: {type: INTEGER, nullable: true}
+      audit_outcome_date_key: {type: INTEGER, nullable: true}
       review_id: {type: VARCHAR, nullable: false}
       claim_id: {type: VARCHAR, nullable: false}
       review_status: {type: VARCHAR, nullable: false}
