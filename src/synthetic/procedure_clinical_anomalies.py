@@ -41,6 +41,7 @@ def inject_procedure_clinical_anomalies(
     excluded_claims = {row["claim_id"] for row in existing_injections}
     injections = [dict(row) for row in existing_injections]
     changes = [dict(row) for row in existing_changes]
+    change_sequences = Counter(row["injection_id"] for row in changes)
     next_injection = max(int(row["injection_id"][3:]) for row in injections) + 1
     next_line = max(int(row["claim_line_id"][3:]) for row in lines) + 1
 
@@ -54,7 +55,8 @@ def inject_procedure_clinical_anomalies(
         after: Any,
         violation: bool,
     ) -> None:
-        sequence = 1 + sum(row["injection_id"] == injection_id for row in changes)
+        change_sequences[injection_id] += 1
+        sequence = change_sequences[injection_id]
         value = after if after is not None else before
         changes.append(
             {
@@ -293,6 +295,7 @@ def validate_procedure_clinical_anomalies(
     headers = {row["claim_id"]: row for row in extended["claim_header"]}
     before_headers = {row["claim_id"]: row for row in before_stage["claim_header"]}
     before_lines = {row["claim_line_id"]: row for row in before_stage["claim_line"]}
+    extended_lines = {row["claim_line_id"]: row for row in extended["claim_line"]}
     lines_by_claim: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for row in extended["claim_line"]:
         lines_by_claim[row["claim_id"]].append(row)
@@ -417,13 +420,7 @@ def validate_procedure_clinical_anomalies(
             for claim_id in pi010_claims
         ),
         "preexisting_lines_unchanged": all(
-            row
-            == next(
-                item
-                for item in extended["claim_line"]
-                if item["claim_line_id"] == line_id
-            )
-            for line_id, row in before_lines.items()
+            row == extended_lines[line_id] for line_id, row in before_lines.items()
         ),
         "unchanged_tables_preserved": all(
             extended[name] == before_stage[name]

@@ -10,6 +10,10 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Clean-runner CI fixture generation for ignored synthetic, anomalous, and
+  trusted Parquet inputs used by M05 integration tests
+- Linear-time anomaly lineage sequencing and preexisting-line validation for
+  practical reproducible CI execution
 - Deterministic PI001–PI010 rules engine with frozen explainable findings,
   sequenced evidence, isolated ground-truth matching, and evaluation metrics
 - Five typed M05 Parquet outputs, synthetic samples, machine-readable quality

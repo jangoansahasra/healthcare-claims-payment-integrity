@@ -16,6 +16,8 @@ jobs:
   validate:
     name: Lint and test
     runs-on: ubuntu-latest
+    env:
+      TRUSTED_CLAIMS_TEST_ROOT: ${{ runner.temp }}/trusted-claims
 
     steps:
       - name: Check out repository
@@ -32,6 +34,32 @@ jobs:
 
       - name: Run Ruff
         run: python -m ruff check .
+
+      - name: Build ignored integration fixtures
+        run: |
+          python -m src.synthetic.build_synthetic_dimensions \
+            --output-root "${{ runner.temp }}/synthetic" \
+            --sample-root "${{ runner.temp }}/samples" \
+            --quality-report "${{ runner.temp }}/dimensions.json"
+          python -m src.synthetic.build_synthetic_claims \
+            --dimension-root "${{ runner.temp }}/synthetic" \
+            --output-root "${{ runner.temp }}/synthetic" \
+            --sample-root "${{ runner.temp }}/samples" \
+            --quality-report "${{ runner.temp }}/claims.json"
+          python -m src.synthetic.build_synthetic_workflow \
+            --data-root "${{ runner.temp }}/synthetic" \
+            --sample-root "${{ runner.temp }}/samples" \
+            --quality-report "${{ runner.temp }}/workflow.json"
+          python -m src.synthetic.build_procedure_clinical_anomalies \
+            --baseline-root "${{ runner.temp }}/synthetic" \
+            --output-root "${{ runner.temp }}/synthetic-anomalous" \
+            --sample-root "${{ runner.temp }}/samples" \
+            --quality-report "${{ runner.temp }}/anomalies.json"
+          python -m src.transformation.build_trusted_claims \
+            --source-root "${{ runner.temp }}/synthetic-anomalous" \
+            --output-root "${{ runner.temp }}/trusted-claims" \
+            --sample-root "${{ runner.temp }}/samples" \
+            --quality-report "${{ runner.temp }}/trusted.json"
 
       - name: Run tests
         run: python -m pytest
