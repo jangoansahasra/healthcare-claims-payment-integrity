@@ -16,8 +16,6 @@ jobs:
   validate:
     name: Lint and test
     runs-on: ubuntu-latest
-    env:
-      TRUSTED_CLAIMS_TEST_ROOT: ${{ runner.temp }}/trusted-claims
 
     steps:
       - name: Check out repository
@@ -62,4 +60,6 @@ jobs:
             --quality-report "${{ runner.temp }}/trusted.json"
 
       - name: Run tests
+        env:
+          TRUSTED_CLAIMS_TEST_ROOT: ${{ runner.temp }}/trusted-claims
         run: python -m pytest
