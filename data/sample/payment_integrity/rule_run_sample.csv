@@ -1,0 +1,2 @@
+run_id,contract_version,source_variant,deterministic_seed,run_status,enabled_rule_count,finding_count,total_amount_at_risk,findings_frozen,ground_truth_accessed_during_detection
+M05-EVAL-20260724,1,anomalous_evaluation,20260724,completed,10,500,20178428.64,true,false

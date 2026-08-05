@@ -35,6 +35,8 @@ execution_policy:
   enabled_rule_ids: [PI001, PI002, PI003, PI004, PI005, PI006, PI007, PI008, PI009, PI010]
   finding_natural_key: [run_id, rule_id, label_scope, target_record_id]
   one_finding_per_rule_and_target: true
+  maximum_findings_per_rule: 50
+  ranking_policy: rule_signal_strength_descending_then_target_id
   preserve_all_supporting_evidence: true
   current_claim_scope_required_unless_rule_declares_history: true
   amount_at_risk_currency: USD

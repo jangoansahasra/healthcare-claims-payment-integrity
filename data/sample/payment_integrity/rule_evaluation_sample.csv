@@ -1,0 +1,12 @@
+evaluation_id,run_id,evaluation_scope,rule_id,eligible_target_count,true_positive_count,false_positive_count,false_negative_count,true_negative_count,precision,recall,false_positive_rate,labeled_expected_exposure,detected_expected_exposure,exposure_recall,precision_threshold_passed,recall_threshold_passed,false_positive_rate_threshold_passed,evaluation_only
+EVA0000000001,M05-EVAL-20260724,rule,PI001,182348,46,4,4,182294,0.9200,0.9200,0.0000,44821.43,41359.14,0.9228,true,true,true,true
+EVA0000000002,M05-EVAL-20260724,rule,PI002,182348,50,0,0,182298,1.0000,1.0000,0.0000,158584.83,158584.83,1.0000,true,true,true,true
+EVA0000000003,M05-EVAL-20260724,rule,PI003,71072,50,0,0,71022,1.0000,1.0000,0.0000,95057.12,95057.12,1.0000,true,true,true,true
+EVA0000000004,M05-EVAL-20260724,rule,PI004,71072,50,0,0,71022,1.0000,1.0000,0.0000,0.00,0.00,,true,true,true,true
+EVA0000000005,M05-EVAL-20260724,rule,PI005,77095,50,0,0,77045,1.0000,1.0000,0.0000,500.00,500.00,1.0000,true,true,true,true
+EVA0000000006,M05-EVAL-20260724,rule,PI006,77095,50,0,0,77045,1.0000,1.0000,0.0000,500.00,500.00,1.0000,true,true,true,true
+EVA0000000007,M05-EVAL-20260724,rule,PI007,182348,43,7,7,182291,0.8600,0.8600,0.0000,339437.25,262653.29,0.7738,true,true,true,true
+EVA0000000008,M05-EVAL-20260724,rule,PI008,2399,50,0,0,2349,1.0000,1.0000,0.0000,14195769.67,14195769.67,1.0000,true,true,true,true
+EVA0000000009,M05-EVAL-20260724,rule,PI009,151344,50,0,0,151294,1.0000,1.0000,0.0000,78308.43,78308.43,1.0000,true,true,true,true
+EVA0000000010,M05-EVAL-20260724,rule,PI010,77095,1,49,49,76996,0.0200,0.0200,0.0006,0.00,0.00,,false,false,true,true
+EVA0000000011,M05-EVAL-20260724,overall,ALL,1074216,440,60,60,1073656,0.8800,0.8800,0.0001,14912978.73,14832732.48,0.9946,true,true,true,true

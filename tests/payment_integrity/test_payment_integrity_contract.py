@@ -104,6 +104,7 @@ def test_findings_are_explainable_and_financially_typed() -> None:
     evidence = model["tables"]["finding_evidence"]
 
     assert model["execution_policy"]["one_finding_per_rule_and_target"] is True
+    assert model["execution_policy"]["maximum_findings_per_rule"] == 50
     assert model["execution_policy"]["preserve_all_supporting_evidence"] is True
     assert finding["columns"]["amount_at_risk"]["type"] == "DECIMAL(18,2)"
     assert finding["columns"]["confidence"]["type"] == "DECIMAL(18,4)"
