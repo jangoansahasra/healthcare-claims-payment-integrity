@@ -1,0 +1,31 @@
+{
+  "all_preparation_checks_passed": true,
+  "checks": {
+    "all_inputs_exported": true,
+    "all_inputs_hashed": true,
+    "all_metrics_referenced": true,
+    "execution_not_fabricated": true
+  },
+  "execution_status": "not_executed",
+  "generated_at_utc": "2026-08-05T23:02:36.573357+00:00",
+  "input_file_count": 6,
+  "input_manifest_sha256": "96f8c132eca1c91f8578cc088cbdad266f140599d8c16faf11e1cb155c821c57",
+  "metric_ids": [
+    "SAS001",
+    "SAS002",
+    "SAS003",
+    "SAS004",
+    "SAS005",
+    "SAS006",
+    "SAS007",
+    "SAS008",
+    "SAS009",
+    "SAS010",
+    "SAS011",
+    "SAS012"
+  ],
+  "reference_row_count": 181,
+  "reference_sha256": "1d015e33dadaf307f33eee0768bf0d8c4274e6677603c1227473efe0cce73614",
+  "report_version": 1,
+  "sas_runtime_used": false
+}
