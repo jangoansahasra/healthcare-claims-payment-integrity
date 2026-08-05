@@ -10,6 +10,8 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Portable six-input SAS package builder, 181 Python references, SHA-256
+  manifests, seven ordered SAS programs, and governed log scanning
 - Versioned M08 SAS reconciliation registry, portable exchange specification,
   execution evidence rules, tolerances, log policy, and non-SAS contract tests
 - Deterministic M07 provider-month panel, weighted two-way fixed-effects

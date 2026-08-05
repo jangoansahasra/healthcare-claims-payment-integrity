@@ -20,3 +20,14 @@ M08 may be marked passed only when a real SAS log contains zero errors, no
 unintended type-conversion warnings, and every comparison is within its
 governed tolerance. Python, DuckDB, or mocked output cannot substitute for SAS
 execution evidence.
+
+## Prepared package
+
+Run `python -m src.reconciliation.build_sas_package` after all upstream
+analytical outputs exist. It exports six CSV inputs, a SHA-256 manifest, and
+181 Python references for SAS001-SAS012. The deterministic package remains in
+ignored `data/generated/sas_reconciliation` storage.
+
+All seven programs under `sas/programs` use the configurable `ROOT` parameter.
+Preparation evidence remains `not_executed` until a real SAS run produces a
+versioned log that passes the governed error and conversion-warning scan.
