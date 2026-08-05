@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import hashlib
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import date, datetime
 from decimal import Decimal
 from typing import Any
@@ -91,6 +91,7 @@ def inject_record_level_anomalies(
     scenario_by_rule = {row["rule_id"]: row for row in anomaly_contract["scenarios"]}
     injections: list[dict[str, Any]] = []
     changes: list[dict[str, Any]] = []
+    change_sequences: Counter[str] = Counter()
     next_line_number = max(int(row["claim_line_id"][3:]) for row in lines) + 1
     injection_number = 0
 
@@ -104,7 +105,8 @@ def inject_record_level_anomalies(
         after: Any,
         expected_violation: bool,
     ) -> None:
-        sequence = 1 + sum(row["injection_id"] == injection_id for row in changes)
+        change_sequences[injection_id] += 1
+        sequence = change_sequences[injection_id]
         type_value = after if after is not None else before
         changes.append(
             {

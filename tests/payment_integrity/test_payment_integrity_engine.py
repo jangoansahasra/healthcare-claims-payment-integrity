@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import pyarrow.parquet as pq
@@ -10,10 +11,15 @@ from src.payment_integrity.payment_integrity_engine import (
 from src.synthetic.synthetic_dimensions import load_yaml
 
 ROOT = Path(__file__).resolve().parents[2]
+TRUSTED_ROOT = Path(
+    os.environ.get(
+        "TRUSTED_CLAIMS_TEST_ROOT",
+        ROOT / "data/curated/trusted_claims",
+    )
+)
 
 
 def read_detection_inputs() -> dict:
-    root = ROOT / "data/curated/trusted_claims"
     names = (
         "dim_provider",
         "dim_date",
@@ -22,7 +28,10 @@ def read_detection_inputs() -> dict:
         "fact_claim_line",
         "fact_payment_transaction",
     )
-    return {name: pq.read_table(root / f"{name}.parquet").to_pylist() for name in names}
+    return {
+        name: pq.read_table(TRUSTED_ROOT / f"{name}.parquet").to_pylist()
+        for name in names
+    }
 
 
 def test_detection_rejects_ground_truth_input() -> None:

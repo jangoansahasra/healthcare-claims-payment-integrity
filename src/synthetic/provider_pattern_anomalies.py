@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import math
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import date
 from decimal import ROUND_HALF_UP, Decimal
 from typing import Any
@@ -50,6 +50,7 @@ def inject_provider_pattern_anomalies(
     excluded_claims = {row["claim_id"] for row in existing_injections}
     injections = [dict(row) for row in existing_injections]
     changes = [dict(row) for row in existing_changes]
+    change_sequences = Counter(row["injection_id"] for row in changes)
     next_injection = max(int(row["injection_id"][3:]) for row in injections) + 1
     next_logical = max(int(row["logical_claim_id"][3:]) for row in headers) + 1
     next_line = max(int(row["claim_line_id"][3:]) for row in lines) + 1
@@ -66,7 +67,8 @@ def inject_provider_pattern_anomalies(
         after: Any,
         violation: bool,
     ) -> None:
-        sequence = 1 + sum(row["injection_id"] == injection_id for row in changes)
+        change_sequences[injection_id] += 1
+        sequence = change_sequences[injection_id]
         value = after if after is not None else before
         changes.append(
             {

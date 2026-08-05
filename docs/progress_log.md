@@ -1330,3 +1330,20 @@ Publishing M05 engine implementation and measured evaluation evidence.
 
 Complete M05, then begin M06 cost intelligence using current-version trusted
 claims, eligible member-month denominators, and explicit service/payment dates.
+
+## 2026-08-04 — M05 clean-runner CI reproducibility correction
+
+### Finding
+
+The first merged M05 implementation passed locally but failed on three GitHub
+Actions triggers because its integration tests read ignored trusted Parquet
+available only in the local workspace. The failures corresponded to the branch
+push, pull-request event, and merge push to `main`.
+
+### Correction
+
+- Made the trusted integration-test root configurable by environment variable.
+- Added a CI setup step that reproducibly builds clean synthetic operations,
+  controlled anomalies, and the trusted model in the runner temporary folder.
+- Preserved the rule that full generated and curated data remain outside Git.
+- Reopened issue #58 until the corrected workflow passes on GitHub Actions.

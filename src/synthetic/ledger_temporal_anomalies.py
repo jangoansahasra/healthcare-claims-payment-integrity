@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import timedelta
 from decimal import Decimal
 from typing import Any
@@ -57,6 +57,7 @@ def inject_ledger_temporal_anomalies(
     scenario_by_rule = {row["rule_id"]: row for row in anomaly_contract["scenarios"]}
     injections = [dict(row) for row in existing_injections]
     changes = [dict(row) for row in existing_changes]
+    change_sequences = Counter(row["injection_id"] for row in changes)
     next_injection = max(int(row["injection_id"][3:]) for row in injections) + 1
     next_payment = max(int(row["payment_transaction_id"][3:]) for row in payments) + 1
 
@@ -69,7 +70,8 @@ def inject_ledger_temporal_anomalies(
         after: Any,
         expected_violation: bool,
     ) -> None:
-        sequence = 1 + sum(row["injection_id"] == injection_id for row in changes)
+        change_sequences[injection_id] += 1
+        sequence = change_sequences[injection_id]
         type_value = after if after is not None else before
         changes.append(
             {
