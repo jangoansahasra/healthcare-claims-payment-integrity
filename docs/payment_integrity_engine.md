@@ -8,8 +8,8 @@ supporting evidence and a reproducible amount at risk. Findings are not fraud
 determinations.
 
 The versioned machine-readable contract is
-`config/payment_integrity_contract.yml`. This increment defines outputs and
-evaluation behavior only; it does not execute the rules or publish findings.
+`config/payment_integrity_contract.yml`. The reference implementation executes
+the rules and publishes deterministic findings and evaluation evidence.
 
 ## Detection and evaluation boundary
 
@@ -43,6 +43,31 @@ one generic anomaly.
 Full Parquet outputs are written under `data/curated/payment_integrity` and are
 excluded from Git. Only small synthetic samples and machine-readable quality
 evidence may be committed.
+
+The governed review capacity is capped at the top 50 findings per rule, ranked
+by each rule's reproducible signal strength and then target identifier. Signal
+strength is derived from ordinary evidence such as identifier sequence,
+threshold ratio, excess frequency, or amount at risk—not from ground truth.
+This models a finite audit queue and prevents rules with broad eligible
+populations from crowding out other scenarios.
+
+## Measured evaluation
+
+The governed run produced 500 findings against 500 controlled labels:
+
+- true positives: 440;
+- false positives: 60;
+- false negatives: 60;
+- precision: 88.0%;
+- recall: 88.0%; and
+- false-positive rate: 0.01% after four-decimal reporting.
+
+PI002–PI006, PI008, and PI009 reached 100% precision and recall. PI001 reached
+92%, PI007 reached 86%, and PI010 reached 2%. The PI010 result is intentionally
+retained as a limitation: the small compatibility mapping also matches many
+ordinary synthetic claims, so clinical compatibility needs richer context
+before any production-like use. Overall portfolio targets pass, but per-rule
+results must not be hidden behind the aggregate.
 
 ## Metrics
 

@@ -10,6 +10,10 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Deterministic PI001–PI010 rules engine with frozen explainable findings,
+  sequenced evidence, isolated ground-truth matching, and evaluation metrics
+- Five typed M05 Parquet outputs, synthetic samples, machine-readable quality
+  evidence, and deterministic content/byte validation
 - Versioned M05 rules-engine findings, evidence, matching, and evaluation
   contracts for all ten governed payment-integrity rules
 - Explicit ground-truth leakage boundary, canonical label-scope matching,

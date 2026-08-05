@@ -1289,3 +1289,44 @@ Publishing the versioned M05 rule-output and evaluation contract.
 
 Implement deterministic PI001–PI010 detection, freeze explainable findings,
 then evaluate them against the isolated 500-label ground-truth bridge.
+
+## 2026-08-04 — Payment-integrity engine execution and evaluation
+
+### Completed
+
+- Executed all ten governed rules against ordinary trusted facts and dimensions.
+- Published 500 frozen findings and sequenced supporting-evidence rows.
+- Opened the isolated anomaly bridge only after hashing the final finding set.
+- Evaluated all 500 controlled labels using exact rule, scope, and canonical
+  target matching.
+- Published five typed Parquet outputs, synthetic-only samples, and a
+  machine-readable quality report while keeping full outputs outside Git.
+- Verified deterministic content hashes and Parquet bytes across repeated runs.
+
+### Validation
+
+- True positives: 440
+- False positives: 60
+- False negatives: 60
+- Precision: 88.0%
+- Recall: 88.0%
+- False-positive rate: 0.01%
+- All 24 machine-readable quality checks passed
+- Detection-phase ground-truth access: false
+
+### Decision
+
+The overall portfolio thresholds pass, but rule-level limitations remain
+visible. PI010 clinical compatibility achieved only 2% precision and recall
+because its deliberately small synthetic mapping also describes many ordinary
+claims. It remains a low-confidence review lead and is not suitable for
+production clinical or payment decisions.
+
+### Current work
+
+Publishing M05 engine implementation and measured evaluation evidence.
+
+### Next task
+
+Complete M05, then begin M06 cost intelligence using current-version trusted
+claims, eligible member-month denominators, and explicit service/payment dates.
