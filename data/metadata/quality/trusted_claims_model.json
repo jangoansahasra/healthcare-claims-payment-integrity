@@ -1,0 +1,141 @@
+{
+  "all_checks_passed": true,
+  "anomaly_label_count": 500,
+  "checks": {
+    "all_anomalies_retained": true,
+    "all_source_claims_retained": true,
+    "all_source_lines_retained": true,
+    "all_source_payments_retained": true,
+    "anomaly_claims_resolve": true,
+    "anomaly_optional_foreign_keys": true,
+    "bridge_claim_anomaly_natural_key": true,
+    "bridge_claim_anomaly_primary_key": true,
+    "bridge_claim_anomaly_row_count": true,
+    "bridge_claim_anomaly_schema": true,
+    "bridge_provider_policy_natural_key": true,
+    "bridge_provider_policy_primary_key": true,
+    "bridge_provider_policy_row_count": true,
+    "bridge_provider_policy_schema": true,
+    "claim_business_ids_resolve": true,
+    "claim_foreign_keys": true,
+    "claim_line_totals_governed": true,
+    "denied_nonpositive_net_paid": true,
+    "dim_date_natural_key": true,
+    "dim_date_primary_key": true,
+    "dim_date_row_count": true,
+    "dim_date_schema": true,
+    "dim_member_natural_key": true,
+    "dim_member_primary_key": true,
+    "dim_member_row_count": true,
+    "dim_member_schema": true,
+    "dim_plan_natural_key": true,
+    "dim_plan_primary_key": true,
+    "dim_plan_row_count": true,
+    "dim_plan_schema": true,
+    "dim_provider_natural_key": true,
+    "dim_provider_primary_key": true,
+    "dim_provider_row_count": true,
+    "dim_provider_schema": true,
+    "dim_service_natural_key": true,
+    "dim_service_primary_key": true,
+    "dim_service_row_count": true,
+    "dim_service_schema": true,
+    "fact_claim_line_natural_key": true,
+    "fact_claim_line_primary_key": true,
+    "fact_claim_line_row_count": true,
+    "fact_claim_line_schema": true,
+    "fact_claim_natural_key": true,
+    "fact_claim_primary_key": true,
+    "fact_claim_review_natural_key": true,
+    "fact_claim_review_primary_key": true,
+    "fact_claim_review_row_count": true,
+    "fact_claim_review_schema": true,
+    "fact_claim_row_count": true,
+    "fact_claim_schema": true,
+    "fact_membership_month_natural_key": true,
+    "fact_membership_month_primary_key": true,
+    "fact_membership_month_row_count": true,
+    "fact_membership_month_schema": true,
+    "fact_payment_transaction_natural_key": true,
+    "fact_payment_transaction_primary_key": true,
+    "fact_payment_transaction_row_count": true,
+    "fact_payment_transaction_schema": true,
+    "ground_truth_evaluation_only": true,
+    "ledger_net_paid": true,
+    "line_foreign_keys": true,
+    "membership_foreign_keys": true,
+    "one_current_version": true,
+    "payment_foreign_keys": true,
+    "policy_providers_resolve": true,
+    "reviews_resolve": true,
+    "service_date_eligibility": true
+  },
+  "contract_version": 1,
+  "current_claim_count": 73606,
+  "deterministic_seed": 20260724,
+  "generated_at_utc": "2026-08-04T22:52:27.534415+00:00",
+  "report_version": 1,
+  "source_variant": "anomalous_evaluation",
+  "tables": {
+    "bridge_claim_anomaly": {
+      "content_sha256": "d3144fe38b5c61c1841598dc45f730bde81ecdf8df8b3c59e7a574d511b9d8e4",
+      "parquet_size_bytes": 14716,
+      "row_count": 500
+    },
+    "bridge_provider_policy": {
+      "content_sha256": "ce7caf0e80fb88395640f53bf842c0493a232e8a5020f9ca2a735143455ab85f",
+      "parquet_size_bytes": 3836,
+      "row_count": 200
+    },
+    "dim_date": {
+      "content_sha256": "43dc866cc62c1d5add6c5f44e26844fdd0431f7cc76fb0d8c8400a3d85d7fbf3",
+      "parquet_size_bytes": 6581,
+      "row_count": 594
+    },
+    "dim_member": {
+      "content_sha256": "fb648e759f492c49c1a9cceda8df164ef4034f502b2f87b5a6877e42e5cec479",
+      "parquet_size_bytes": 67542,
+      "row_count": 10000
+    },
+    "dim_plan": {
+      "content_sha256": "88447761eed2be20adf082490c9d31c7f3902d7b1ba6e2c73f7bc435b6410153",
+      "parquet_size_bytes": 1923,
+      "row_count": 4
+    },
+    "dim_provider": {
+      "content_sha256": "6c58c3387a13c6b02bdc8cb3102041eda96e1693f74c45a570cac19e144af3fb",
+      "parquet_size_bytes": 4049,
+      "row_count": 200
+    },
+    "dim_service": {
+      "content_sha256": "3f8175f1c1e1e0fa5a6c60794cef76c205c7282636174e4a454dfe7e13a814c0",
+      "parquet_size_bytes": 1651,
+      "row_count": 20
+    },
+    "fact_claim": {
+      "content_sha256": "003c0d6d5a1f37855fe170bb2a2e71d7650ddec98161e4578101b3f7532dd45b",
+      "parquet_size_bytes": 2726961,
+      "row_count": 77095
+    },
+    "fact_claim_line": {
+      "content_sha256": "a19c801b7101338b5007eedb4de5e3f468e0b66466abe3a9cca3d90a6737b0b4",
+      "parquet_size_bytes": 4468434,
+      "row_count": 182348
+    },
+    "fact_claim_review": {
+      "content_sha256": "d6dec57b2e628d2608177864f4b9dfa0205cbc4ba721a76132fc0d4c1cc00e12",
+      "parquet_size_bytes": 67312,
+      "row_count": 3748
+    },
+    "fact_membership_month": {
+      "content_sha256": "02c19aa1b9f5e2052af6f130ebbf235a6a1b88a3f1838187053f175ce92d3304",
+      "parquet_size_bytes": 585903,
+      "row_count": 158746
+    },
+    "fact_payment_transaction": {
+      "content_sha256": "0329d28030f9a074ede525d1f6a65b5e905a9747c11164c05359240db5beb26f",
+      "parquet_size_bytes": 1183293,
+      "row_count": 71072
+    }
+  }
+}

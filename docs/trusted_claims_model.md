@@ -76,3 +76,18 @@ labels, or expected anomaly exposure.
 All records and identities are synthetic. Full curated Parquet is written under
 the Git-ignored `data/curated/trusted_claims/` tree. Only small synthetic samples,
 contract metadata, and quality reports may be published.
+
+## Production result
+
+The deterministic production build contains:
+
+- 10,000 members, 200 providers, 4 plans, 594 dates, and 20 services;
+- 158,746 membership months;
+- 77,095 claim versions, including 73,606 current claims;
+- 182,348 claim lines and 71,072 payment transactions;
+- 3,748 review episodes and 200 provider policy assignments;
+- all 500 M03 anomaly labels in the evaluation-only bridge.
+
+The twelve compressed Parquet tables occupy approximately 8.7 MiB. All 67
+machine-readable key, schema, row-count, version, financial, eligibility,
+policy, and evaluation-boundary checks pass.
