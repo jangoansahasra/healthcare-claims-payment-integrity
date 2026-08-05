@@ -31,7 +31,7 @@ design:
   treatment_unit: provider_key
   time_unit: calendar_month
   treatment_source: bridge_provider_policy.treatment_group
-  treatment_value: treatment
+  treatment_value: treated
   comparison_value: comparison
   cohorts_mutually_exclusive: true
   pre_policy_start: 2025-01-01
@@ -43,6 +43,12 @@ design:
   event_time_zero: first policy month
   event_time_reference: -1
   balanced_panel_required: true
+  member_attribution:
+    method: plurality_of_pre_policy_paid_claims
+    provider_role: billing_provider_key
+    tie_breaker: lowest_provider_key
+    freeze_date: 2025-12-31
+    denominator: active attributed member months
 
 outcomes:
   paid_pmpm:
@@ -77,6 +83,7 @@ primary_estimator:
   cluster_unit: provider_key
   confidence_level: 0.95
   include_intercept: true
+  weighting: eligible_member_months
   minimum_provider_clusters: 30
 
 event_study:
@@ -101,7 +108,7 @@ diagnostics:
     pass_rule: p_value >= significance_level
   sensitivity:
     specifications: [balanced_panel, winsorized_99_percent, unweighted_provider_month]
-    effect_direction_must_match_primary: true
+    report_direction_changes_from_primary: true
 
 tables:
   provider_month_policy_panel:

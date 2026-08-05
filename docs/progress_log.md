@@ -1419,3 +1419,27 @@ Publishing the M07 statistical design and contracts through issue #67.
 
 Construct the provider-month panel, estimate policy effects, and publish
 reproducible event-study and diagnostic evidence.
+
+## 2026-08-05 — M07 policy-impact estimation and diagnostics
+
+### Completed
+
+- Constructed a balanced 3,600-row panel for 200 providers across 18 months.
+- Estimated exposure-weighted two-way fixed-effects models for five outcomes
+  with provider-clustered standard errors.
+- Published 15 primary/sensitivity estimates, 85 event-study coefficients, and
+  10 pre-trend/placebo diagnostics.
+- All primary effects were statistically non-significant; all joint pre-trend
+  and placebo tests passed at the configured 5% level.
+- Retained unweighted PMPM direction reversals as an explicit exposure-weighting
+  sensitivity and limitation rather than causal evidence.
+- Preserved ground-truth isolation and deterministic typed output controls.
+
+### Current work
+
+Publishing the M07 analysis and diagnostic evidence through issue #69.
+
+### Next task
+
+Complete M07 and begin M08 independent SAS reconciliation of key financial,
+utilization, rules-engine, and policy-analysis totals.

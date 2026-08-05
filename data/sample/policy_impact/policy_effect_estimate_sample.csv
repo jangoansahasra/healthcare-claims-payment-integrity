@@ -1,0 +1,16 @@
+run_id,outcome_name,specification,coefficient,standard_error,confidence_interval_lower,confidence_interval_upper,p_value,provider_count,observation_count
+M07-DID-20260724,paid_pmpm,balanced_panel,160.2456,255.5721,-340.6757,661.1670,0.5307,200,3575
+M07-DID-20260724,paid_pmpm,winsorized_99_percent,186.7333,252.8424,-308.8379,682.3044,0.4602,200,3575
+M07-DID-20260724,paid_pmpm,unweighted_provider_month,-425.2280,434.2292,-1276.3172,425.8612,0.3274,200,3575
+M07-DID-20260724,allowed_pmpm,balanced_panel,188.7401,308.3159,-415.5590,793.0392,0.5404,200,3575
+M07-DID-20260724,allowed_pmpm,winsorized_99_percent,220.6688,304.9214,-376.9772,818.3147,0.4693,200,3575
+M07-DID-20260724,allowed_pmpm,unweighted_provider_month,-543.0535,531.7168,-1585.2183,499.1114,0.3071,200,3575
+M07-DID-20260724,claims_per_1000,balanced_panel,8.5613,16.7491,-24.2669,41.3895,0.6092,200,3575
+M07-DID-20260724,claims_per_1000,winsorized_99_percent,8.8227,16.5460,-23.6074,41.2529,0.5939,200,3575
+M07-DID-20260724,claims_per_1000,unweighted_provider_month,57.9147,62.5692,-64.7209,180.5503,0.3546,200,3575
+M07-DID-20260724,denial_rate,balanced_panel,-0.0067,0.0059,-0.0182,0.0048,0.2528,200,3599
+M07-DID-20260724,denial_rate,winsorized_99_percent,-0.0061,0.0058,-0.0174,0.0053,0.2940,200,3599
+M07-DID-20260724,denial_rate,unweighted_provider_month,-0.0072,0.0050,-0.0171,0.0026,0.1511,200,3599
+M07-DID-20260724,review_rate,balanced_panel,0.0010,0.0043,-0.0075,0.0095,0.8125,200,3599
+M07-DID-20260724,review_rate,winsorized_99_percent,0.0008,0.0043,-0.0076,0.0091,0.8565,200,3599
+M07-DID-20260724,review_rate,unweighted_provider_month,0.0068,0.0039,-0.0008,0.0143,0.0800,200,3599

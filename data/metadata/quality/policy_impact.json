@@ -1,0 +1,48 @@
+{
+  "all_checks_passed": true,
+  "checks": {
+    "all_outputs_present": true,
+    "balanced_eighteen_months": true,
+    "cohorts_nonempty": true,
+    "diagnostics_explained": true,
+    "event_study_estimate_row_count": true,
+    "event_study_estimate_schema": true,
+    "inference_complete": true,
+    "interaction_correct": true,
+    "panel_keys_unique": true,
+    "policy_diagnostic_row_count": true,
+    "policy_diagnostic_schema": true,
+    "policy_effect_estimate_row_count": true,
+    "policy_effect_estimate_schema": true,
+    "provider_month_policy_panel_row_count": true,
+    "provider_month_policy_panel_schema": true,
+    "reference_period_omitted": true,
+    "treatment_fixed": true
+  },
+  "contract_version": 1,
+  "generated_at_utc": "2026-08-05T18:17:28.038575+00:00",
+  "ground_truth_accessed": false,
+  "report_version": 1,
+  "tables": {
+    "event_study_estimate": {
+      "content_sha256": "0f76ca626454ba2f2859b38399a5917e893f9cfd70a85d037c2932138adf53e4",
+      "parquet_size_bytes": 4822,
+      "row_count": 85
+    },
+    "policy_diagnostic": {
+      "content_sha256": "67ac6e694cc0542459e98a0cff62747f49009689064bfcef62c11a7435253ab2",
+      "parquet_size_bytes": 3057,
+      "row_count": 10
+    },
+    "policy_effect_estimate": {
+      "content_sha256": "635124e32d0553420df2bc367920912ef5e3e4f8a49d01bdc375c42248f6e2b1",
+      "parquet_size_bytes": 3976,
+      "row_count": 15
+    },
+    "provider_month_policy_panel": {
+      "content_sha256": "982dac7f457fdce71b0010ae957257f1649d2f03fdf59affff98a7f9b0dfe6e6",
+      "parquet_size_bytes": 65643,
+      "row_count": 3600
+    }
+  }
+}
