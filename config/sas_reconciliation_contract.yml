@@ -1,0 +1,117 @@
+contract_version: 1
+last_reviewed: "2026-08-05"
+
+dataset:
+  name: sas_independent_reconciliation
+  milestone: M08
+  trusted_contract: config/trusted_claims_contract.yml
+  payment_integrity_contract: config/payment_integrity_contract.yml
+  cost_intelligence_contract: config/cost_intelligence_contract.yml
+  policy_impact_contract: config/policy_impact_contract.yml
+  generated_input_root: data/generated/sas_reconciliation/input
+  generated_reference_root: data/generated/sas_reconciliation/reference
+  generated_result_root: data/generated/sas_reconciliation/result
+  program_root: sas/programs
+  log_root: sas/logs
+  evidence_path: data/metadata/quality/sas_reconciliation.json
+  full_generated_inputs_committed_to_git: false
+
+runtime:
+  local_runtime_available: false
+  local_probe_command: command -v sas
+  local_probe_result: not_found
+  execution_status: not_executed
+  accepted_environments: [SAS_94M7_or_later, SAS_Viya_4]
+  required_evidence:
+    - sas_product_name
+    - sas_version
+    - execution_environment
+    - execution_started_at_utc
+    - execution_completed_at_utc
+    - program_checksums
+    - input_manifest_checksum
+    - sas_log_path
+  success_requires_real_sas_log: true
+  prohibit_simulated_success_evidence: true
+
+tolerances:
+  row_count_absolute: 0
+  distinct_key_absolute: 0
+  financial_absolute: 0.01
+  rate_absolute: 0.0001
+  coefficient_absolute: 0.001
+  p_value_absolute: 0.001
+
+portable_exchange:
+  format: csv
+  encoding: utf-8
+  header: true
+  delimiter: comma
+  line_ending: LF
+  date_format: YYYY-MM-DD
+  datetime_format: E8601DT26.6
+  decimal_separator: period
+  missing_value: empty_field
+  quote_policy: minimal_rfc4180
+  input_manifest_required: true
+  sha256_required: true
+
+program_order:
+  - {sequence: 0, path: sas/programs/00_setup.sas, purpose: validate parameters and assign libraries}
+  - {sequence: 10, path: sas/programs/10_import_inputs.sas, purpose: import governed UTF-8 CSV inputs}
+  - {sequence: 20, path: sas/programs/20_reconcile_claims.sas, purpose: reconcile trusted counts and financial totals}
+  - {sequence: 30, path: sas/programs/30_reconcile_cost.sas, purpose: reconcile member months PMPM utilization and concentration}
+  - {sequence: 40, path: sas/programs/40_reconcile_payment_integrity.sas, purpose: reconcile findings and exposure}
+  - {sequence: 50, path: sas/programs/50_reconcile_policy.sas, purpose: reconcile panel counts outcomes and selected coefficients}
+  - {sequence: 90, path: sas/programs/90_publish_results.sas, purpose: publish comparison results and execution status}
+
+result_schema:
+  grain: one row per execution metric and comparison scope
+  primary_key: [execution_id, metric_id, comparison_scope]
+  columns:
+    execution_id: {type: VARCHAR, nullable: false}
+    metric_id: {type: VARCHAR, nullable: false}
+    comparison_scope: {type: VARCHAR, nullable: false}
+    metric_type: {type: VARCHAR, nullable: false}
+    python_value: {type: "DECIMAL(18,4)", nullable: true}
+    sas_value: {type: "DECIMAL(18,4)", nullable: true}
+    absolute_difference: {type: "DECIMAL(18,4)", nullable: true}
+    tolerance: {type: "DECIMAL(18,4)", nullable: false}
+    passed: {type: BOOLEAN, nullable: false}
+    source_table: {type: VARCHAR, nullable: false}
+    formula_version: {type: INTEGER, nullable: false}
+
+metrics:
+  - {metric_id: SAS001, domain: trusted_claims, metric_type: row_count, source_table: fact_claim, grain: all_rows, formula: count rows, tolerance: row_count_absolute}
+  - {metric_id: SAS002, domain: trusted_claims, metric_type: distinct_key_count, source_table: fact_claim, grain: claim_key, formula: count distinct claim_key, tolerance: distinct_key_absolute}
+  - {metric_id: SAS003, domain: trusted_claims, metric_type: financial, source_table: fact_claim, grain: current_paid_claims, formula: sum total_allowed_amount, tolerance: financial_absolute}
+  - {metric_id: SAS004, domain: trusted_claims, metric_type: financial, source_table: fact_claim, grain: current_paid_claims, formula: sum net_paid_amount, tolerance: financial_absolute}
+  - {metric_id: SAS005, domain: membership, metric_type: row_count, source_table: fact_membership_month, grain: active_member_month, formula: count active rows, tolerance: row_count_absolute}
+  - {metric_id: SAS006, domain: cost_intelligence, metric_type: rate, source_table: monthly_cost_utilization, grain: service_month_plan, formula: allowed_amount divided by eligible_member_months, tolerance: rate_absolute}
+  - {metric_id: SAS007, domain: cost_intelligence, metric_type: rate, source_table: monthly_cost_utilization, grain: service_month_plan, formula: service_units times 1000 divided by eligible_member_months, tolerance: rate_absolute}
+  - {metric_id: SAS008, domain: payment_integrity, metric_type: row_count, source_table: rule_finding, grain: rule_id, formula: count findings, tolerance: row_count_absolute}
+  - {metric_id: SAS009, domain: payment_integrity, metric_type: financial, source_table: rule_finding, grain: rule_id, formula: sum amount_at_risk, tolerance: financial_absolute}
+  - {metric_id: SAS010, domain: policy_impact, metric_type: row_count, source_table: provider_month_policy_panel, grain: treatment_group, formula: count provider months, tolerance: row_count_absolute}
+  - {metric_id: SAS011, domain: policy_impact, metric_type: coefficient, source_table: policy_effect_estimate, grain: outcome_name_primary, formula: treatment post coefficient, tolerance: coefficient_absolute}
+  - {metric_id: SAS012, domain: policy_impact, metric_type: p_value, source_table: policy_effect_estimate, grain: outcome_name_primary, formula: provider clustered p value, tolerance: p_value_absolute}
+
+log_policy:
+  fail_patterns: ["ERROR:", "ERROR 180-", "ERROR 22-", Uninitialized variable, Invalid data]
+  review_patterns: ["WARNING:", converted to numeric values, converted to character values]
+  unintended_conversion_warnings_allowed: false
+  zero_errors_required: true
+  log_checksum_required: true
+
+quality_checks:
+  - {check_id: SR001, expression: all metric identifiers are unique}
+  - {check_id: SR002, expression: every metric references a governed source and tolerance}
+  - {check_id: SR003, expression: program sequences and paths are unique and ordered}
+  - {check_id: SR004, expression: portable input schema is explicit and UTF-8}
+  - {check_id: SR005, expression: counts require exact agreement}
+  - {check_id: SR006, expression: financial differences may not exceed one cent}
+  - {check_id: SR007, expression: statistical tolerances are separate from financial tolerances}
+  - {check_id: SR008, expression: success evidence requires a real SAS version and log}
+  - {check_id: SR009, expression: SAS logs contain no errors or unintended conversion warnings}
+  - {check_id: SR010, expression: generated full-size exchange inputs remain outside Git}
+  - {check_id: SR011, expression: all exchanged records are synthetic}
+  - {check_id: SR012, expression: not-executed status cannot contain passing SAS comparisons}

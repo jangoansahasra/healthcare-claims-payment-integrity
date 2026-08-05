@@ -63,9 +63,10 @@ tests/        Automated tests
 Repository governance, public-data ingestion, clean synthetic operational data
 generation, controlled synthetic anomaly injection, the trusted claims model,
 and the explainable M05 payment-integrity engine are complete. M06 cost
-intelligence generates governed analytical outputs from trusted claims. M07
-policy-impact analysis is in progress using a preregistered synthetic
-difference-in-differences and event-study design.
+intelligence generates governed analytical outputs from trusted claims. The
+M07 preregistered synthetic difference-in-differences and event-study analysis
+is complete. M08 SAS reconciliation preparation is in progress; independent
+SAS execution has not yet occurred.
 
 ## Safety and limitations
 

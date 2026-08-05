@@ -52,3 +52,10 @@ browser-based authoring on macOS and straightforward public demonstration. A
 compact Power BI report will independently reproduce selected executive KPIs
 to retain Microsoft Fabric and Power BI interoperability evidence without
 making Windows-only authoring the critical path.
+
+## DL-010: SAS execution evidence
+
+The local macOS environment has no SAS executable. M08 may prepare portable
+inputs, reference results, contracts, and SAS programs locally, but it remains
+not executed until SAS 9.4M7+ or SAS Viya 4 produces a real versioned log.
+Python or mocked results cannot be represented as independent SAS validation.

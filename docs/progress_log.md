@@ -1443,3 +1443,28 @@ Publishing the M07 analysis and diagnostic evidence through issue #69.
 
 Complete M07 and begin M08 independent SAS reconciliation of key financial,
 utilization, rules-engine, and policy-analysis totals.
+
+## 2026-08-05 — M08 SAS reconciliation contracts
+
+### Completed
+
+- Recorded that the local macOS environment has no SAS executable and set the
+  execution status to `not_executed`.
+- Defined twelve reconciliation metrics spanning trusted claims, membership,
+  cost intelligence, payment integrity, and policy impact.
+- Defined exact count, one-cent financial, rate, coefficient, and p-value
+  tolerances plus portable UTF-8 CSV exchange rules.
+- Defined ordered SAS programs, log-quality requirements, checksums, runtime
+  evidence, and the machine-readable comparison-result schema.
+- Prohibited simulated or Python-generated evidence from being represented as
+  successful independent SAS validation.
+
+### Current work
+
+Publishing the M08 contract and execution-package design through issue #72.
+
+### Next task
+
+Generate portable synthetic reconciliation extracts and Python references,
+implement the ordered SAS programs, then execute them in an authorized SAS
+environment before closing M08.

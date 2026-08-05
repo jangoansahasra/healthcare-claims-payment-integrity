@@ -10,6 +10,8 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Versioned M08 SAS reconciliation registry, portable exchange specification,
+  execution evidence rules, tolerances, log policy, and non-SAS contract tests
 - Deterministic M07 provider-month panel, weighted two-way fixed-effects
   estimates, event study, clustered inference, diagnostics, and sensitivities
 - Typed synthetic samples and machine-readable policy-analysis quality evidence
