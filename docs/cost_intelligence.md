@@ -69,3 +69,12 @@ guidance, payment policy, or fraud determinations.
 Full Parquet outputs remain under `data/curated/cost_intelligence` and outside
 Git. Publishable samples must be synthetic and cells with fewer than 11 members
 are suppressed. M03 ground truth is prohibited from ordinary metric inputs.
+
+## Generated baseline
+
+The deterministic build publishes 72 monthly cost-utilization rows, 76 payment
+cash-flow rows, 144 concentration rows, 168 decomposition rows, and 288
+early-warning evaluation rows. All 20 machine-readable checks pass, and
+repeated builds produce identical content hashes and Parquet bytes. Evidence is
+recorded in `data/metadata/quality/cost_intelligence.json`; only synthetic
+demonstration samples are committed under `data/sample/cost_intelligence`.

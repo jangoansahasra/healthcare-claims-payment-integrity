@@ -36,7 +36,6 @@ def test_every_table_has_explicit_grain_keys_and_supported_types() -> None:
         "DATE",
         "DECIMAL(18,2)",
         "DECIMAL(18,4)",
-        "DECIMAL(18,6)",
         "INTEGER",
         "VARCHAR",
     }
