@@ -10,6 +10,10 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Versioned M06 cost-intelligence contracts for PMPM, per-1,000 utilization,
+  payment cash flow, concentration, cost decomposition, and early warnings
+- Explicit eligible member-month denominators, service/payment date roles,
+  ground-truth exclusion, small-cell suppression, and reconciliation controls
 - Clean-runner CI fixture generation for ignored synthetic, anomalous, and
   trusted Parquet inputs used by M05 integration tests
 - Linear-time anomaly lineage sequencing and preexisting-line validation for

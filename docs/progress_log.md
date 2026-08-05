@@ -1347,3 +1347,31 @@ push, pull-request event, and merge push to `main`.
   controlled anomalies, and the trusted model in the runner temporary folder.
 - Preserved the rule that full generated and curated data remain outside Git.
 - Reopened issue #58 until the corrected workflow passes on GitHub Actions.
+
+## 2026-08-04 — M06 cost-intelligence metric contracts
+
+### Completed
+
+- Defined five versioned analytical outputs covering service-month cost and
+  utilization, payment-month cash flow, concentration, cost-change
+  decomposition, and early-warning signals.
+- Governed allowed and paid PMPM plus claim and unit utilization per 1,000
+  using active eligible member-month denominators.
+- Separated service-date incurred reporting from payment-date cash-flow
+  reporting and retained current-version claim scope.
+- Defined year-over-year price, utilization, and service-mix effects with a
+  $0.01 reconciliation tolerance.
+- Defined top-ten share and HHI concentration measures plus robust historical
+  surge thresholds.
+- Prohibited M03 ground truth from ordinary metrics and required synthetic
+  small-cell suppression for publication.
+
+### Current work
+
+Publishing the M06 contract and automated governance tests through issue #62.
+
+### Next task
+
+Generate and reconcile the five deterministic cost-intelligence outputs from
+the trusted M04 model, then publish machine-readable quality evidence and
+synthetic-only samples.
