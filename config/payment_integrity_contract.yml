@@ -1,0 +1,194 @@
+contract_version: 1
+last_reviewed: "2026-08-04"
+
+dataset:
+  name: payment_integrity_rule_evaluation
+  milestone: M05
+  trusted_contract: config/trusted_claims_contract.yml
+  rule_registry: config/payment_integrity_rules.yml
+  trusted_input_root: data/curated/trusted_claims
+  output_root: data/curated/payment_integrity
+  quality_report: data/metadata/quality/payment_integrity_engine.json
+  publishable_sample_root: data/sample/payment_integrity
+  source_variant: anomalous_evaluation
+  deterministic_seed: 20260724
+  deterministic_run_id: M05-EVAL-20260724
+  output_format: parquet
+  compression: zstd
+  full_output_committed_to_git: false
+
+governance:
+  synthetic_records_only: true
+  contains_protected_health_information: false
+  contains_real_member_identifiers: false
+  contains_real_provider_identities: false
+  findings_are_review_leads_not_fraud_determinations: true
+  detection_phase_may_access_ground_truth: false
+  freeze_findings_before_evaluation: true
+  evaluation_phase_may_access_ground_truth: true
+  prohibit_ground_truth_as_rule_input: true
+  prohibit_real_provider_attribution: true
+  publishable_samples_are_synthetic_only: true
+
+execution_policy:
+  enabled_rule_source: config/payment_integrity_rules.yml
+  enabled_rule_ids: [PI001, PI002, PI003, PI004, PI005, PI006, PI007, PI008, PI009, PI010]
+  finding_natural_key: [run_id, rule_id, label_scope, target_record_id]
+  one_finding_per_rule_and_target: true
+  preserve_all_supporting_evidence: true
+  current_claim_scope_required_unless_rule_declares_history: true
+  amount_at_risk_currency: USD
+  amount_at_risk_type: "DECIMAL(18,2)"
+  confidence_type: "DECIMAL(18,4)"
+
+matching_policy:
+  method: exact_rule_and_canonical_target
+  require_same_rule_id: true
+  require_same_label_scope: true
+  one_finding_matches_at_most_one_injection: true
+  one_injection_matches_at_most_one_finding: true
+  multi_label_targets_evaluated_per_rule: true
+  unmatched_finding_status: false_positive
+  unmatched_injection_status: false_negative
+  canonical_target_by_scope:
+    claim: [claim_id]
+    claim_line: [claim_line_id]
+    payment_transaction: [payment_transaction_id]
+    provider: [provider_id]
+    provider_period: [provider_id, reporting_period]
+
+evaluation_policy:
+  evaluation_scopes: [rule, overall]
+  eligible_universe_definition: governed_target_population_per_rule
+  true_positive_formula: matched_finding_and_injection
+  false_positive_formula: finding_without_matching_injection
+  false_negative_formula: injection_without_matching_finding
+  true_negative_formula: eligible_targets - true_positives - false_positives - false_negatives
+  precision_formula: true_positives / (true_positives + false_positives)
+  recall_formula: true_positives / (true_positives + false_negatives)
+  false_positive_rate_formula: false_positives / (false_positives + true_negatives)
+  exposure_recall_formula: detected_expected_exposure / labeled_expected_exposure
+  zero_denominator_result: null
+  thresholds:
+    minimum_precision: 0.70
+    minimum_recall: 0.85
+    maximum_false_positive_rate: 0.10
+  financial_tolerance: 0.01
+
+tables:
+  rule_run:
+    grain: one row per rules-engine execution
+    primary_key: [run_id]
+    natural_key: [run_id]
+    columns:
+      run_id: {type: VARCHAR, nullable: false}
+      contract_version: {type: INTEGER, nullable: false}
+      source_variant: {type: VARCHAR, nullable: false}
+      deterministic_seed: {type: BIGINT, nullable: false}
+      run_status: {type: VARCHAR, nullable: false}
+      enabled_rule_count: {type: INTEGER, nullable: false}
+      finding_count: {type: BIGINT, nullable: false}
+      total_amount_at_risk: {type: "DECIMAL(18,2)", nullable: false}
+      findings_frozen: {type: BOOLEAN, nullable: false}
+      ground_truth_accessed_during_detection: {type: BOOLEAN, nullable: false}
+
+  rule_finding:
+    grain: one row per run, rule, label scope, and canonical target
+    primary_key: [finding_id]
+    natural_key: [run_id, rule_id, label_scope, target_record_id]
+    foreign_keys:
+      - {columns: [run_id], references: "rule_run(run_id)"}
+    columns:
+      finding_id: {type: VARCHAR, nullable: false}
+      run_id: {type: VARCHAR, nullable: false}
+      rule_id: {type: VARCHAR, nullable: false}
+      rule_name: {type: VARCHAR, nullable: false}
+      label_scope: {type: VARCHAR, nullable: false}
+      target_table: {type: VARCHAR, nullable: false}
+      target_record_id: {type: VARCHAR, nullable: false}
+      claim_id: {type: VARCHAR, nullable: true}
+      claim_line_id: {type: VARCHAR, nullable: true}
+      payment_transaction_id: {type: VARCHAR, nullable: true}
+      provider_id: {type: VARCHAR, nullable: true}
+      reporting_period: {type: DATE, nullable: true}
+      severity: {type: VARCHAR, nullable: false}
+      confidence: {type: "DECIMAL(18,4)", nullable: false}
+      amount_at_risk: {type: "DECIMAL(18,2)", nullable: false}
+      explanation: {type: VARCHAR, nullable: false}
+
+  finding_evidence:
+    grain: one row per finding and evidence sequence number
+    primary_key: [finding_id, evidence_sequence]
+    natural_key: [finding_id, evidence_sequence]
+    foreign_keys:
+      - {columns: [finding_id], references: "rule_finding(finding_id)"}
+    columns:
+      finding_id: {type: VARCHAR, nullable: false}
+      evidence_sequence: {type: INTEGER, nullable: false}
+      evidence_name: {type: VARCHAR, nullable: false}
+      observed_value: {type: VARCHAR, nullable: false}
+      comparison_operator: {type: VARCHAR, nullable: true}
+      threshold_value: {type: VARCHAR, nullable: true}
+      source_table: {type: VARCHAR, nullable: false}
+      source_record_id: {type: VARCHAR, nullable: false}
+
+  finding_ground_truth_match:
+    grain: one row per finding or injection evaluation result
+    primary_key: [match_id]
+    natural_key: [run_id, rule_id, match_status, canonical_target_id]
+    foreign_keys:
+      - {columns: [run_id], references: "rule_run(run_id)"}
+      - {columns: [finding_id], references: "rule_finding(finding_id)"}
+    columns:
+      match_id: {type: VARCHAR, nullable: false}
+      run_id: {type: VARCHAR, nullable: false}
+      finding_id: {type: VARCHAR, nullable: true}
+      injection_id: {type: VARCHAR, nullable: true}
+      rule_id: {type: VARCHAR, nullable: false}
+      label_scope: {type: VARCHAR, nullable: false}
+      canonical_target_id: {type: VARCHAR, nullable: false}
+      match_status: {type: VARCHAR, nullable: false}
+      amount_at_risk: {type: "DECIMAL(18,2)", nullable: false}
+      expected_financial_exposure: {type: "DECIMAL(18,2)", nullable: false}
+      evaluation_only: {type: BOOLEAN, nullable: false}
+
+  rule_evaluation:
+    grain: one row per run and evaluation scope
+    primary_key: [evaluation_id]
+    natural_key: [run_id, evaluation_scope, rule_id]
+    foreign_keys:
+      - {columns: [run_id], references: "rule_run(run_id)"}
+    columns:
+      evaluation_id: {type: VARCHAR, nullable: false}
+      run_id: {type: VARCHAR, nullable: false}
+      evaluation_scope: {type: VARCHAR, nullable: false}
+      rule_id: {type: VARCHAR, nullable: false}
+      eligible_target_count: {type: BIGINT, nullable: false}
+      true_positive_count: {type: BIGINT, nullable: false}
+      false_positive_count: {type: BIGINT, nullable: false}
+      false_negative_count: {type: BIGINT, nullable: false}
+      true_negative_count: {type: BIGINT, nullable: false}
+      precision: {type: "DECIMAL(18,4)", nullable: true}
+      recall: {type: "DECIMAL(18,4)", nullable: true}
+      false_positive_rate: {type: "DECIMAL(18,4)", nullable: true}
+      labeled_expected_exposure: {type: "DECIMAL(18,2)", nullable: false}
+      detected_expected_exposure: {type: "DECIMAL(18,2)", nullable: false}
+      exposure_recall: {type: "DECIMAL(18,4)", nullable: true}
+      precision_threshold_passed: {type: BOOLEAN, nullable: false}
+      recall_threshold_passed: {type: BOOLEAN, nullable: false}
+      false_positive_rate_threshold_passed: {type: BOOLEAN, nullable: false}
+      evaluation_only: {type: BOOLEAN, nullable: false}
+
+quality_checks:
+  - {check_id: PIE001, expression: all enabled rule IDs execute exactly once per run}
+  - {check_id: PIE002, expression: finding natural keys are unique and non-null}
+  - {check_id: PIE003, expression: every finding has at least one evidence row and an explanation}
+  - {check_id: PIE004, expression: severity and confidence match governed rule metadata}
+  - {check_id: PIE005, expression: amount at risk is nonnegative and reproducible}
+  - {check_id: PIE006, expression: findings are frozen before ground truth is read}
+  - {check_id: PIE007, expression: every match uses exact rule ID scope and canonical target identity}
+  - {check_id: PIE008, expression: confusion matrix counts reconcile to eligible populations}
+  - {check_id: PIE009, expression: precision recall and false positive rate reproduce from counts}
+  - {check_id: PIE010, expression: detected exposure never exceeds labeled exposure beyond tolerance}
+  - {check_id: PIE011, expression: repeated builds produce identical content hashes}
+  - {check_id: PIE012, expression: full outputs remain excluded from Git}

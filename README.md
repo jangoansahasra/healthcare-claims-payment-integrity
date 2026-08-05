@@ -61,9 +61,9 @@ tests/        Automated tests
 ## Status
 
 Repository governance, public-data ingestion, clean synthetic operational data
-generation, and controlled synthetic anomaly injection are complete. The next
-trusted claims dimensional layer is also complete. The next milestone builds
-the explainable payment-integrity engine against the 500-label ground truth.
+generation, controlled synthetic anomaly injection, and the trusted claims
+dimensional layer are complete. M05 is now defining and implementing the
+explainable payment-integrity engine against the 500-label ground truth.
 
 ## Safety and limitations
 
