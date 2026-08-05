@@ -1397,3 +1397,25 @@ Publishing the M06 implementation and validation through issue #64.
 
 Complete M06 and begin M07 policy-impact analysis with governed treatment and
 comparison cohorts plus pre-policy and post-policy diagnostics.
+
+## 2026-08-04 — M07 policy-impact analysis contracts
+
+### Completed
+
+- Defined the balanced provider-month panel with twelve pre-policy and six
+  post-policy months and frozen treatment/comparison assignments.
+- Governed five outcomes with explicit numerator, denominator, and date roles.
+- Specified two-way fixed-effects difference-in-differences with
+  provider-clustered standard errors.
+- Defined event-study, joint pre-trend, placebo-date, and sensitivity analyses.
+- Defined typed coefficient, confidence-interval, diagnostic, and quality
+  outputs while prohibiting anomaly ground truth from model inputs.
+
+### Current work
+
+Publishing the M07 statistical design and contracts through issue #67.
+
+### Next task
+
+Construct the provider-month panel, estimate policy effects, and publish
+reproducible event-study and diagnostic evidence.

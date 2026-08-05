@@ -1,0 +1,183 @@
+contract_version: 1
+last_reviewed: "2026-08-04"
+
+dataset:
+  name: simulated_claims_review_policy_impact
+  milestone: M07
+  trusted_contract: config/trusted_claims_contract.yml
+  cost_intelligence_contract: config/cost_intelligence_contract.yml
+  trusted_input_root: data/curated/trusted_claims
+  output_root: data/curated/policy_impact
+  quality_report: data/metadata/quality/policy_impact.json
+  publishable_sample_root: data/sample/policy_impact
+  deterministic_run_id: M07-DID-20260724
+  output_format: parquet
+  compression: zstd
+  full_output_committed_to_git: false
+
+governance:
+  synthetic_records_only: true
+  contains_protected_health_information: false
+  model_inputs_may_access_anomaly_ground_truth: false
+  treatment_assignment_frozen_before_outcomes: true
+  findings_are_not_policy_outcomes: true
+  results_are_synthetic_evidence_not_production_causal_proof: true
+  publishable_samples_are_synthetic_only: true
+
+design:
+  policy_id: POLICY_2026_REVIEW
+  policy_start_date: 2026-01-01
+  panel_grain: [provider_key, reporting_month]
+  treatment_unit: provider_key
+  time_unit: calendar_month
+  treatment_source: bridge_provider_policy.treatment_group
+  treatment_value: treatment
+  comparison_value: comparison
+  cohorts_mutually_exclusive: true
+  pre_policy_start: 2025-01-01
+  pre_policy_end: 2025-12-01
+  post_policy_start: 2026-01-01
+  post_policy_end: 2026-06-01
+  required_pre_policy_months: 12
+  required_post_policy_months: 6
+  event_time_zero: first policy month
+  event_time_reference: -1
+  balanced_panel_required: true
+
+outcomes:
+  paid_pmpm:
+    numerator: provider-attributed current paid claim net_paid_amount
+    denominator: attributed eligible member months
+    date_role: service_date
+  allowed_pmpm:
+    numerator: provider-attributed current paid claim total_allowed_amount
+    denominator: attributed eligible member months
+    date_role: service_date
+  claims_per_1000:
+    numerator: distinct current logical claims * 1000
+    denominator: attributed eligible member months
+    date_role: service_date
+  denial_rate:
+    numerator: current denied logical claims
+    denominator: all current logical claims
+    date_role: service_date
+  review_rate:
+    numerator: distinct completed claim reviews
+    denominator: all current logical claims
+    date_role: review_selected_date
+  zero_denominator_result: null
+
+primary_estimator:
+  method: two_way_fixed_effects_difference_in_differences
+  formula: outcome ~ treatment_post + provider_fixed_effects + month_fixed_effects
+  treatment_post: treatment_indicator * post_policy_indicator
+  provider_fixed_effects: true
+  month_fixed_effects: true
+  standard_errors: cluster_robust
+  cluster_unit: provider_key
+  confidence_level: 0.95
+  include_intercept: true
+  minimum_provider_clusters: 30
+
+event_study:
+  enabled: true
+  formula: outcome ~ event_time_indicators + provider_fixed_effects + month_fixed_effects
+  reference_event_time: -1
+  minimum_event_time: -12
+  maximum_event_time: 5
+  bin_outside_window: true
+  simultaneous_confidence_intervals: false
+
+diagnostics:
+  parallel_trends:
+    method: joint_wald_test_of_pretreatment_event_coefficients
+    tested_event_times: [-12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2]
+    significance_level: 0.05
+    pass_rule: p_value >= significance_level
+  placebo:
+    policy_start_date: 2025-07-01
+    estimation_window_end: 2025-12-01
+    significance_level: 0.05
+    pass_rule: p_value >= significance_level
+  sensitivity:
+    specifications: [balanced_panel, winsorized_99_percent, unweighted_provider_month]
+    effect_direction_must_match_primary: true
+
+tables:
+  provider_month_policy_panel:
+    grain: one row per provider and reporting month
+    primary_key: [provider_key, reporting_month]
+    natural_key: [provider_key, reporting_month]
+    columns:
+      provider_key: {type: BIGINT, nullable: false}
+      reporting_month: {type: DATE, nullable: false}
+      treatment_group: {type: VARCHAR, nullable: false}
+      treatment_indicator: {type: BOOLEAN, nullable: false}
+      post_policy_indicator: {type: BOOLEAN, nullable: false}
+      treatment_post: {type: BOOLEAN, nullable: false}
+      event_time: {type: INTEGER, nullable: false}
+      eligible_member_months: {type: BIGINT, nullable: false}
+      claim_count: {type: BIGINT, nullable: false}
+      paid_pmpm: {type: "DECIMAL(18,4)", nullable: true}
+      allowed_pmpm: {type: "DECIMAL(18,4)", nullable: true}
+      claims_per_1000: {type: "DECIMAL(18,4)", nullable: true}
+      denial_rate: {type: "DECIMAL(18,4)", nullable: true}
+      review_rate: {type: "DECIMAL(18,4)", nullable: true}
+
+  policy_effect_estimate:
+    grain: one row per run outcome and specification
+    primary_key: [run_id, outcome_name, specification]
+    natural_key: [run_id, outcome_name, specification]
+    columns:
+      run_id: {type: VARCHAR, nullable: false}
+      outcome_name: {type: VARCHAR, nullable: false}
+      specification: {type: VARCHAR, nullable: false}
+      coefficient: {type: "DECIMAL(18,4)", nullable: false}
+      standard_error: {type: "DECIMAL(18,4)", nullable: false}
+      confidence_interval_lower: {type: "DECIMAL(18,4)", nullable: false}
+      confidence_interval_upper: {type: "DECIMAL(18,4)", nullable: false}
+      p_value: {type: "DECIMAL(18,4)", nullable: false}
+      provider_count: {type: BIGINT, nullable: false}
+      observation_count: {type: BIGINT, nullable: false}
+
+  event_study_estimate:
+    grain: one row per run outcome and event time
+    primary_key: [run_id, outcome_name, event_time]
+    natural_key: [run_id, outcome_name, event_time]
+    columns:
+      run_id: {type: VARCHAR, nullable: false}
+      outcome_name: {type: VARCHAR, nullable: false}
+      event_time: {type: INTEGER, nullable: false}
+      coefficient: {type: "DECIMAL(18,4)", nullable: false}
+      standard_error: {type: "DECIMAL(18,4)", nullable: false}
+      confidence_interval_lower: {type: "DECIMAL(18,4)", nullable: false}
+      confidence_interval_upper: {type: "DECIMAL(18,4)", nullable: false}
+      p_value: {type: "DECIMAL(18,4)", nullable: false}
+
+  policy_diagnostic:
+    grain: one row per run outcome diagnostic and specification
+    primary_key: [run_id, outcome_name, diagnostic_name, specification]
+    natural_key: [run_id, outcome_name, diagnostic_name, specification]
+    columns:
+      run_id: {type: VARCHAR, nullable: false}
+      outcome_name: {type: VARCHAR, nullable: false}
+      diagnostic_name: {type: VARCHAR, nullable: false}
+      specification: {type: VARCHAR, nullable: false}
+      statistic: {type: "DECIMAL(18,4)", nullable: true}
+      p_value: {type: "DECIMAL(18,4)", nullable: true}
+      passed: {type: BOOLEAN, nullable: false}
+      explanation: {type: VARCHAR, nullable: false}
+
+quality_checks:
+  - {check_id: PA001, expression: panel natural keys are unique and non-null}
+  - {check_id: PA002, expression: treatment and comparison cohorts are non-empty and mutually exclusive}
+  - {check_id: PA003, expression: treatment assignment is fixed before outcome construction}
+  - {check_id: PA004, expression: every provider has twelve pre-policy and six post-policy months}
+  - {check_id: PA005, expression: outcome numerators and denominators reconcile to trusted facts}
+  - {check_id: PA006, expression: treatment post equals treatment indicator times post indicator}
+  - {check_id: PA007, expression: clustered standard errors and confidence intervals reproduce}
+  - {check_id: PA008, expression: event-study reference period is omitted}
+  - {check_id: PA009, expression: parallel-trend and placebo diagnostics follow configured rules}
+  - {check_id: PA010, expression: anomaly ground truth is never read by model construction}
+  - {check_id: PA011, expression: repeated builds produce identical hashes and Parquet bytes}
+  - {check_id: PA012, expression: full statistical outputs remain excluded from Git}
