@@ -10,6 +10,10 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Versioned M05 rules-engine findings, evidence, matching, and evaluation
+  contracts for all ten governed payment-integrity rules
+- Explicit ground-truth leakage boundary, canonical label-scope matching,
+  reproducible metric formulas, and portfolio performance thresholds
 - Deterministic twelve-table trusted claims generator with typed Zstandard
   Parquet, stable surrogate keys, and synthetic demonstration samples
 - End-to-end current-version, financial, eligibility, foreign-key, policy, and

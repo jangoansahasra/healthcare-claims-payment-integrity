@@ -28,7 +28,7 @@ auditors an explainable investigation queue.
 | M02 | Synthetic operational data | Complete | All 14 governed operational tables generated and validated |
 | M03 | Anomaly injection | Complete | Ten anomaly types injected with complete ground truth |
 | M04 | Trusted claims model | Complete | Dimensional model built, tested, and reconciled |
-| M05 | Payment-integrity engine | Not started | Explainable rules evaluated against ground truth |
+| M05 | Payment-integrity engine | In progress | Explainable rules evaluated against ground truth |
 | M06 | Cost intelligence | Not started | Cost, utilization, concentration, and early-warning metrics validated |
 | M07 | Policy-impact analysis | Not started | Difference-in-differences estimate and diagnostics completed |
 | M08 | SAS reconciliation | Not started | Key totals independently reproduced in SAS |

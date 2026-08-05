@@ -1259,3 +1259,33 @@ Publishing the reconciled M04 dimensional model and completion evidence.
 
 Begin M05 with versioned explainable rule-output and evaluation contracts, then
 run the ten governed rules against the trusted model and 500-label ground truth.
+
+## 2026-08-04 — Payment-integrity engine and evaluation contract
+
+### Completed
+
+- Defined a standard explainable finding schema for all ten PI001–PI010 rules.
+- Added sequenced evidence lineage with observed values, comparison operators,
+  thresholds, and source-record references.
+- Separated rules execution from ground-truth evaluation and required findings
+  to be frozen before labels can be read.
+- Defined exact canonical matching for claim, claim-line, transaction,
+  provider, and provider-period labels, including per-rule multi-label handling.
+- Defined auditable match rows, rule-level and overall confusion matrices,
+  precision, recall, false-positive rate, exposure recall, and pass thresholds.
+- Added deterministic Parquet, privacy, publication, and quality-check controls.
+
+### Decision
+
+The rules engine may read ordinary trusted dimensions and facts only. The M03
+anomaly bridge is opened exclusively by the post-detection evaluator. A review
+lead is never presented as proof of fraud or a finding against a real provider.
+
+### Current work
+
+Publishing the versioned M05 rule-output and evaluation contract.
+
+### Next task
+
+Implement deterministic PI001–PI010 detection, freeze explainable findings,
+then evaluate them against the isolated 500-label ground-truth bridge.
