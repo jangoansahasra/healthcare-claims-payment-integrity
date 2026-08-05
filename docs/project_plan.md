@@ -29,8 +29,8 @@ auditors an explainable investigation queue.
 | M03 | Anomaly injection | Complete | Ten anomaly types injected with complete ground truth |
 | M04 | Trusted claims model | Complete | Dimensional model built, tested, and reconciled |
 | M05 | Payment-integrity engine | Complete | Explainable rules evaluated against ground truth |
-| M06 | Cost intelligence | In progress | Cost, utilization, concentration, and early-warning metrics validated |
-| M07 | Policy-impact analysis | Not started | Difference-in-differences estimate and diagnostics completed |
+| M06 | Cost intelligence | Complete | Cost, utilization, concentration, and early-warning metrics validated |
+| M07 | Policy-impact analysis | In progress | Difference-in-differences estimate and diagnostics completed |
 | M08 | SAS reconciliation | Not started | Key totals independently reproduced in SAS |
 | M09 | Fabric and Azure | Not started | Curated data and pipelines demonstrated in the cloud |
 | M10 | BI dashboards | Not started | Six-page Looker Studio report, compact Power BI validation report, and documented semantic model completed |

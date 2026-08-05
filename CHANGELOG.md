@@ -10,6 +10,8 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Versioned M07 provider-panel, difference-in-differences, event-study,
+  parallel-trends, placebo, sensitivity, and statistical-output contracts
 - Deterministic five-table M06 cost-intelligence generator with reconciled
   service cost, payment cash flow, concentration, decomposition, and warnings
 - Synthetic samples, stable content hashes, deterministic Parquet bytes, and
