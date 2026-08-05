@@ -61,10 +61,10 @@ tests/        Automated tests
 ## Status
 
 Repository governance, public-data ingestion, clean synthetic operational data
-generation, controlled synthetic anomaly injection, and the trusted claims
-dimensional layer are complete. The explainable M05 payment-integrity engine
-now executes all ten rules and evaluates frozen findings against the isolated
-500-label ground truth.
+generation, controlled synthetic anomaly injection, the trusted claims model,
+and the explainable M05 payment-integrity engine are complete. M06 cost
+intelligence is in progress, beginning with governed PMPM, utilization,
+concentration, decomposition, and early-warning metric contracts.
 
 ## Safety and limitations
 

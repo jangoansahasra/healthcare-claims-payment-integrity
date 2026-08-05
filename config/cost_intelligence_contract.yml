@@ -1,0 +1,203 @@
+contract_version: 1
+last_reviewed: "2026-08-04"
+
+dataset:
+  name: healthcare_cost_intelligence
+  milestone: M06
+  trusted_contract: config/trusted_claims_contract.yml
+  trusted_input_root: data/curated/trusted_claims
+  output_root: data/curated/cost_intelligence
+  quality_report: data/metadata/quality/cost_intelligence.json
+  publishable_sample_root: data/sample/cost_intelligence
+  source_variant: anomalous_evaluation
+  deterministic_run_id: M06-COST-20260724
+  output_format: parquet
+  compression: zstd
+  full_output_committed_to_git: false
+
+governance:
+  synthetic_records_only: true
+  contains_protected_health_information: false
+  ordinary_metrics_may_access_anomaly_ground_truth: false
+  payment_integrity_findings_are_descriptive_dimensions_only: true
+  findings_are_not_fraud_determinations: true
+  service_and_payment_date_metrics_published_separately: true
+  suppress_small_cells: true
+  minimum_publishable_member_count: 11
+  publishable_samples_are_synthetic_only: true
+
+population_policy:
+  claim_scope: current_version_only
+  included_claim_statuses: [paid, denied]
+  financial_claim_statuses: [paid]
+  eligibility_status: active
+  member_month_grain: [member_key, plan_key, coverage_month]
+  service_date_role: fact_claim.service_date_key
+  payment_date_role: fact_payment_transaction.transaction_date_key
+  service_month_membership_rule: member and plan eligible on service date
+  payment_month_membership_rule: reporting exposure is not reassigned from service month
+
+metric_definitions:
+  allowed_pmpm:
+    grain: [service_month, plan_key]
+    numerator: sum current paid claim total_allowed_amount by service month and plan
+    denominator: eligible member months by coverage month and plan
+    formula: allowed_amount / eligible_member_months
+  paid_pmpm:
+    grain: [service_month, plan_key]
+    numerator: sum current paid claim net_paid_amount by service month and plan
+    denominator: eligible member months by coverage month and plan
+    formula: paid_amount / eligible_member_months
+  claims_per_1000:
+    grain: [service_month, plan_key]
+    numerator: count distinct current logical claims by service month and plan
+    denominator: eligible member months by coverage month and plan
+    formula: claim_count * 1000 / eligible_member_months
+  units_per_1000:
+    grain: [service_month, plan_key]
+    numerator: sum current paid claim-line units by service month and plan
+    denominator: eligible member months by coverage month and plan
+    formula: service_units * 1000 / eligible_member_months
+  allowed_per_claim:
+    grain: [service_month, plan_key]
+    formula: allowed_amount / paid_claim_count
+  net_payment_cash_flow:
+    grain: [payment_month, plan_key]
+    formula: sum signed_transaction_amount by transaction month and claim plan
+    date_role: payment_date
+  provider_concentration:
+    grain: [service_month, plan_key]
+    measure: allowed_amount
+    formulas:
+      top_10_share: top_10_provider_allowed_amount / total_allowed_amount
+      hhi: sum squared provider allowed amount shares
+  service_concentration:
+    grain: [service_month, plan_key]
+    measure: allowed_amount
+    formulas:
+      top_10_share: top_10_service_allowed_amount / total_allowed_amount
+      hhi: sum squared service allowed amount shares
+
+decomposition_policy:
+  comparison_interval: year_over_year
+  comparison_grain: [service_month, plan_key, service_category]
+  base_period: prior_year_same_month
+  current_period: reporting_month
+  price_measure: allowed_amount / service_units
+  utilization_measure: service_units / eligible_member_months
+  mix_measure: service_category_share_of_units
+  price_effect: (current_unit_price - base_unit_price) * base_units
+  utilization_effect: (current_units - base_units) * base_unit_price
+  mix_effect: total_allowed_change - price_effect - utilization_effect
+  total_change: current_allowed_amount - base_allowed_amount
+  reconciliation_formula: price_effect + utilization_effect + mix_effect = total_change
+  zero_unit_result: null
+  financial_tolerance: 0.01
+
+early_warning_policy:
+  reporting_grain: [service_month, plan_key, metric_name]
+  minimum_history_months: 6
+  baseline_window_months: 12
+  exclude_current_month_from_baseline: true
+  minimum_eligible_member_months: 100
+  robust_center: median
+  robust_scale: median_absolute_deviation
+  fallback_scale_when_zero: null
+  warning_z_score: 3.0
+  minimum_relative_change: 0.20
+  signal_rule: robust_z_score >= warning_z_score and absolute_relative_change >= minimum_relative_change
+  deterministic_tie_breaker: metric_name_then_plan_key_then_service_month
+
+tables:
+  monthly_cost_utilization:
+    grain: one row per service month and plan
+    primary_key: [service_month, plan_key]
+    natural_key: [service_month, plan_key]
+    columns:
+      service_month: {type: DATE, nullable: false}
+      plan_key: {type: BIGINT, nullable: false}
+      eligible_member_months: {type: BIGINT, nullable: false}
+      claim_count: {type: BIGINT, nullable: false}
+      paid_claim_count: {type: BIGINT, nullable: false}
+      service_units: {type: "DECIMAL(18,4)", nullable: false}
+      allowed_amount: {type: "DECIMAL(18,2)", nullable: false}
+      paid_amount: {type: "DECIMAL(18,2)", nullable: false}
+      allowed_pmpm: {type: "DECIMAL(18,4)", nullable: true}
+      paid_pmpm: {type: "DECIMAL(18,4)", nullable: true}
+      claims_per_1000: {type: "DECIMAL(18,4)", nullable: true}
+      units_per_1000: {type: "DECIMAL(18,4)", nullable: true}
+      allowed_per_claim: {type: "DECIMAL(18,4)", nullable: true}
+
+  monthly_payment_cash_flow:
+    grain: one row per payment month and plan
+    primary_key: [payment_month, plan_key]
+    natural_key: [payment_month, plan_key]
+    columns:
+      payment_month: {type: DATE, nullable: false}
+      plan_key: {type: BIGINT, nullable: false}
+      transaction_count: {type: BIGINT, nullable: false}
+      payment_count: {type: BIGINT, nullable: false}
+      reversal_count: {type: BIGINT, nullable: false}
+      net_payment_cash_flow: {type: "DECIMAL(18,2)", nullable: false}
+
+  provider_service_concentration:
+    grain: one row per service month plan and concentration entity
+    primary_key: [service_month, plan_key, entity_type]
+    natural_key: [service_month, plan_key, entity_type]
+    columns:
+      service_month: {type: DATE, nullable: false}
+      plan_key: {type: BIGINT, nullable: false}
+      entity_type: {type: VARCHAR, nullable: false}
+      entity_count: {type: BIGINT, nullable: false}
+      total_allowed_amount: {type: "DECIMAL(18,2)", nullable: false}
+      top_10_allowed_amount: {type: "DECIMAL(18,2)", nullable: false}
+      top_10_share: {type: "DECIMAL(18,6)", nullable: true}
+      hhi: {type: "DECIMAL(18,6)", nullable: true}
+
+  cost_change_decomposition:
+    grain: one row per reporting month plan and service category
+    primary_key: [reporting_month, plan_key, service_category]
+    natural_key: [reporting_month, plan_key, service_category]
+    columns:
+      reporting_month: {type: DATE, nullable: false}
+      base_month: {type: DATE, nullable: false}
+      plan_key: {type: BIGINT, nullable: false}
+      service_category: {type: VARCHAR, nullable: false}
+      base_allowed_amount: {type: "DECIMAL(18,2)", nullable: false}
+      current_allowed_amount: {type: "DECIMAL(18,2)", nullable: false}
+      total_cost_change: {type: "DECIMAL(18,2)", nullable: false}
+      price_effect: {type: "DECIMAL(18,2)", nullable: false}
+      utilization_effect: {type: "DECIMAL(18,2)", nullable: false}
+      mix_effect: {type: "DECIMAL(18,2)", nullable: false}
+      reconciliation_residual: {type: "DECIMAL(18,2)", nullable: false}
+
+  cost_early_warning_signal:
+    grain: one row per service month plan and governed metric
+    primary_key: [service_month, plan_key, metric_name]
+    natural_key: [service_month, plan_key, metric_name]
+    columns:
+      service_month: {type: DATE, nullable: false}
+      plan_key: {type: BIGINT, nullable: false}
+      metric_name: {type: VARCHAR, nullable: false}
+      metric_value: {type: "DECIMAL(18,4)", nullable: false}
+      history_month_count: {type: INTEGER, nullable: false}
+      baseline_median: {type: "DECIMAL(18,4)", nullable: true}
+      baseline_mad: {type: "DECIMAL(18,4)", nullable: true}
+      robust_z_score: {type: "DECIMAL(18,4)", nullable: true}
+      relative_change: {type: "DECIMAL(18,4)", nullable: true}
+      signal_status: {type: VARCHAR, nullable: false}
+      explanation: {type: VARCHAR, nullable: false}
+
+quality_checks:
+  - {check_id: CI001, expression: output natural keys are unique and non-null}
+  - {check_id: CI002, expression: service-month financial totals reconcile to current trusted claim facts}
+  - {check_id: CI003, expression: payment-month cash flow reconciles to the append-only payment ledger}
+  - {check_id: CI004, expression: eligible member-month denominators reconcile to active membership facts}
+  - {check_id: CI005, expression: PMPM and per-1000 metrics reproduce from governed components}
+  - {check_id: CI006, expression: service-date and payment-date metrics remain in separate outputs}
+  - {check_id: CI007, expression: concentration shares and HHI remain between zero and one}
+  - {check_id: CI008, expression: decomposition effects reconcile to total cost change within tolerance}
+  - {check_id: CI009, expression: early-warning signals satisfy history exposure and threshold rules}
+  - {check_id: CI010, expression: ordinary metric generation never reads anomaly ground truth}
+  - {check_id: CI011, expression: repeated builds produce identical content hashes and Parquet bytes}
+  - {check_id: CI012, expression: full analytical outputs remain excluded from Git}
