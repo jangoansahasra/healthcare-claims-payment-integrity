@@ -1,0 +1,56 @@
+{
+  "all_checks_passed": true,
+  "checks": {
+    "all_five_outputs_present": true,
+    "concentration_bounded": true,
+    "cost_change_decomposition_row_count": true,
+    "cost_change_decomposition_schema": true,
+    "cost_early_warning_signal_row_count": true,
+    "cost_early_warning_signal_schema": true,
+    "decomposition_reconciles": true,
+    "ground_truth_not_required": true,
+    "monthly_cost_utilization_row_count": true,
+    "monthly_cost_utilization_schema": true,
+    "monthly_keys_unique": true,
+    "monthly_payment_cash_flow_row_count": true,
+    "monthly_payment_cash_flow_schema": true,
+    "nonnegative_exposure": true,
+    "pmpm_reconciles": true,
+    "provider_service_concentration_row_count": true,
+    "provider_service_concentration_schema": true,
+    "service_and_payment_outputs_separate": true,
+    "signals_explained": true,
+    "utilization_reconciles": true
+  },
+  "contract_version": 1,
+  "generated_at_utc": "2026-08-05T02:54:13.829721+00:00",
+  "ground_truth_accessed": false,
+  "report_version": 1,
+  "tables": {
+    "cost_change_decomposition": {
+      "content_sha256": "068d9b5ab61bd64d1057fa7905bf67bf13a7a1c7d6ec14a7fb29b1b73565c543",
+      "parquet_size_bytes": 9422,
+      "row_count": 168
+    },
+    "cost_early_warning_signal": {
+      "content_sha256": "f1df5b4cf57d5ce11be9818f5efcd1e3ac44eee8a6e1354e47cc48341cb238eb",
+      "parquet_size_bytes": 9002,
+      "row_count": 288
+    },
+    "monthly_cost_utilization": {
+      "content_sha256": "9644182500b1d6640b68710c26843ed2c47d7d784d05cf3b6960feac6c1329c3",
+      "parquet_size_bytes": 8968,
+      "row_count": 72
+    },
+    "monthly_payment_cash_flow": {
+      "content_sha256": "697811ced3842444235a57e40f89c4b89745120856cafefee87b62313c078d09",
+      "parquet_size_bytes": 3410,
+      "row_count": 76
+    },
+    "provider_service_concentration": {
+      "content_sha256": "54be60af8b6c87dc5676d9fe8e8a73b11df7e188411bbb442b1bbb8d11893593",
+      "parquet_size_bytes": 5220,
+      "row_count": 144
+    }
+  }
+}

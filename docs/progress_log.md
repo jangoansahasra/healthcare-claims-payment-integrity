@@ -1375,3 +1375,25 @@ Publishing the M06 contract and automated governance tests through issue #62.
 Generate and reconcile the five deterministic cost-intelligence outputs from
 the trusted M04 model, then publish machine-readable quality evidence and
 synthetic-only samples.
+
+## 2026-08-04 — M06 cost-intelligence model generation
+
+### Completed
+
+- Generated all five M06 analytical tables without reading the anomaly bridge.
+- Published 72 cost-utilization, 76 payment cash-flow, 144 concentration, 168
+  decomposition, and 288 early-warning rows.
+- Reconciled PMPM and utilization to active eligible member months while
+  preserving separate service-date and payment-date outputs.
+- Validated concentration bounds and $0.01 decomposition reconciliation.
+- Published synthetic samples, stable hashes, deterministic Parquet bytes, and
+  20 passing machine-readable quality checks.
+
+### Current work
+
+Publishing the M06 implementation and validation through issue #64.
+
+### Next task
+
+Complete M06 and begin M07 policy-impact analysis with governed treatment and
+comparison cohorts plus pre-policy and post-policy diagnostics.

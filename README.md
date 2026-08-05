@@ -63,8 +63,8 @@ tests/        Automated tests
 Repository governance, public-data ingestion, clean synthetic operational data
 generation, controlled synthetic anomaly injection, the trusted claims model,
 and the explainable M05 payment-integrity engine are complete. M06 cost
-intelligence is in progress, beginning with governed PMPM, utilization,
-concentration, decomposition, and early-warning metric contracts.
+intelligence now generates governed PMPM, utilization, cash-flow,
+concentration, decomposition, and early-warning outputs from trusted claims.
 
 ## Safety and limitations
 

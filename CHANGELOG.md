@@ -10,6 +10,10 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Deterministic five-table M06 cost-intelligence generator with reconciled
+  service cost, payment cash flow, concentration, decomposition, and warnings
+- Synthetic samples, stable content hashes, deterministic Parquet bytes, and
+  machine-readable M06 quality evidence
 - Versioned M06 cost-intelligence contracts for PMPM, per-1,000 utilization,
   payment cash flow, concentration, cost decomposition, and early warnings
 - Explicit eligible member-month denominators, service/payment date roles,
