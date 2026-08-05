@@ -24,3 +24,17 @@ These estimates are synthetic analytical evidence. They demonstrate a sound
 evaluation workflow but do not establish production causal effects. Controlled
 anomaly ground truth is prohibited from model inputs. Full results remain
 outside Git; only synthetic samples and quality evidence may be published.
+
+## Generated results
+
+The balanced panel contains 3,600 provider-month rows for 200 providers. The
+primary exposure-weighted estimates are not statistically significant for any
+of the five outcomes: paid PMPM (160.2456, p=0.5307), allowed PMPM (188.7401,
+p=0.5404), claims per 1,000 (8.5613, p=0.6092), denial rate (-0.0067,
+p=0.2528), and review rate (0.0010, p=0.8125).
+
+All five joint pre-trend tests and all five placebo-date tests pass at the 5%
+level. Unweighted paid and allowed PMPM estimates reverse direction, showing
+that unequal provider exposure materially affects those point estimates. This
+sensitivity is retained as a limitation; the synthetic analysis does not claim
+a demonstrated policy effect.

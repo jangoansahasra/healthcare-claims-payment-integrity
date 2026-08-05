@@ -1,0 +1,11 @@
+run_id,outcome_name,diagnostic_name,specification,statistic,p_value,passed,explanation
+M07-DID-20260724,paid_pmpm,parallel_trends,joint_wald,19.4259,0.0539,true,Joint Wald test of treatment-specific event coefficients -12 through -2.
+M07-DID-20260724,paid_pmpm,placebo_policy_date,2025-07-01,9.7775,0.9353,true,Pretreatment-only placebo interaction at July 2025.
+M07-DID-20260724,allowed_pmpm,parallel_trends,joint_wald,18.5742,0.0692,true,Joint Wald test of treatment-specific event coefficients -12 through -2.
+M07-DID-20260724,allowed_pmpm,placebo_policy_date,2025-07-01,-3.8195,0.9794,true,Pretreatment-only placebo interaction at July 2025.
+M07-DID-20260724,claims_per_1000,parallel_trends,joint_wald,16.8465,0.1125,true,Joint Wald test of treatment-specific event coefficients -12 through -2.
+M07-DID-20260724,claims_per_1000,placebo_policy_date,2025-07-01,5.7287,0.5939,true,Pretreatment-only placebo interaction at July 2025.
+M07-DID-20260724,denial_rate,parallel_trends,joint_wald,12.0429,0.3604,true,Joint Wald test of treatment-specific event coefficients -12 through -2.
+M07-DID-20260724,denial_rate,placebo_policy_date,2025-07-01,-0.0125,0.0783,true,Pretreatment-only placebo interaction at July 2025.
+M07-DID-20260724,review_rate,parallel_trends,joint_wald,12.5271,0.3254,true,Joint Wald test of treatment-specific event coefficients -12 through -2.
+M07-DID-20260724,review_rate,placebo_policy_date,2025-07-01,0.0039,0.5044,true,Pretreatment-only placebo interaction at July 2025.

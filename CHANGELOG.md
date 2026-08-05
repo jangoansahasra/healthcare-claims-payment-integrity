@@ -10,6 +10,9 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Deterministic M07 provider-month panel, weighted two-way fixed-effects
+  estimates, event study, clustered inference, diagnostics, and sensitivities
+- Typed synthetic samples and machine-readable policy-analysis quality evidence
 - Versioned M07 provider-panel, difference-in-differences, event-study,
   parallel-trends, placebo, sensitivity, and statistical-output contracts
 - Deterministic five-table M06 cost-intelligence generator with reconciled

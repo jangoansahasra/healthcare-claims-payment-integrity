@@ -34,13 +34,16 @@ def test_design_locks_cohorts_timing_and_balanced_window() -> None:
     design = contract()["design"]
     assert str(design["policy_start_date"]) == "2026-01-01"
     assert design["panel_grain"] == ["provider_key", "reporting_month"]
-    assert design["treatment_value"] == "treatment"
+    assert design["treatment_value"] == "treated"
     assert design["comparison_value"] == "comparison"
     assert design["cohorts_mutually_exclusive"] is True
     assert design["required_pre_policy_months"] == 12
     assert design["required_post_policy_months"] == 6
     assert design["event_time_reference"] == -1
     assert design["balanced_panel_required"] is True
+    assert design["member_attribution"]["method"] == (
+        "plurality_of_pre_policy_paid_claims"
+    )
 
 
 def test_outcome_denominators_and_date_roles_are_explicit() -> None:
