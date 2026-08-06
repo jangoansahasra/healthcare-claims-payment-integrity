@@ -1511,6 +1511,8 @@ log, compare all results, and close M08 only if governed tolerances pass.
   missing SAS values, and all SAS001-SAS012 reference keys matched.
 - Published checksums for the input manifest, reference file, seven programs,
   real SAS log, and final result CSV in machine-readable quality evidence.
+- Added `codex/**` to CI push branches after PR #76 produced no GitHub Actions
+  run despite an active pull-request trigger.
 
 ### Current work
 

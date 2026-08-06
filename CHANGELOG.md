@@ -10,6 +10,8 @@ include validation evidence and corresponding documentation.
 
 ### Fixed
 
+- Enabled CI push validation for `codex/**` branches so agent-authored pull
+  requests receive a head-SHA check even when GitHub omits the PR event
 - Prevented missing SAS reconciliation values from passing tolerance checks
   under SAS missing-value ordering semantics
 - Preserved 64-character comparison scopes when combining domain metric tables,
