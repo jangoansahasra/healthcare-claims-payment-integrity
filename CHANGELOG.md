@@ -8,6 +8,15 @@ include validation evidence and corresponding documentation.
 
 ## Unreleased
 
+### Fixed
+
+- Prevented missing SAS reconciliation values from passing tolerance checks
+  under SAS missing-value ordering semantics
+- Preserved 64-character comparison scopes when combining domain metric tables,
+  eliminating truncation warnings and unmatched reference rows
+- Required and published a real execution identifier on every reconciliation
+  result row to satisfy the governed result grain and primary key
+
 ### Added
 
 - Portable six-input SAS package builder, 181 Python references, SHA-256

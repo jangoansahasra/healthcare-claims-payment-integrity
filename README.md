@@ -65,8 +65,9 @@ generation, controlled synthetic anomaly injection, the trusted claims model,
 and the explainable M05 payment-integrity engine are complete. M06 cost
 intelligence generates governed analytical outputs from trusted claims. The
 M07 preregistered synthetic difference-in-differences and event-study analysis
-is complete. M08 SAS reconciliation preparation is in progress; independent
-SAS execution has not yet occurred.
+is complete. M08 independent SAS reconciliation is complete: SAS 9.4 M8 on
+Linux reproduced all 181 governed comparisons with zero failures or missing
+SAS values.
 
 ## Safety and limitations
 

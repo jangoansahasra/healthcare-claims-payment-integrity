@@ -15,7 +15,10 @@ def test_runtime_status_is_truthful_and_requires_real_evidence() -> None:
     runtime = contract()["runtime"]
     assert runtime["local_runtime_available"] is False
     assert runtime["local_probe_result"] == "not_found"
-    assert runtime["execution_status"] == "not_executed"
+    assert runtime["package_preparation_status"] == "not_executed"
+    assert runtime["execution_status"] == "passed"
+    assert runtime["execution_id"] == "M08_20260806_FINAL"
+    assert runtime["executed_sas_version"].startswith("9.04.01M8")
     assert runtime["success_requires_real_sas_log"] is True
     assert runtime["prohibit_simulated_success_evidence"] is True
     assert "sas_version" in runtime["required_evidence"]

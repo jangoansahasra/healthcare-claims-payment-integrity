@@ -31,7 +31,7 @@ auditors an explainable investigation queue.
 | M05 | Payment-integrity engine | Complete | Explainable rules evaluated against ground truth |
 | M06 | Cost intelligence | Complete | Cost, utilization, concentration, and early-warning metrics validated |
 | M07 | Policy-impact analysis | Complete | Difference-in-differences estimate and diagnostics completed |
-| M08 | SAS reconciliation | In progress | Key totals independently reproduced in SAS |
+| M08 | SAS reconciliation | Complete | Key totals independently reproduced in SAS |
 | M09 | Fabric and Azure | Not started | Curated data and pipelines demonstrated in the cloud |
 | M10 | BI dashboards | Not started | Six-page Looker Studio report, compact Power BI validation report, and documented semantic model completed |
 | M11 | Portfolio delivery | Not started | README, results, screenshots, presentation, and demo completed |

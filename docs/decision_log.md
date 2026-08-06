@@ -59,3 +59,8 @@ The local macOS environment has no SAS executable. M08 may prepare portable
 inputs, reference results, contracts, and SAS programs locally, but it remains
 not executed until SAS 9.4M7+ or SAS Viya 4 produces a real versioned log.
 Python or mocked results cannot be represented as independent SAS validation.
+
+On 2026-08-06, execution `M08_20260806_FINAL` ran in SAS OnDemand for
+Academics using SAS 9.4 M8 on Linux. The real log passed the governed scan and
+all 181 comparisons passed with no missing SAS values. Full inputs, logs, and
+results remain excluded from Git; only checksum-backed evidence is published.

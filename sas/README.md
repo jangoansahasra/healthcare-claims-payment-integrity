@@ -2,8 +2,9 @@
 
 M08 independently reconciles selected portfolio results in SAS. The current
 Mac does not have a SAS runtime: `command -v sas` returned no executable and
-`sas -version` returned `command not found` on 2026-08-05. Therefore the
-current status is **not executed**, not passed.
+`sas -version` returned `command not found` on 2026-08-05. Independent
+execution subsequently completed in SAS OnDemand for Academics using SAS 9.4
+M8 on Linux under execution `M08_20260806_FINAL`.
 
 The machine-readable contract is `config/sas_reconciliation_contract.yml`.
 Generated UTF-8 CSV inputs, Python references, and SAS results belong under
@@ -28,6 +29,8 @@ analytical outputs exist. It exports six CSV inputs, a SHA-256 manifest, and
 181 Python references for SAS001-SAS012. The deterministic package remains in
 ignored `data/generated/sas_reconciliation` storage.
 
-All seven programs under `sas/programs` use the configurable `ROOT` parameter.
-Preparation evidence remains `not_executed` until a real SAS run produces a
-versioned log that passes the governed error and conversion-warning scan.
+All seven programs under `sas/programs` use configurable `ROOT` and
+`EXECUTION_ID` parameters. Package preparation remains distinct from execution.
+The checksum-backed report in `data/metadata/quality/sas_reconciliation.json`
+records 181 of 181 comparisons passed, zero missing SAS values, and a clean
+real-SAS log. Full logs, inputs, and results remain outside Git.

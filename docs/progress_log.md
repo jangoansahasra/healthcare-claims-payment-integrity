@@ -1490,3 +1490,34 @@ Publishing portable package preparation through issue #74.
 
 Execute the package in SAS 9.4M7+ or SAS Viya 4, preserve the real versioned
 log, compare all results, and close M08 only if governed tolerances pass.
+
+## 2026-08-06 — M08 first independent SAS execution
+
+### Completed
+
+- Executed the package in SAS OnDemand for Academics using SAS 9.4 M8 on
+  Linux, satisfying the governed runtime minimum.
+- Confirmed all six inputs import and the result CSV and SAS dataset publish.
+- Detected a real `comparison_scope` truncation warning while combining domain
+  metric tables.
+- Diagnosed 176 unmatched SAS values that were incorrectly marked passed
+  because SAS numeric missing values compare below nonmissing tolerances.
+- Updated publication logic to preserve 64-character scopes and require
+  nonmissing reference values, SAS values, and tolerances before passing.
+- Added the required execution identifier to every result row after the first
+  real output exposed its absence from the portable publication program.
+- Completed corrected execution `M08_20260806_FINAL` in SAS 9.4 M8 on Linux.
+- Independently validated 181 result rows: 181 passed, zero failed, zero
+  missing SAS values, and all SAS001-SAS012 reference keys matched.
+- Published checksums for the input manifest, reference file, seven programs,
+  real SAS log, and final result CSV in machine-readable quality evidence.
+
+### Current work
+
+Publishing the corrected SAS programs, reproducible execution validator, and
+checksum-backed M08 completion evidence.
+
+### Next task
+
+Merge the M08 completion evidence, close issue #71, and begin M09 Fabric and
+Azure cloud demonstration planning.

@@ -1,5 +1,5 @@
 contract_version: 1
-last_reviewed: "2026-08-05"
+last_reviewed: "2026-08-06"
 
 dataset:
   name: sas_independent_reconciliation
@@ -20,7 +20,12 @@ runtime:
   local_runtime_available: false
   local_probe_command: command -v sas
   local_probe_result: not_found
-  execution_status: not_executed
+  package_preparation_status: not_executed
+  execution_status: passed
+  execution_id: M08_20260806_FINAL
+  executed_environment: SAS_OnDemand_for_Academics
+  executed_sas_version: 9.04.01M8P02222023
+  executed_platform: Linux
   accepted_environments: [SAS_94M7_or_later, SAS_Viya_4]
   required_evidence:
     - sas_product_name
@@ -115,3 +120,5 @@ quality_checks:
   - {check_id: SR010, expression: generated full-size exchange inputs remain outside Git}
   - {check_id: SR011, expression: all exchanged records are synthetic}
   - {check_id: SR012, expression: not-executed status cannot contain passing SAS comparisons}
+  - {check_id: SR013, expression: missing SAS or reference values cannot pass tolerance comparison}
+  - {check_id: SR014, expression: every result row contains one governed execution identifier}
