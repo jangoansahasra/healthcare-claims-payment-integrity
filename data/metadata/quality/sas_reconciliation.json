@@ -1,15 +1,32 @@
 {
-  "all_preparation_checks_passed": true,
+  "all_execution_checks_passed": true,
   "checks": {
-    "all_inputs_exported": true,
-    "all_inputs_hashed": true,
-    "all_metrics_referenced": true,
-    "execution_not_fabricated": true
+    "all_comparisons_passed": true,
+    "all_reference_rows_returned": true,
+    "execution_id_consistent": true,
+    "execution_times_recorded": true,
+    "no_missing_sas_values": true,
+    "real_sas_log_passed": true,
+    "reference_keys_match": true,
+    "result_schema_conforms": true,
+    "runtime_platform_recorded": true,
+    "runtime_version_accepted": true
   },
-  "execution_status": "not_executed",
-  "generated_at_utc": "2026-08-05T23:02:36.573357+00:00",
+  "execution_completed_at_utc": "2026-08-06T19:58:06+00:00",
+  "execution_environment": "Linux",
+  "execution_id": "M08_20260806_FINAL",
+  "execution_started_at_utc": "2026-08-06T19:56:37+00:00",
+  "execution_status": "passed",
+  "execution_timezone": "America/New_York",
+  "failed_comparison_count": 0,
+  "generated_at_utc": "2026-08-06T20:02:26.556406+00:00",
   "input_file_count": 6,
   "input_manifest_sha256": "96f8c132eca1c91f8578cc088cbdad266f140599d8c16faf11e1cb155c821c57",
+  "log_scan": {
+    "failures": [],
+    "passed": true,
+    "review_patterns": []
+  },
   "metric_ids": [
     "SAS001",
     "SAS002",
@@ -24,8 +41,24 @@
     "SAS011",
     "SAS012"
   ],
+  "missing_sas_value_count": 0,
+  "passed_comparison_count": 181,
+  "program_checksums": {
+    "sas/programs/00_setup.sas": "2f26fc2222245e46f96026516ae45810b1d375a27561b89911448ea0f9b87571",
+    "sas/programs/10_import_inputs.sas": "2b4097e7c5e6f46e246a4ff54c569956cdbe96b07c7fdd8df1b5ae395a828b74",
+    "sas/programs/20_reconcile_claims.sas": "d215e226b641cc729d18d1563e4814c7146a39c05fd636bc53d60fa0b18f82e5",
+    "sas/programs/30_reconcile_cost.sas": "421e9f669383c77e71105eca6e68df384191676f14b7cb078df0dbc9b8df8ad3",
+    "sas/programs/40_reconcile_payment_integrity.sas": "88e655d7dd7499b8ebb7232a76a0b88b452297e944212890e67b0a54db1d2c74",
+    "sas/programs/50_reconcile_policy.sas": "ddba98ec79f6a9156bd161b95afa05e71831a5fc41531a02503c4a14941809d5",
+    "sas/programs/90_publish_results.sas": "caf0f5d88de485bc0d4a0c944692904c14f6b5c0496430a535ab6a46e68f8f6a"
+  },
   "reference_row_count": 181,
   "reference_sha256": "1d015e33dadaf307f33eee0768bf0d8c4274e6677603c1227473efe0cce73614",
-  "report_version": 1,
-  "sas_runtime_used": false
+  "report_version": 2,
+  "result_row_count": 181,
+  "sas_log_sha256": "ee0de83bd6c447d2a2767cf04d4027bb5b7bad44a1e2c9b2fdc60ce5c6c2ad7e",
+  "sas_product_name": "Base SAS",
+  "sas_result_sha256": "f8a1433b83c0b445ffc166cb5bc636c27e619f92dba5316cc0b898b6eac7e00a",
+  "sas_runtime_used": true,
+  "sas_version": "9.04.01M8P02222023"
 }

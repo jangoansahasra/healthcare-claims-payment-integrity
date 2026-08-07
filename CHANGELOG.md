@@ -8,6 +8,17 @@ include validation evidence and corresponding documentation.
 
 ## Unreleased
 
+### Fixed
+
+- Enabled CI push validation for `codex/**` branches so agent-authored pull
+  requests receive a head-SHA check even when GitHub omits the PR event
+- Prevented missing SAS reconciliation values from passing tolerance checks
+  under SAS missing-value ordering semantics
+- Preserved 64-character comparison scopes when combining domain metric tables,
+  eliminating truncation warnings and unmatched reference rows
+- Required and published a real execution identifier on every reconciliation
+  result row to satisfy the governed result grain and primary key
+
 ### Added
 
 - Portable six-input SAS package builder, 181 Python references, SHA-256

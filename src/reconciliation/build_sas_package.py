@@ -3,10 +3,12 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import re
 from datetime import UTC, date, datetime
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 import pyarrow.parquet as pq
 
@@ -41,6 +43,114 @@ def scan_sas_log(text: str, contract: dict[str, Any]) -> dict[str, Any]:
         not reviews or policy["unintended_conversion_warnings_allowed"]
     )
     return {"failures": failures, "review_patterns": reviews, "passed": passed}
+
+
+def validate_sas_execution(
+    log_path: Path,
+    result_path: Path,
+    contract_path: Path = DEFAULT_CONTRACT,
+    package_root: Path = Path("data/generated/sas_reconciliation"),
+    evidence_path: Path | None = None,
+    execution_timezone: str = "America/New_York",
+) -> dict[str, Any]:
+    """Validate real SAS artifacts and publish checksum-backed execution evidence."""
+    contract = load_yaml(contract_path)
+    evidence_path = evidence_path or Path(contract["dataset"]["evidence_path"])
+    log_text = log_path.read_text(encoding="utf-8", errors="replace")
+    log_scan = scan_sas_log(log_text, contract)
+
+    with result_path.open(encoding="utf-8", newline="") as stream:
+        results = list(csv.DictReader(stream))
+    reference_path = package_root / "reference" / "python_reference.csv"
+    with reference_path.open(encoding="utf-8", newline="") as stream:
+        references = list(csv.DictReader(stream))
+
+    def note(name: str) -> str | None:
+        matches = re.findall(rf"^NOTE: M08_{name}=(.+)$", log_text, re.MULTILINE)
+        return matches[-1].strip() if matches else None
+
+    execution_id = note("EXECUTION_ID")
+    sas_version = note("SAS_VERSION")
+    platform = note("PLATFORM")
+    started_text = note("EXECUTED_AT")
+    modified = re.findall(
+        r"Last Modified=(\d{2}[A-Za-z]{3}\d{4}:\d{2}:\d{2}:\d{2})", log_text
+    )
+    timezone = ZoneInfo(execution_timezone)
+    started = (
+        datetime.fromisoformat(started_text).replace(tzinfo=timezone)
+        if started_text
+        else None
+    )
+    completed = (
+        datetime.strptime(modified[-1], "%d%b%Y:%H:%M:%S").replace(tzinfo=timezone)
+        if modified
+        else None
+    )
+
+    required_columns = set(contract["result_schema"]["columns"])
+    actual_columns = set(results[0]) if results else set()
+    result_keys = {(row["metric_id"], row["comparison_scope"]) for row in results}
+    reference_keys = {(row["metric_id"], row["comparison_scope"]) for row in references}
+    execution_ids = {row.get("execution_id", "") for row in results}
+    missing_sas_values = sum(not row.get("sas_value", "").strip() for row in results)
+    failed_comparisons = sum(
+        row.get("passed", "").strip() not in {"1", "1.0"} for row in results
+    )
+    version_match = re.search(r"M(\d+)", sas_version or "")
+    version_accepted = bool(version_match and int(version_match.group(1)) >= 7)
+    checks = {
+        "real_sas_log_passed": log_scan["passed"],
+        "runtime_version_accepted": version_accepted,
+        "runtime_platform_recorded": bool(platform),
+        "execution_times_recorded": bool(
+            started and completed and completed >= started
+        ),
+        "result_schema_conforms": required_columns <= actual_columns,
+        "execution_id_consistent": execution_ids == {execution_id}
+        and bool(execution_id),
+        "reference_keys_match": result_keys == reference_keys,
+        "all_reference_rows_returned": len(results) == len(references),
+        "all_comparisons_passed": failed_comparisons == 0,
+        "no_missing_sas_values": missing_sas_values == 0,
+    }
+    program_checksums = {
+        row["path"]: _sha256(Path(row["path"])) for row in contract["program_order"]
+    }
+    report = {
+        "report_version": 2,
+        "generated_at_utc": datetime.now(UTC).isoformat(),
+        "execution_status": "passed" if all(checks.values()) else "failed",
+        "sas_runtime_used": True,
+        "execution_id": execution_id,
+        "sas_product_name": "Base SAS",
+        "sas_version": sas_version,
+        "execution_environment": platform,
+        "execution_timezone": execution_timezone,
+        "execution_started_at_utc": started.astimezone(UTC).isoformat()
+        if started
+        else None,
+        "execution_completed_at_utc": completed.astimezone(UTC).isoformat()
+        if completed
+        else None,
+        "input_file_count": len(INPUT_TABLES),
+        "reference_row_count": len(references),
+        "result_row_count": len(results),
+        "passed_comparison_count": len(results) - failed_comparisons,
+        "failed_comparison_count": failed_comparisons,
+        "missing_sas_value_count": missing_sas_values,
+        "metric_ids": sorted({row["metric_id"] for row in results}),
+        "input_manifest_sha256": _sha256(package_root / "input_manifest.json"),
+        "reference_sha256": _sha256(reference_path),
+        "sas_log_sha256": _sha256(log_path),
+        "sas_result_sha256": _sha256(result_path),
+        "program_checksums": program_checksums,
+        "log_scan": log_scan,
+        "checks": checks,
+    }
+    report["all_execution_checks_passed"] = all(checks.values())
+    write_json_atomic(report, evidence_path)
+    return report
 
 
 def _text(value: Any) -> str:
@@ -263,7 +373,9 @@ def build_sas_package(
             "all_inputs_hashed": all(row["sha256"] for row in manifest),
             "all_metrics_referenced": len({row["metric_id"] for row in references})
             == 12,
-            "execution_not_fabricated": contract["runtime"]["execution_status"]
+            "execution_not_fabricated": contract["runtime"][
+                "package_preparation_status"
+            ]
             == "not_executed",
         },
     }
@@ -291,12 +403,31 @@ def main() -> None:
     )
     parser.add_argument("--package-root", type=Path)
     parser.add_argument("--evidence", type=Path)
+    parser.add_argument("--validate-log", type=Path)
+    parser.add_argument("--validate-result", type=Path)
+    parser.add_argument("--execution-timezone", default="America/New_York")
     parser.add_argument(
         "--sample",
         type=Path,
         default=Path("data/sample/sas_reconciliation/reference_sample.csv"),
     )
     args = parser.parse_args()
+    if args.validate_log or args.validate_result:
+        if not args.validate_log or not args.validate_result:
+            parser.error(
+                "--validate-log and --validate-result must be provided together"
+            )
+        report = validate_sas_execution(
+            args.validate_log,
+            args.validate_result,
+            args.contract,
+            args.package_root or Path("data/generated/sas_reconciliation"),
+            args.evidence,
+            args.execution_timezone,
+        )
+        print(f"Execution status: {report['execution_status']}")
+        print(f"SAS comparisons passed: {report['passed_comparison_count']}")
+        return
     report = build_sas_package(
         args.contract,
         args.trusted_root,
