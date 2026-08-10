@@ -5,6 +5,10 @@
 The available Azure credit is limited, so the full analytical workload is built
 and tested locally before cloud deployment.
 
+As verified on 2026-08-09, a university Fabric Free account with an available
+trial offer and an active Azure for Students subscription are available. The
+Fabric trial is not active and no M09 cloud resource has been provisioned.
+
 ## Rules
 
 1. Do not leave paid compute running between work sessions.
@@ -36,3 +40,5 @@ and tested locally before cloud deployment.
 - Add a small budget and alerts.
 - Record every resource, SKU, region, and deletion procedure.
 - Estimate the maximum session cost.
+- Require explicit approval before activating paid capacity.
+- Record teardown completion and final observed cost after the demo.
