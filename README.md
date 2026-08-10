@@ -56,6 +56,7 @@ Azure for Students subscription; no M09 resource has yet been provisioned.
 config/       Versioned rule and simulation configuration
 data/         Local-only raw/processed data plus small publishable samples
 docs/         Architecture, decisions, dictionary, governance, and KPIs
+fabric/       Fabric notebook and pipeline deployment artifacts
 notebooks/    Statistical and exploratory analyses
 powerbi/      DAX, theme, semantic-model notes, and final report
 sas/          Independent SAS validation

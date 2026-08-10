@@ -65,7 +65,15 @@ must be cropped or redacted before publication.
 
 ## Next execution increment
 
-After issue #78 is merged, activate the approved trial, create the governed
-workspace and Lakehouse, build a deterministic deployment package, run the
-notebook and pipeline, reconcile the cloud tables, capture redacted evidence,
+The local package builder now copies all 26 governed Parquet tables without
+re-encoding them and publishes deterministic table and artifact hashes, Arrow
+schemas, primary keys, date roles, access classifications, row/key counts, and
+financial references. The package also includes a PySpark load-and-validation
+notebook and a one-activity pipeline template. Full package data remains under
+`data/generated/fabric_deployment` and outside Git; only the manifest and
+machine-readable preparation evidence are publishable.
+
+After the package increment is merged, activate the approved trial, create a
+schema-enabled Lakehouse, upload the package contents, import the notebook,
+configure the pipeline, reconcile the cloud tables, capture redacted evidence,
 and tear down or pause all resources before closing M09.

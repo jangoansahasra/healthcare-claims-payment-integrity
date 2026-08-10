@@ -1550,3 +1550,30 @@ Publishing the contract-only M09 cloud readiness controls through issue #78.
 After the contract is merged, activate the approved Fabric trial, build the
 portable cloud deployment package, execute the notebook and pipeline, reconcile
 all governed tables, capture redacted evidence, and pause or delete resources.
+
+## 2026-08-10 — M09 portable Fabric deployment package
+
+### Completed
+
+- Packaged 26 governed M04-M07 Parquet tables into domain-specific OneLake
+  landing paths without re-encoding source bytes.
+- Published deterministic SHA-256 hashes, Arrow schemas, access classes,
+  primary keys, date roles, row counts, distinct-key counts, and governed
+  financial references.
+- Added a schema-enabled Fabric PySpark notebook that materializes Delta tables
+  and fails when cloud count, key, or financial comparisons do not reconcile.
+- Added a deterministic pipeline template for the governed notebook refresh.
+- Kept three ground-truth tables in the separate restricted `evaluation`
+  schema and excluded them from ordinary analytical domains.
+- Extended clean-runner fixtures through payment integrity, cost intelligence,
+  and policy impact so the cloud package is validated from a fresh checkout.
+- Preserved the unactivated Fabric trial and created no cloud resources.
+
+### Current work
+
+Publishing the portable package and validation artifacts through issue #80.
+
+### Next task
+
+Merge the local package, confirm the Fabric capacity region, activate the trial,
+create the schema-enabled Lakehouse, and perform the real cloud execution.
