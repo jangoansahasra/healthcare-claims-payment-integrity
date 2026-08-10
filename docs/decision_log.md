@@ -64,3 +64,13 @@ On 2026-08-06, execution `M08_20260806_FINAL` ran in SAS OnDemand for
 Academics using SAS 9.4 M8 on Linux. The real log passed the governed scan and
 all 181 comparisons passed with no missing SAS values. Full inputs, logs, and
 results remain excluded from Git; only checksum-backed evidence is published.
+
+## DL-011: Fabric trial before paid Azure capacity
+
+M09 uses the available university Fabric Free account and an approved 60-day
+Fabric trial before considering paid capacity. An active Azure for Students
+subscription is available, but no paid M09 resource may be created until an
+explicit approval, project budget, alerts, and teardown procedure exist.
+Readiness evidence records categorical account status only; user email,
+subscription and tenant identifiers, billing identifiers, and unredacted portal
+screenshots remain outside Git.

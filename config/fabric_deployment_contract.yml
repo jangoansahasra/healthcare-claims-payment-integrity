@@ -1,0 +1,187 @@
+contract_version: 1
+last_reviewed: "2026-08-09"
+
+deployment:
+  name: healthcare_claims_payment_integrity_demo
+  milestone: M09
+  parent_issue: 77
+  implementation_issue: 78
+  execution_status: contract_only
+  provisioning_performed: false
+  cloud_success_claimed: false
+  generated_package_root: data/generated/fabric_deployment
+  full_package_committed_to_git: false
+
+verified_readiness:
+  evidence_date: "2026-08-09"
+  fabric:
+    tenant_category: university
+    license_type: free
+    portal_access: true
+    trial_offer_visible: true
+    trial_activated: false
+    capacity_status: not_provisioned
+    workspace_created: false
+  azure:
+    subscription_available: true
+    subscription_offer: Azure for Students
+    subscription_status: active
+    access_role: Owner
+    paid_resource_created_for_m09: false
+  prohibited_evidence_fields:
+    - user_email
+    - subscription_id
+    - tenant_id
+    - access_token
+    - connection_string
+    - billing_account_identifier
+
+governance:
+  synthetic_records_only: true
+  contains_protected_health_information: false
+  ordinary_surfaces_may_access_anomaly_ground_truth: false
+  evaluation_surfaces_are_access_restricted: true
+  findings_are_review_leads_not_fraud_determinations: true
+  policy_results_are_synthetic_evidence_not_production_causal_proof: true
+  service_and_payment_date_roles_must_remain_separate: true
+  prohibit_real_provider_attribution: true
+  prohibit_secrets_in_git_or_logs: true
+  prohibit_unredacted_portal_screenshots: true
+
+cost_control:
+  preferred_capacity: Fabric Trial
+  trial_activation_requires_contract_merged: true
+  trial_activation_requires_region_confirmation: true
+  paid_provisioning_requires_explicit_approval: true
+  azure_budget_required_before_paid_provisioning: true
+  budget_alert_threshold_percentages: [50, 80, 100]
+  maximum_concurrent_demo_workspaces: 1
+  pause_compute_after_session: true
+  teardown_after_evidence_capture: true
+  record_final_cost_after_teardown: true
+
+naming:
+  workspace: hcpi-portfolio-m09
+  lakehouse: lh_hcpi_curated
+  notebook: nb_hcpi_load_validate
+  pipeline: pl_hcpi_curated_refresh
+  deployment_run_prefix: M09-FABRIC
+  table_case: snake_case
+  prohibit_personal_names: true
+
+architecture:
+  landing_format: parquet
+  landing_location: OneLake Files/landing
+  governed_table_format: delta
+  governed_table_location: OneLake Tables
+  query_surface: Lakehouse SQL analytics endpoint
+  transformation_runtime: Fabric notebook
+  orchestration_runtime: Fabric data pipeline
+  local_schema_authority:
+    trusted: config/trusted_claims_contract.yml
+    payment_integrity: config/payment_integrity_contract.yml
+    cost_intelligence: config/cost_intelligence_contract.yml
+    policy_impact: config/policy_impact_contract.yml
+
+deployment_order:
+  - create_trial_capacity_after_approval
+  - create_workspace
+  - create_lakehouse
+  - upload_checksum_manifest_and_parquet
+  - run_load_validation_notebook
+  - publish_sql_endpoint_tables
+  - run_reconciliation
+  - capture_redacted_evidence
+  - pause_or_delete_resources
+  - verify_final_cost
+
+schemas:
+  trusted:
+    access: ordinary_analytics
+    source_root: data/curated/trusted_claims
+    tables:
+      dim_member: {primary_key: [member_key], date_role: none}
+      dim_provider: {primary_key: [provider_key], date_role: none}
+      dim_plan: {primary_key: [plan_key], date_role: effective_and_termination}
+      dim_date: {primary_key: [date_key], date_role: conformed_calendar}
+      dim_service: {primary_key: [service_key], date_role: none}
+      fact_membership_month: {primary_key: [membership_month_key], date_role: coverage_month}
+      fact_claim: {primary_key: [claim_key], date_role: service_and_adjudication}
+      fact_claim_line: {primary_key: [claim_line_key], date_role: service_date}
+      fact_payment_transaction: {primary_key: [payment_transaction_key], date_role: payment_date}
+      fact_claim_review: {primary_key: [review_key], date_role: selection_completion_and_outcome}
+      bridge_provider_policy: {primary_key: [provider_policy_key], date_role: assignment_period}
+  payment_integrity:
+    access: governed_review_leads
+    source_root: data/curated/payment_integrity
+    tables:
+      rule_run: {primary_key: [run_id], date_role: none}
+      rule_finding: {primary_key: [finding_id], date_role: reporting_period}
+      finding_evidence: {primary_key: [finding_id, evidence_sequence], date_role: none}
+  cost_intelligence:
+    access: ordinary_analytics
+    source_root: data/curated/cost_intelligence
+    tables:
+      monthly_cost_utilization: {primary_key: [service_month, plan_key], date_role: service_month}
+      monthly_payment_cash_flow: {primary_key: [payment_month, plan_key], date_role: payment_month}
+      provider_service_concentration: {primary_key: [service_month, plan_key, entity_type], date_role: service_month}
+      cost_change_decomposition: {primary_key: [reporting_month, plan_key, service_category], date_role: service_month}
+      cost_early_warning_signal: {primary_key: [service_month, plan_key, metric_name], date_role: service_month}
+  policy_impact:
+    access: synthetic_policy_analysis
+    source_root: data/curated/policy_impact
+    tables:
+      provider_month_policy_panel: {primary_key: [provider_key, reporting_month], date_role: reporting_month}
+      policy_effect_estimate: {primary_key: [run_id, outcome_name, specification], date_role: none}
+      event_study_estimate: {primary_key: [run_id, outcome_name, event_time], date_role: event_time}
+      policy_diagnostic: {primary_key: [run_id, outcome_name, diagnostic_name, specification], date_role: none}
+  evaluation_only:
+    access: restricted_not_for_ordinary_analytics
+    tables:
+      bridge_claim_anomaly:
+        source_contract: config/trusted_claims_contract.yml
+        primary_key: [anomaly_injection_key]
+      finding_ground_truth_match:
+        source_contract: config/payment_integrity_contract.yml
+        primary_key: [match_id]
+      rule_evaluation:
+        source_contract: config/payment_integrity_contract.yml
+        primary_key: [evaluation_id]
+
+reconciliation:
+  count_tolerance: 0
+  distinct_primary_key_tolerance: 0
+  financial_tolerance: 0.01
+  checks:
+    - {check_id: FAB001, scope: all_tables, measure: row_count}
+    - {check_id: FAB002, scope: all_tables, measure: distinct_primary_key_count}
+    - {check_id: FAB003, scope: fact_claim, measure: total_allowed_amount}
+    - {check_id: FAB004, scope: fact_claim, measure: net_paid_amount}
+    - {check_id: FAB005, scope: fact_payment_transaction, measure: signed_transaction_amount}
+    - {check_id: FAB006, scope: rule_finding, measure: amount_at_risk}
+    - {check_id: FAB007, scope: monthly_cost_utilization, measure: eligible_member_months}
+    - {check_id: FAB008, scope: monthly_cost_utilization, measure: allowed_amount}
+    - {check_id: FAB009, scope: provider_month_policy_panel, measure: provider_month_count}
+    - {check_id: FAB010, scope: date_roles, measure: service_payment_separation}
+    - {check_id: FAB011, scope: evaluation_only, measure: access_isolation}
+    - {check_id: FAB012, scope: manifest, measure: sha256_match}
+
+evidence:
+  execution_status_values: [contract_only, ready, running, passed, failed, torn_down]
+  required_for_cloud_success:
+    - execution_id
+    - utc_started_at
+    - utc_completed_at
+    - workspace_name
+    - capacity_type
+    - region
+    - lakehouse_name
+    - notebook_run_id
+    - pipeline_run_id
+    - input_manifest_sha256
+    - table_reconciliation_results
+    - redacted_screenshots
+    - teardown_status
+    - final_cost_status
+  screenshot_redaction_required: true
+  artifact_hash_algorithm: sha256

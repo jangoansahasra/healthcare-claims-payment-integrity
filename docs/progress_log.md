@@ -1523,3 +1523,30 @@ checksum-backed M08 completion evidence.
 
 Merge the M08 completion evidence, close issue #71, and begin M09 Fabric and
 Azure cloud demonstration planning.
+
+## 2026-08-09 — M09 Fabric deployment contract
+
+### Completed
+
+- Verified university-tenant Fabric portal access with a Free license and an
+  available but unactivated trial offer.
+- Verified an active Azure for Students subscription without recording its
+  identifier, tenant identifier, user email, or billing details.
+- Defined deterministic workspace, Lakehouse, notebook, pipeline, schema, and
+  deployment-order contracts across M04-M07 curated outputs.
+- Preserved restricted evaluation-only ground truth and separate service-date
+  and payment-date analytical surfaces.
+- Defined exact count and key reconciliation, one-cent financial tolerance,
+  SHA-256 manifests, execution evidence, screenshot redaction, and teardown.
+- Required explicit approval, budgets, alerts, and final-cost verification
+  before any paid Azure resource can be provisioned.
+
+### Current work
+
+Publishing the contract-only M09 cloud readiness controls through issue #78.
+
+### Next task
+
+After the contract is merged, activate the approved Fabric trial, build the
+portable cloud deployment package, execute the notebook and pipeline, reconcile
+all governed tables, capture redacted evidence, and pause or delete resources.

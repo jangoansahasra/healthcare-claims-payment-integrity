@@ -31,6 +31,12 @@ claims-review policy.
 | BI | Power BI Desktop/web | Power BI semantic model |
 | CI | GitHub Actions | GitHub Actions |
 
+The M09 cloud contract maps the existing M04-M07 schemas into a Fabric
+Lakehouse, notebook, pipeline, and SQL analytics endpoint while preserving
+ground-truth isolation and separate service/payment date roles. Verified access
+currently consists of Fabric Free with an unactivated trial offer and an active
+Azure for Students subscription; no M09 resource has yet been provisioned.
+
 ## Target deliverables
 
 - Trusted dimensional claims model with documented grain
@@ -67,7 +73,8 @@ intelligence generates governed analytical outputs from trusted claims. The
 M07 preregistered synthetic difference-in-differences and event-study analysis
 is complete. M08 independent SAS reconciliation is complete: SAS 9.4 M8 on
 Linux reproduced all 181 governed comparisons with zero failures or missing
-SAS values.
+SAS values. M09 Fabric and Azure deployment is now in progress under a
+contract-first, trial-first, cost-controlled approach.
 
 ## Safety and limitations
 

@@ -21,6 +21,12 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Versioned M09 Fabric deployment contract with verified categorical readiness,
+  deterministic artifact naming, governed M04-M07 table mappings, reconciliation,
+  security, cost, evidence, and teardown controls
+- Trial-first cloud architecture preserving evaluation-ground-truth isolation,
+  service/payment date roles, exact row and key counts, and one-cent financial
+  tolerances without provisioning any cloud resource
 - Portable six-input SAS package builder, 181 Python references, SHA-256
   manifests, seven ordered SAS programs, and governed log scanning
 - Versioned M08 SAS reconciliation registry, portable exchange specification,
