@@ -15,11 +15,11 @@ def load_source_tables(path: str) -> dict:
     return source["tables"]
 
 
-def test_readiness_is_truthful_and_contract_only() -> None:
+def test_readiness_is_truthful_before_cloud_execution() -> None:
     contract = load_contract()
     readiness = contract["verified_readiness"]
 
-    assert contract["deployment"]["execution_status"] == "contract_only"
+    assert contract["deployment"]["execution_status"] == "package_ready"
     assert contract["deployment"]["provisioning_performed"] is False
     assert contract["deployment"]["cloud_success_claimed"] is False
     assert readiness["fabric"]["license_type"] == "free"

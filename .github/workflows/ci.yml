@@ -59,8 +59,29 @@ jobs:
             --output-root "${{ runner.temp }}/trusted-claims" \
             --sample-root "${{ runner.temp }}/samples" \
             --quality-report "${{ runner.temp }}/trusted.json"
+          python -m src.payment_integrity.build_payment_integrity_engine \
+            --input-root "${{ runner.temp }}/trusted-claims" \
+            --output-root "${{ runner.temp }}/payment-integrity" \
+            --sample-root "${{ runner.temp }}/samples" \
+            --quality-report "${{ runner.temp }}/payment-integrity.json"
+          python -m src.transformation.build_cost_intelligence \
+            --input-root "${{ runner.temp }}/trusted-claims" \
+            --output-root "${{ runner.temp }}/cost-intelligence" \
+            --sample-root "${{ runner.temp }}/samples" \
+            --quality-report "${{ runner.temp }}/cost-intelligence.json"
+          python -m src.transformation.build_policy_impact \
+            --input-root "${{ runner.temp }}/trusted-claims" \
+            --output-root "${{ runner.temp }}/policy-impact" \
+            --sample-root "${{ runner.temp }}/samples" \
+            --quality-report "${{ runner.temp }}/policy-impact.json"
 
       - name: Run tests
         env:
           TRUSTED_CLAIMS_TEST_ROOT: ${{ runner.temp }}/trusted-claims
+          FABRIC_TRUSTED_ROOT: ${{ runner.temp }}/trusted-claims
+          FABRIC_PAYMENT_INTEGRITY_ROOT: ${{ runner.temp }}/payment-integrity
+          FABRIC_COST_INTELLIGENCE_ROOT: ${{ runner.temp }}/cost-intelligence
+          FABRIC_POLICY_IMPACT_ROOT: ${{ runner.temp }}/policy-impact
+          FABRIC_EVALUATION_TRUSTED_ROOT: ${{ runner.temp }}/trusted-claims
+          FABRIC_EVALUATION_PAYMENT_INTEGRITY_ROOT: ${{ runner.temp }}/payment-integrity
         run: python -m pytest

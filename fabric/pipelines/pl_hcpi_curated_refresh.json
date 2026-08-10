@@ -1,0 +1,22 @@
+{
+  "name": "pl_hcpi_curated_refresh",
+  "description": "M09 governed synthetic curated-data refresh",
+  "parameters": {
+    "manifest_path": "Files/manifest/table_manifest.json"
+  },
+  "activities": [
+    {
+      "name": "Run_nb_hcpi_load_validate",
+      "type": "Notebook",
+      "dependsOn": [],
+      "notebook": "nb_hcpi_load_validate",
+      "timeout": "01:00:00"
+    }
+  ],
+  "success_criteria": {
+    "required_table_count": 26,
+    "failed_reconciliation_count": 0,
+    "count_tolerance": 0,
+    "financial_tolerance": 0.01
+  }
+}

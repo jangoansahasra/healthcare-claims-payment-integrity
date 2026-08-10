@@ -1,0 +1,21 @@
+{
+  "all_checks_passed": true,
+  "checks": {
+    "all_26_tables_packaged": true,
+    "all_parquet_hashes_present": true,
+    "all_primary_keys_unique": true,
+    "all_row_counts_positive": true,
+    "evaluation_tables_restricted": true,
+    "service_and_payment_roles_separate": true
+  },
+  "cloud_execution_performed": false,
+  "execution_status": "package_ready",
+  "fabric_trial_activated": false,
+  "generated_at_utc": "2026-08-10T19:31:22.427150+00:00",
+  "manifest_sha256": "239c24ee703764fcd9e121544603940412d413873457a1824c4b2a861695c0ab",
+  "ordinary_table_count": 23,
+  "package_size_bytes": 9317841,
+  "report_version": 1,
+  "restricted_table_count": 3,
+  "table_count": 26
+}

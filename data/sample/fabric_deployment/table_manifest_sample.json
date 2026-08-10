@@ -1,0 +1,462 @@
+{
+  "deployment_name": "healthcare_claims_payment_integrity_demo",
+  "lakehouse_name": "lh_hcpi_curated",
+  "lakehouse_schema_mode": "schema_enabled",
+  "manifest_version": 1,
+  "notebook": {
+    "path": "artifacts/nb_hcpi_load_validate.py",
+    "sha256": "e8b6fad19481651010a607c01fd536e131c5317e80f743bdac6b70bd524d8b0a"
+  },
+  "pipeline": {
+    "path": "artifacts/pl_hcpi_curated_refresh.json",
+    "sha256": "b1c7b8b0b229d64048a2ac5837a473871bee492e10f56726e7e84083bf1f810a"
+  },
+  "table_count": 26,
+  "tables": [
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "member_key: int64 not null\nmember_id: string not null\nbirth_year: int16 not null\nsex_code: string not null\nstate_code: string not null\nsynthetic_record: bool not null",
+      "date_role": "none",
+      "distinct_primary_key_count": 10000,
+      "domain": "trusted",
+      "governed_measure_totals": {},
+      "landing_path": "landing/trusted/dim_member.parquet",
+      "parquet_sha256": "521401f6a24a16888e80710dad4a981433c2c1ae31a63b2cfa41154660250790",
+      "parquet_size_bytes": 67542,
+      "primary_key": [
+        "member_key"
+      ],
+      "row_count": 10000,
+      "table_name": "dim_member"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "provider_key: int64 not null\nprovider_id: string not null\nprovider_entity_type: string not null\nspecialty_group: string not null\nstate_code: string not null\ncalibration_source_id: string not null\ncalibration_version: string not null\nsynthetic_record: bool not null",
+      "date_role": "none",
+      "distinct_primary_key_count": 200,
+      "domain": "trusted",
+      "governed_measure_totals": {},
+      "landing_path": "landing/trusted/dim_provider.parquet",
+      "parquet_sha256": "90df3d7191991d2c07533721d5c33ab2d32e99c2839cac174985e259f42f8fb9",
+      "parquet_size_bytes": 4049,
+      "primary_key": [
+        "provider_key"
+      ],
+      "row_count": 200,
+      "table_name": "dim_provider"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "plan_key: int64 not null\nplan_id: string not null\nplan_type: string not null\nproduct_line: string not null\neffective_date: date32[day] not null\ntermination_date: date32[day]",
+      "date_role": "effective_and_termination",
+      "distinct_primary_key_count": 4,
+      "domain": "trusted",
+      "governed_measure_totals": {},
+      "landing_path": "landing/trusted/dim_plan.parquet",
+      "parquet_sha256": "d62aa11e01e5b1dcc933f46475a50419c4e74551889e23d153530f89c2a4801b",
+      "parquet_size_bytes": 1923,
+      "primary_key": [
+        "plan_key"
+      ],
+      "row_count": 4,
+      "table_name": "dim_plan"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "date_key: int32 not null\ncalendar_date: date32[day] not null\ncalendar_year: int16 not null\ncalendar_quarter: int8 not null\ncalendar_month: int8 not null\nmonth_start_date: date32[day] not null\nyear_month: string not null\npolicy_period: string not null",
+      "date_role": "conformed_calendar",
+      "distinct_primary_key_count": 594,
+      "domain": "trusted",
+      "governed_measure_totals": {},
+      "landing_path": "landing/trusted/dim_date.parquet",
+      "parquet_sha256": "7610a9b147c389ffb55a2602cc94b0fc793de16eb983c11f71170f0dd87abd23",
+      "parquet_size_bytes": 6581,
+      "primary_key": [
+        "date_key"
+      ],
+      "row_count": 594,
+      "table_name": "dim_date"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "service_key: int64 not null\nservice_code_system: string not null\nservice_code: string not null\nservice_category: string not null",
+      "date_role": "none",
+      "distinct_primary_key_count": 20,
+      "domain": "trusted",
+      "governed_measure_totals": {},
+      "landing_path": "landing/trusted/dim_service.parquet",
+      "parquet_sha256": "298880a881f6e6139c8b628016528714ca3b66f722627d087126aa006b79902e",
+      "parquet_size_bytes": 1651,
+      "primary_key": [
+        "service_key"
+      ],
+      "row_count": 20,
+      "table_name": "dim_service"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "membership_month_key: int64 not null\nmember_key: int64 not null\nplan_key: int64 not null\ncoverage_month_date_key: int32 not null\nmember_id: string not null\nplan_id: string not null\ncoverage_month: date32[day] not null\ncoverage_start_date: date32[day] not null\ncoverage_end_date: date32[day] not null\ncoverage_status: string not null",
+      "date_role": "coverage_month",
+      "distinct_primary_key_count": 158746,
+      "domain": "trusted",
+      "governed_measure_totals": {},
+      "landing_path": "landing/trusted/fact_membership_month.parquet",
+      "parquet_sha256": "052ba8dd63ad4d992cfe4f323c73f0228f58dda7803fa3aea967073209ca14e0",
+      "parquet_size_bytes": 585903,
+      "primary_key": [
+        "membership_month_key"
+      ],
+      "row_count": 158746,
+      "table_name": "fact_membership_month"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "claim_key: int64 not null\nprior_claim_key: int64\nmember_key: int64 not null\nplan_key: int64 not null\nbilling_provider_key: int64 not null\nrendering_provider_key: int64\nservice_date_key: int32 not null\nservice_through_date_key: int32 not null\nreceived_date_key: int32 not null\nadjudication_date_key: int32\nclaim_id: string not null\nlogical_claim_id: string not null\nclaim_version_number: int32 not null\nprior_claim_id: string\nclaim_type: string not null\nclaim_status: string not null\nprincipal_diagnosis_code: string\nis_current_version: bool not null\ntotal_charge_amount: decimal128(18, 2) not null\ntotal_allowed_amount: decimal128(18, 2) not null\ntotal_member_liability_amount: decimal128(18, 2) not null\nnet_paid_amount: decimal128(18, 2) not null\nline_count: int32 not null\nsource_variant: string not null",
+      "date_role": "service_and_adjudication",
+      "distinct_primary_key_count": 77095,
+      "domain": "trusted",
+      "governed_measure_totals": {
+        "net_paid_amount": "317543149.29",
+        "total_allowed_amount": "385223821.45"
+      },
+      "landing_path": "landing/trusted/fact_claim.parquet",
+      "parquet_sha256": "23ee03c6c6a2822497652be9863110c0b50574f34fda94198422dce099097198",
+      "parquet_size_bytes": 2726961,
+      "primary_key": [
+        "claim_key"
+      ],
+      "row_count": 77095,
+      "table_name": "fact_claim"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "claim_line_key: int64 not null\nclaim_key: int64 not null\nrendering_provider_key: int64\nservice_key: int64 not null\nservice_date_key: int32 not null\nclaim_line_id: string not null\nclaim_id: string not null\nline_number: int32 not null\nplace_of_service_code: string\nunits: decimal128(18, 4) not null\ncharge_amount: decimal128(18, 2) not null\nallowed_amount: decimal128(18, 2) not null\nmember_liability_amount: decimal128(18, 2) not null\nplan_paid_amount: decimal128(18, 2) not null\nsource_variant: string not null",
+      "date_role": "service_date",
+      "distinct_primary_key_count": 182348,
+      "domain": "trusted",
+      "governed_measure_totals": {},
+      "landing_path": "landing/trusted/fact_claim_line.parquet",
+      "parquet_sha256": "a1dc069fe3e06c8dff0867442e44905056a88e8fe88a668809d1c74dd1462ebb",
+      "parquet_size_bytes": 4468434,
+      "primary_key": [
+        "claim_line_key"
+      ],
+      "row_count": 182348,
+      "table_name": "fact_claim_line"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "payment_transaction_key: int64 not null\nclaim_key: int64 not null\ntransaction_date_key: int32 not null\nreverses_transaction_key: int64\npayment_transaction_id: string not null\nclaim_id: string not null\ntransaction_sequence_number: int32 not null\ntransaction_type: string not null\nsigned_transaction_amount: decimal128(18, 2) not null\nreverses_transaction_id: string\nsource_variant: string not null",
+      "date_role": "payment_date",
+      "distinct_primary_key_count": 71072,
+      "domain": "trusted",
+      "governed_measure_totals": {
+        "signed_transaction_amount": "317543149.29"
+      },
+      "landing_path": "landing/trusted/fact_payment_transaction.parquet",
+      "parquet_sha256": "122acc57f0224a73dfdca2f5ed5468708a31719b5c13ced8f95c4615bc496f97",
+      "parquet_size_bytes": 1183293,
+      "primary_key": [
+        "payment_transaction_key"
+      ],
+      "row_count": 71072,
+      "table_name": "fact_payment_transaction"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "review_key: int64 not null\nclaim_key: int64 not null\nselected_date_key: int32\ncompleted_date_key: int32\naudit_outcome_date_key: int32\nreview_id: string not null\nclaim_id: string not null\nreview_status: string not null\nselection_reason: string\naudit_outcome: string\nconfirmed_amount: decimal128(18, 2) not null\nsource_variant: string not null",
+      "date_role": "selection_completion_and_outcome",
+      "distinct_primary_key_count": 3748,
+      "domain": "trusted",
+      "governed_measure_totals": {},
+      "landing_path": "landing/trusted/fact_claim_review.parquet",
+      "parquet_sha256": "f0b209edd428da43bc40e7580227e75e7386d3e0e8e8cd9b701f2f79e33630a2",
+      "parquet_size_bytes": 67312,
+      "primary_key": [
+        "review_key"
+      ],
+      "row_count": 3748,
+      "table_name": "fact_claim_review"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "provider_policy_key: int64 not null\nprovider_key: int64 not null\nassignment_start_date_key: int32 not null\nassignment_end_date_key: int32\npolicy_assignment_id: string not null\npolicy_id: string not null\ntreatment_group: string not null",
+      "date_role": "assignment_period",
+      "distinct_primary_key_count": 200,
+      "domain": "trusted",
+      "governed_measure_totals": {},
+      "landing_path": "landing/trusted/bridge_provider_policy.parquet",
+      "parquet_sha256": "cbb9f50a6d0488af2261142566b41a9884fef6f7986755a8d2147b81401bd592",
+      "parquet_size_bytes": 3836,
+      "primary_key": [
+        "provider_policy_key"
+      ],
+      "row_count": 200,
+      "table_name": "bridge_provider_policy"
+    },
+    {
+      "access": "governed_review_leads",
+      "arrow_schema": "run_id: string not null\ncontract_version: int32 not null\nsource_variant: string not null\ndeterministic_seed: int64 not null\nrun_status: string not null\nenabled_rule_count: int32 not null\nfinding_count: int64 not null\ntotal_amount_at_risk: decimal128(18, 2) not null\nfindings_frozen: bool not null\nground_truth_accessed_during_detection: bool not null",
+      "date_role": "none",
+      "distinct_primary_key_count": 1,
+      "domain": "payment_integrity",
+      "governed_measure_totals": {},
+      "landing_path": "landing/payment_integrity/rule_run.parquet",
+      "parquet_sha256": "2916f75ee60d5ad43c16b8446091123e7bfff3aa7a91c8188503f9cc7a920f31",
+      "parquet_size_bytes": 3191,
+      "primary_key": [
+        "run_id"
+      ],
+      "row_count": 1,
+      "table_name": "rule_run"
+    },
+    {
+      "access": "governed_review_leads",
+      "arrow_schema": "finding_id: string not null\nrun_id: string not null\nrule_id: string not null\nrule_name: string not null\nlabel_scope: string not null\ntarget_table: string not null\ntarget_record_id: string not null\nclaim_id: string\nclaim_line_id: string\npayment_transaction_id: string\nprovider_id: string\nreporting_period: date32[day]\nseverity: string not null\nconfidence: decimal128(18, 4) not null\namount_at_risk: decimal128(18, 2) not null\nexplanation: string not null",
+      "date_role": "reporting_period",
+      "distinct_primary_key_count": 500,
+      "domain": "payment_integrity",
+      "governed_measure_totals": {
+        "amount_at_risk": "20178428.64"
+      },
+      "landing_path": "landing/payment_integrity/rule_finding.parquet",
+      "parquet_sha256": "f3d422db1326c28a3c08fb7792d1e72246b1a186bd0efef1ef9d29a7bf4a8331",
+      "parquet_size_bytes": 13371,
+      "primary_key": [
+        "finding_id"
+      ],
+      "row_count": 500,
+      "table_name": "rule_finding"
+    },
+    {
+      "access": "governed_review_leads",
+      "arrow_schema": "finding_id: string not null\nevidence_sequence: int32 not null\nevidence_name: string not null\nobserved_value: string not null\ncomparison_operator: string\nthreshold_value: string\nsource_table: string not null\nsource_record_id: string not null",
+      "date_role": "none",
+      "distinct_primary_key_count": 500,
+      "domain": "payment_integrity",
+      "governed_measure_totals": {},
+      "landing_path": "landing/payment_integrity/finding_evidence.parquet",
+      "parquet_sha256": "c927816e8aef4fb71957f7b5ae0f557fc16ab46786b710318e31d9e031a95ce2",
+      "parquet_size_bytes": 8972,
+      "primary_key": [
+        "finding_id",
+        "evidence_sequence"
+      ],
+      "row_count": 500,
+      "table_name": "finding_evidence"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "service_month: date32[day] not null\nplan_key: int64 not null\neligible_member_months: int64 not null\nclaim_count: int64 not null\npaid_claim_count: int64 not null\nservice_units: decimal128(18, 4) not null\nallowed_amount: decimal128(18, 2) not null\npaid_amount: decimal128(18, 2) not null\nallowed_pmpm: decimal128(18, 4)\npaid_pmpm: decimal128(18, 4)\nclaims_per_1000: decimal128(18, 4)\nunits_per_1000: decimal128(18, 4)\nallowed_per_claim: decimal128(18, 4)",
+      "date_role": "service_month",
+      "distinct_primary_key_count": 72,
+      "domain": "cost_intelligence",
+      "governed_measure_totals": {
+        "allowed_amount": "350236971.70",
+        "eligible_member_months": "158746",
+        "paid_amount": "288760492.94"
+      },
+      "landing_path": "landing/cost_intelligence/monthly_cost_utilization.parquet",
+      "parquet_sha256": "1d3033c1710b24218bc60b6e67c1f54b9cbaaef0d6cba88ae06c721bb840f4c7",
+      "parquet_size_bytes": 8968,
+      "primary_key": [
+        "service_month",
+        "plan_key"
+      ],
+      "row_count": 72,
+      "table_name": "monthly_cost_utilization"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "payment_month: date32[day] not null\nplan_key: int64 not null\ntransaction_count: int64 not null\npayment_count: int64 not null\nreversal_count: int64 not null\nnet_payment_cash_flow: decimal128(18, 2) not null",
+      "date_role": "payment_month",
+      "distinct_primary_key_count": 76,
+      "domain": "cost_intelligence",
+      "governed_measure_totals": {},
+      "landing_path": "landing/cost_intelligence/monthly_payment_cash_flow.parquet",
+      "parquet_sha256": "8db7843eef874e06d2df819432d8ae3cb969bc35ddec3add622a4c8ccfe074e7",
+      "parquet_size_bytes": 3410,
+      "primary_key": [
+        "payment_month",
+        "plan_key"
+      ],
+      "row_count": 76,
+      "table_name": "monthly_payment_cash_flow"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "service_month: date32[day] not null\nplan_key: int64 not null\nentity_type: string not null\nentity_count: int64 not null\ntotal_allowed_amount: decimal128(18, 2) not null\ntop_10_allowed_amount: decimal128(18, 2) not null\ntop_10_share: decimal128(18, 4)\nhhi: decimal128(18, 4)",
+      "date_role": "service_month",
+      "distinct_primary_key_count": 144,
+      "domain": "cost_intelligence",
+      "governed_measure_totals": {},
+      "landing_path": "landing/cost_intelligence/provider_service_concentration.parquet",
+      "parquet_sha256": "53b7e346d10c6e4f0554c59a043584cdf4e67f3a0051ce1e937d8b15b51adb93",
+      "parquet_size_bytes": 5220,
+      "primary_key": [
+        "service_month",
+        "plan_key",
+        "entity_type"
+      ],
+      "row_count": 144,
+      "table_name": "provider_service_concentration"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "reporting_month: date32[day] not null\nbase_month: date32[day] not null\nplan_key: int64 not null\nservice_category: string not null\nbase_allowed_amount: decimal128(18, 2) not null\ncurrent_allowed_amount: decimal128(18, 2) not null\ntotal_cost_change: decimal128(18, 2) not null\nprice_effect: decimal128(18, 2) not null\nutilization_effect: decimal128(18, 2) not null\nmix_effect: decimal128(18, 2) not null\nreconciliation_residual: decimal128(18, 2) not null",
+      "date_role": "service_month",
+      "distinct_primary_key_count": 168,
+      "domain": "cost_intelligence",
+      "governed_measure_totals": {},
+      "landing_path": "landing/cost_intelligence/cost_change_decomposition.parquet",
+      "parquet_sha256": "4620aeb8038bd95138c224555a945d646e950c49c3e2e95f7831757a04e51b9e",
+      "parquet_size_bytes": 9422,
+      "primary_key": [
+        "reporting_month",
+        "plan_key",
+        "service_category"
+      ],
+      "row_count": 168,
+      "table_name": "cost_change_decomposition"
+    },
+    {
+      "access": "ordinary_analytics",
+      "arrow_schema": "service_month: date32[day] not null\nplan_key: int64 not null\nmetric_name: string not null\nmetric_value: decimal128(18, 4) not null\nhistory_month_count: int32 not null\nbaseline_median: decimal128(18, 4)\nbaseline_mad: decimal128(18, 4)\nrobust_z_score: decimal128(18, 4)\nrelative_change: decimal128(18, 4)\nsignal_status: string not null\nexplanation: string not null",
+      "date_role": "service_month",
+      "distinct_primary_key_count": 288,
+      "domain": "cost_intelligence",
+      "governed_measure_totals": {},
+      "landing_path": "landing/cost_intelligence/cost_early_warning_signal.parquet",
+      "parquet_sha256": "e95becc90acfdbdd6adba26a9504b5f218b0018918a460878ff31bb55e3ce639",
+      "parquet_size_bytes": 9002,
+      "primary_key": [
+        "service_month",
+        "plan_key",
+        "metric_name"
+      ],
+      "row_count": 288,
+      "table_name": "cost_early_warning_signal"
+    },
+    {
+      "access": "synthetic_policy_analysis",
+      "arrow_schema": "provider_key: int64 not null\nreporting_month: date32[day] not null\ntreatment_group: string not null\ntreatment_indicator: bool not null\npost_policy_indicator: bool not null\ntreatment_post: bool not null\nevent_time: int32 not null\neligible_member_months: int64 not null\nclaim_count: int64 not null\npaid_pmpm: decimal128(18, 4)\nallowed_pmpm: decimal128(18, 4)\nclaims_per_1000: decimal128(18, 4)\ndenial_rate: decimal128(18, 4)\nreview_rate: decimal128(18, 4)",
+      "date_role": "reporting_month",
+      "distinct_primary_key_count": 3600,
+      "domain": "policy_impact",
+      "governed_measure_totals": {},
+      "landing_path": "landing/policy_impact/provider_month_policy_panel.parquet",
+      "parquet_sha256": "c3d5653ab13435d51bd1a4910c8b531c33c290ac76714cb07b836c7baf100b65",
+      "parquet_size_bytes": 65643,
+      "primary_key": [
+        "provider_key",
+        "reporting_month"
+      ],
+      "row_count": 3600,
+      "table_name": "provider_month_policy_panel"
+    },
+    {
+      "access": "synthetic_policy_analysis",
+      "arrow_schema": "run_id: string not null\noutcome_name: string not null\nspecification: string not null\ncoefficient: decimal128(18, 4) not null\nstandard_error: decimal128(18, 4) not null\nconfidence_interval_lower: decimal128(18, 4) not null\nconfidence_interval_upper: decimal128(18, 4) not null\np_value: decimal128(18, 4) not null\nprovider_count: int64 not null\nobservation_count: int64 not null",
+      "date_role": "none",
+      "distinct_primary_key_count": 15,
+      "domain": "policy_impact",
+      "governed_measure_totals": {},
+      "landing_path": "landing/policy_impact/policy_effect_estimate.parquet",
+      "parquet_sha256": "ea6c6dd0ca8f3a994607472b5e846d72c0e660999327779697cfbc2b25a1f50c",
+      "parquet_size_bytes": 3976,
+      "primary_key": [
+        "run_id",
+        "outcome_name",
+        "specification"
+      ],
+      "row_count": 15,
+      "table_name": "policy_effect_estimate"
+    },
+    {
+      "access": "synthetic_policy_analysis",
+      "arrow_schema": "run_id: string not null\noutcome_name: string not null\nevent_time: int32 not null\ncoefficient: decimal128(18, 4) not null\nstandard_error: decimal128(18, 4) not null\nconfidence_interval_lower: decimal128(18, 4) not null\nconfidence_interval_upper: decimal128(18, 4) not null\np_value: decimal128(18, 4) not null",
+      "date_role": "event_time",
+      "distinct_primary_key_count": 85,
+      "domain": "policy_impact",
+      "governed_measure_totals": {},
+      "landing_path": "landing/policy_impact/event_study_estimate.parquet",
+      "parquet_sha256": "38da4a524af1414ee51954d80ca450aed770305383af78cb55fa4ec689ee07cf",
+      "parquet_size_bytes": 4822,
+      "primary_key": [
+        "run_id",
+        "outcome_name",
+        "event_time"
+      ],
+      "row_count": 85,
+      "table_name": "event_study_estimate"
+    },
+    {
+      "access": "synthetic_policy_analysis",
+      "arrow_schema": "run_id: string not null\noutcome_name: string not null\ndiagnostic_name: string not null\nspecification: string not null\nstatistic: decimal128(18, 4)\np_value: decimal128(18, 4)\npassed: bool not null\nexplanation: string not null",
+      "date_role": "none",
+      "distinct_primary_key_count": 10,
+      "domain": "policy_impact",
+      "governed_measure_totals": {},
+      "landing_path": "landing/policy_impact/policy_diagnostic.parquet",
+      "parquet_sha256": "99f2c739efcb636ff9fec88aa690aba6b28b8d33455d20cedc6cbe7212df3642",
+      "parquet_size_bytes": 3057,
+      "primary_key": [
+        "run_id",
+        "outcome_name",
+        "diagnostic_name",
+        "specification"
+      ],
+      "row_count": 10,
+      "table_name": "policy_diagnostic"
+    },
+    {
+      "access": "restricted_not_for_ordinary_analytics",
+      "arrow_schema": "anomaly_injection_key: int64 not null\nclaim_key: int64\nclaim_line_key: int64\npayment_transaction_key: int64\nreporting_period_date_key: int32\ninjection_id: string not null\nrule_id: string not null\nlabel_scope: string not null\ntarget_table: string not null\ntarget_record_id: string not null\nprovider_id: string\nexpected_financial_exposure: decimal128(18, 2) not null\noverlap_group: string\nevaluation_only: bool not null",
+      "date_role": "evaluation_only",
+      "distinct_primary_key_count": 500,
+      "domain": "evaluation",
+      "governed_measure_totals": {},
+      "landing_path": "landing/evaluation/bridge_claim_anomaly.parquet",
+      "parquet_sha256": "986175c33e16a7687ed664cce86468e812932dcfa0f1dc936b42086d99b7b7c6",
+      "parquet_size_bytes": 14716,
+      "primary_key": [
+        "anomaly_injection_key"
+      ],
+      "row_count": 500,
+      "table_name": "bridge_claim_anomaly"
+    },
+    {
+      "access": "restricted_not_for_ordinary_analytics",
+      "arrow_schema": "match_id: string not null\nrun_id: string not null\nfinding_id: string\ninjection_id: string\nrule_id: string not null\nlabel_scope: string not null\ncanonical_target_id: string not null\nmatch_status: string not null\namount_at_risk: decimal128(18, 2) not null\nexpected_financial_exposure: decimal128(18, 2) not null\nevaluation_only: bool not null",
+      "date_role": "evaluation_only",
+      "distinct_primary_key_count": 560,
+      "domain": "evaluation",
+      "governed_measure_totals": {},
+      "landing_path": "landing/evaluation/finding_ground_truth_match.parquet",
+      "parquet_sha256": "718094bc9cb39d48103c378b6ffba5804b4ae2eb9652f9f54343b8855887d7d2",
+      "parquet_size_bytes": 12166,
+      "primary_key": [
+        "match_id"
+      ],
+      "row_count": 560,
+      "table_name": "finding_ground_truth_match"
+    },
+    {
+      "access": "restricted_not_for_ordinary_analytics",
+      "arrow_schema": "evaluation_id: string not null\nrun_id: string not null\nevaluation_scope: string not null\nrule_id: string not null\neligible_target_count: int64 not null\ntrue_positive_count: int64 not null\nfalse_positive_count: int64 not null\nfalse_negative_count: int64 not null\ntrue_negative_count: int64 not null\nprecision: decimal128(18, 4)\nrecall: decimal128(18, 4)\nfalse_positive_rate: decimal128(18, 4)\nlabeled_expected_exposure: decimal128(18, 2) not null\ndetected_expected_exposure: decimal128(18, 2) not null\nexposure_recall: decimal128(18, 4)\nprecision_threshold_passed: bool not null\nrecall_threshold_passed: bool not null\nfalse_positive_rate_threshold_passed: bool not null\nevaluation_only: bool not null",
+      "date_role": "evaluation_only",
+      "distinct_primary_key_count": 11,
+      "domain": "evaluation",
+      "governed_measure_totals": {},
+      "landing_path": "landing/evaluation/rule_evaluation.parquet",
+      "parquet_sha256": "c55e08d52a41173e7c55cc3658d84ec3dbb44759884ee1a07fe6825670787ce8",
+      "parquet_size_bytes": 6519,
+      "primary_key": [
+        "evaluation_id"
+      ],
+      "row_count": 11,
+      "table_name": "rule_evaluation"
+    }
+  ],
+  "workspace_name": "hcpi-portfolio-m09"
+}

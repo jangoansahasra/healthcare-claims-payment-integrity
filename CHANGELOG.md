@@ -21,6 +21,11 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Deterministic 26-table M09 Fabric upload package with byte-preserved Parquet,
+  SHA-256 manifests, governed row/key counts, Arrow schemas, date roles, access
+  boundaries, and financial references
+- Schema-enabled Fabric PySpark load-and-reconciliation notebook, pipeline
+  template, package quality evidence, and clean-runner integration validation
 - Versioned M09 Fabric deployment contract with verified categorical readiness,
   deterministic artifact naming, governed M04-M07 table mappings, reconciliation,
   security, cost, evidence, and teardown controls

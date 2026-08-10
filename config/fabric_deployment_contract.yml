@@ -6,10 +6,13 @@ deployment:
   milestone: M09
   parent_issue: 77
   implementation_issue: 78
-  execution_status: contract_only
+  execution_issue: 80
+  execution_status: package_ready
   provisioning_performed: false
   cloud_success_claimed: false
   generated_package_root: data/generated/fabric_deployment
+  quality_report: data/metadata/quality/fabric_deployment_package.json
+  publishable_manifest_sample: data/sample/fabric_deployment/table_manifest_sample.json
   full_package_committed_to_git: false
 
 verified_readiness:
@@ -74,6 +77,7 @@ architecture:
   landing_location: OneLake Files/landing
   governed_table_format: delta
   governed_table_location: OneLake Tables
+  lakehouse_schema_mode: schema_enabled
   query_surface: Lakehouse SQL analytics endpoint
   transformation_runtime: Fabric notebook
   orchestration_runtime: Fabric data pipeline
@@ -137,6 +141,9 @@ schemas:
       policy_diagnostic: {primary_key: [run_id, outcome_name, diagnostic_name, specification], date_role: none}
   evaluation_only:
     access: restricted_not_for_ordinary_analytics
+    source_roots:
+      trusted: data/curated/trusted_claims
+      payment_integrity: data/curated/payment_integrity
     tables:
       bridge_claim_anomaly:
         source_contract: config/trusted_claims_contract.yml
@@ -185,3 +192,17 @@ evidence:
     - final_cost_status
   screenshot_redaction_required: true
   artifact_hash_algorithm: sha256
+
+package:
+  manifest_version: 1
+  manifest_path: manifest/table_manifest.json
+  landing_root: landing
+  notebook_source: fabric/notebooks/nb_hcpi_load_validate.py
+  pipeline_source: fabric/pipelines/pl_hcpi_curated_refresh.json
+  copy_parquet_bytes_without_reencoding: true
+  financial_measures:
+    trusted.fact_claim: [total_allowed_amount, net_paid_amount]
+    trusted.fact_payment_transaction: [signed_transaction_amount]
+    payment_integrity.rule_finding: [amount_at_risk]
+    cost_intelligence.monthly_cost_utilization:
+      [eligible_member_months, allowed_amount, paid_amount]
