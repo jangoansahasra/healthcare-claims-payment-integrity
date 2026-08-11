@@ -23,6 +23,10 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Versioned M10 cross-tool BI semantic contract with governed metric formulas,
+  explicit date roles, privacy suppression, and evaluation-data isolation.
+- Six-page Looker Studio dashboard specification and compact Power BI
+  independent-validation scope with reproducible evidence requirements.
 - Real M09 Fabric Trial execution evidence for a schema-enabled Lakehouse,
   successful notebook and pipeline runs, 26 governed tables, and 33 passing
   reconciliation results with private cloud identifiers excluded from Git

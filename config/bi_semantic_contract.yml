@@ -1,0 +1,98 @@
+contract_version: 1
+last_reviewed: "2026-08-11"
+
+dataset:
+  name: healthcare_payment_integrity_bi
+  milestone: M10
+  status: contract_defined
+  fabric_workspace: hcpi-portfolio-m09
+  fabric_lakehouse: lh_hcpi_curated
+  output_root: data/generated/bi
+  full_output_committed_to_git: false
+
+governance:
+  synthetic_records_only: true
+  contains_protected_health_information: false
+  ordinary_features_may_access_evaluation_ground_truth: false
+  restricted_schema: evaluation
+  minimum_publishable_member_count: 11
+  findings_are_review_leads_not_fraud_determinations: true
+  policy_results_are_synthetic_evidence_not_causal_proof: true
+  service_and_payment_date_roles_must_be_visibly_distinct: true
+
+tolerances: {count: 0, financial_usd: 0.01, rate_decimal: 0.0001}
+
+semantic_model:
+  model_name: hcpi_governed_semantic_model
+  default_filter_direction: single
+  many_to_many_relationships_allowed: false
+  ambiguous_relationships_allowed: false
+  relationships:
+    - {relationship_id: REL001, from: monthly_cost_utilization.plan_key, to: dim_plan.plan_key, cardinality: many_to_one, filter_direction: single, active: true, date_role: null}
+    - {relationship_id: REL002, from: monthly_cost_utilization.service_month, to: dim_date.calendar_date, cardinality: many_to_one, filter_direction: single, active: true, date_role: service_month}
+    - {relationship_id: REL003, from: monthly_payment_cash_flow.plan_key, to: dim_plan.plan_key, cardinality: many_to_one, filter_direction: single, active: true, date_role: null}
+    - {relationship_id: REL004, from: monthly_payment_cash_flow.payment_month, to: dim_date.calendar_date, cardinality: many_to_one, filter_direction: single, active: false, date_role: payment_month}
+    - {relationship_id: REL005, from: provider_service_concentration.plan_key, to: dim_plan.plan_key, cardinality: many_to_one, filter_direction: single, active: true, date_role: null}
+    - {relationship_id: REL006, from: provider_service_concentration.service_month, to: dim_date.calendar_date, cardinality: many_to_one, filter_direction: single, active: true, date_role: service_month}
+
+metrics:
+  BI001: {display_name: Total allowed amount, source_table: cost_intelligence.monthly_cost_utilization, grain: service month and plan, formula: sum(allowed_amount), format: currency_usd_2, date_role: service_month}
+  BI002: {display_name: Total paid amount, source_table: cost_intelligence.monthly_cost_utilization, grain: service month and plan, formula: sum(paid_amount), format: currency_usd_2, date_role: service_month}
+  BI003: {display_name: Allowed PMPM, source_table: cost_intelligence.monthly_cost_utilization, grain: service month and plan, formula: sum(allowed_amount) / sum(eligible_member_months), format: currency_usd_2, date_role: service_month}
+  BI004: {display_name: Paid PMPM, source_table: cost_intelligence.monthly_cost_utilization, grain: service month and plan, formula: sum(paid_amount) / sum(eligible_member_months), format: currency_usd_2, date_role: service_month}
+  BI005: {display_name: Claims per 1000 member months, source_table: cost_intelligence.monthly_cost_utilization, grain: service month and plan, formula: sum(claim_count) * 1000 / sum(eligible_member_months), format: decimal_2, date_role: service_month}
+  BI006: {display_name: Units per 1000 member months, source_table: cost_intelligence.monthly_cost_utilization, grain: service month and plan, formula: sum(service_units) * 1000 / sum(eligible_member_months), format: decimal_2, date_role: service_month}
+  BI007: {display_name: Net payment cash flow, source_table: cost_intelligence.monthly_payment_cash_flow, grain: payment month and plan, formula: sum(net_payment_cash_flow), format: currency_usd_2, date_role: payment_month}
+  BI008: {display_name: Review lead count, source_table: payment_integrity.rule_finding, grain: rule run, formula: count_distinct(finding_id), format: integer, date_role: run_timestamp}
+  BI009: {display_name: Amount at risk, source_table: payment_integrity.rule_finding, grain: rule run and rule, formula: sum(amount_at_risk), format: currency_usd_2, date_role: run_timestamp}
+  BI010: {display_name: Top 10 concentration share, source_table: cost_intelligence.provider_service_concentration, grain: service month plan and entity type, formula: weighted_average(top_10_share by total_allowed_amount), format: percent_1, date_role: service_month}
+  BI011: {display_name: HHI concentration, source_table: cost_intelligence.provider_service_concentration, grain: service month plan and entity type, formula: weighted_average(hhi by total_allowed_amount), format: decimal_4, date_role: service_month}
+  BI012: {display_name: Total cost change, source_table: cost_intelligence.cost_change_decomposition, grain: reporting month and plan, formula: sum(total_cost_change), format: currency_usd_2, date_role: service_month}
+  BI013: {display_name: Active early warning count, source_table: cost_intelligence.cost_early_warning_signal, grain: service month and plan, formula: count_rows_where(signal_status = warning), format: integer, date_role: service_month}
+  BI014: {display_name: Simulated policy effect, source_table: policy_impact.policy_effect_estimate, grain: outcome model and specification, formula: selected treatment_post coefficient, format: decimal_4_with_ci, date_role: policy_event_month}
+
+privacy:
+  suppression_dimension: distinct synthetic members
+  threshold: 11
+  rule: suppress value when distinct_member_count is below 11
+  applies_to: [provider, service, plan, investigation]
+  suppressed_values_may_not_contribute_to_tooltips: true
+
+looker_studio:
+  role: primary_six_page_portfolio_dashboard
+  completion_status: not_built
+  pages:
+    - {page_id: LS01, name: Executive overview, metric_ids: [BI001, BI002, BI003, BI004, BI008, BI009]}
+    - {page_id: LS02, name: Cost and utilization, metric_ids: [BI003, BI004, BI005, BI006, BI012, BI013]}
+    - {page_id: LS03, name: Payment integrity review leads, metric_ids: [BI008, BI009]}
+    - {page_id: LS04, name: Provider and service concentration, metric_ids: [BI010, BI011]}
+    - {page_id: LS05, name: Simulated policy impact, metric_ids: [BI014]}
+    - {page_id: LS06, name: Investigation and methodology, metric_ids: [BI007, BI013]}
+
+power_bi:
+  role: independent_fabric_kpi_validation
+  connection: Fabric Lakehouse SQL analytics endpoint
+  selected_metric_ids: [BI001, BI002, BI003, BI004, BI007, BI008, BI009]
+  completion_status: not_built
+  validation_requires_exact_counts: true
+  validation_requires_financial_tolerance_usd: 0.01
+
+evidence:
+  refresh_fields: [environment, tool, refreshed_at_utc, source_artifact_hashes, metric_result_hash]
+  screenshot_fields: [page_id, captured_at_utc, sanitized]
+  prohibited_screenshot_fields: [user_email, tenant_id, subscription_id, workspace_id, lakehouse_id, pipeline_run_id]
+  screenshots_committed_to_git: false
+
+quality_checks:
+  - {check_id: BIQ001, expression: metric identifiers and names are unique}
+  - {check_id: BIQ002, expression: every metric has source grain formula format and date role}
+  - {check_id: BIQ003, expression: relationships are explicit single-direction many-to-one mappings}
+  - {check_id: BIQ004, expression: financial and count totals reconcile within governed tolerances}
+  - {check_id: BIQ005, expression: PMPM and utilization denominators reproduce from eligible member months}
+  - {check_id: BIQ006, expression: service-date and payment-date metrics cannot be combined silently}
+  - {check_id: BIQ007, expression: small privacy-sensitive groups are suppressed below 11 members}
+  - {check_id: BIQ008, expression: ordinary dashboard features cannot access evaluation ground truth}
+  - {check_id: BIQ009, expression: all six Looker Studio pages are represented}
+  - {check_id: BIQ010, expression: Power BI validation metric selection is explicit}
+  - {check_id: BIQ011, expression: refresh and sanitized screenshot evidence is complete}
+  - {check_id: BIQ012, expression: full generated BI extracts remain excluded from Git}

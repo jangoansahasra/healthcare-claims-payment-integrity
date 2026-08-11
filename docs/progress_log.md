@@ -1606,5 +1606,36 @@ through issue #80.
 
 ### Next task
 
-Merge the execution evidence, close issues #80 and #77, build the M10 Power BI
-semantic model and six-page report, then remove or allow expiry of trial assets.
+Merge the execution evidence, close issues #80 and #77, build the M10 Looker
+Studio dashboard and compact Power BI validation report, then remove or allow
+expiry of trial assets.
+
+## 2026-08-11 — M10 BI semantic and dashboard contract
+
+### Completed
+
+- Defined a governed cross-tool semantic contract for Looker Studio and Power
+  BI using the reconciled M06, M07, and M09 analytical surfaces.
+- Documented 14 metrics with explicit grains, formulas, formats, source tables,
+  and service-date, payment-date, or policy-date roles.
+- Prohibited ambiguous many-to-many relationships and bidirectional filtering.
+- Fixed count tolerance at zero and financial tolerance at $0.01.
+- Required eligible member months for PMPM and governed exposure denominators
+  for utilization rates.
+- Defined privacy suppression for breakdowns containing fewer than 11 distinct
+  synthetic members.
+- Excluded the restricted M03 evaluation schema from ordinary BI features.
+- Specified all six Looker Studio pages and the independent Power BI executive
+  KPI validation scope.
+- Added machine-readable quality checks and focused contract tests without
+  claiming that either dashboard has been built.
+
+### Current work
+
+Publishing the M10 semantic-model and dashboard contract through issue #84.
+
+### Next task
+
+Build deterministic dashboard extracts, create and validate the six Looker
+Studio pages, reproduce selected executive KPIs in Power BI from Fabric, and
+capture sanitized refresh and screenshot evidence.
