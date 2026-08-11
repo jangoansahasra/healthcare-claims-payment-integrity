@@ -5,7 +5,7 @@
   "manifest_version": 1,
   "notebook": {
     "path": "artifacts/nb_hcpi_load_validate.py",
-    "sha256": "e8b6fad19481651010a607c01fd536e131c5317e80f743bdac6b70bd524d8b0a"
+    "sha256": "26391566cc0a807a4f460958dea08273f30275e2cccfa4cef9aa8396a0ed5da3"
   },
   "pipeline": {
     "path": "artifacts/pl_hcpi_curated_refresh.json",

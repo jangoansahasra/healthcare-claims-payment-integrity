@@ -8,7 +8,7 @@ from decimal import Decimal
 from pyspark.sql import functions as F
 
 MANIFEST_PATH = "/lakehouse/default/Files/manifest/table_manifest.json"
-LANDING_ROOT = "/lakehouse/default/Files"
+LANDING_ROOT = "Files"
 COUNT_TOLERANCE = 0
 FINANCIAL_TOLERANCE = Decimal("0.01")
 

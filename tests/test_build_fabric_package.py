@@ -132,6 +132,7 @@ def test_notebook_and_pipeline_match_contract() -> None:
     assert "saveAsTable" in notebook
     assert "distinct().count()" in notebook
     assert '"trusted.fabric_reconciliation_result"' in notebook
+    assert 'LANDING_ROOT = "Files"' in notebook
     assert pipeline["name"] == contract["naming"]["pipeline"]
     assert pipeline["activities"][0]["notebook"] == contract["naming"]["notebook"]
     assert pipeline["success_criteria"]["required_table_count"] == 26

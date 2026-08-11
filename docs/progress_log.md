@@ -1577,3 +1577,34 @@ Publishing the portable package and validation artifacts through issue #80.
 
 Merge the local package, confirm the Fabric capacity region, activate the trial,
 create the schema-enabled Lakehouse, and perform the real cloud execution.
+
+## 2026-08-10 — M09 Fabric Lakehouse execution
+
+### Completed
+
+- Activated a Fabric Trial capacity in North Central US without creating a paid
+  Azure resource.
+- Created the `hcpi-portfolio-m09` workspace and schema-enabled
+  `lh_hcpi_curated` Lakehouse.
+- Uploaded the deterministic landing package and manifest while keeping full
+  cloud extracts outside Git.
+- Imported and attached `nb_hcpi_load_validate` to the Lakehouse.
+- Corrected the portable landing root from an absolute OneLake path to the
+  Fabric-relative `Files` path after the first run exposed a 400 path error.
+- Successfully materialized 26 governed Delta tables across `trusted`,
+  `payment_integrity`, `cost_intelligence`, `policy_impact`, and restricted
+  `evaluation` schemas.
+- Published 33 reconciliation results: 33 passed and zero failed.
+- Created, validated, and successfully executed `pl_hcpi_curated_refresh`.
+- Retained private run identifiers and full screenshots outside Git.
+- Recorded zero paid-resource cost and retained the trial workspace for M10.
+
+### Current work
+
+Publishing sanitized M09 execution evidence and the portable path correction
+through issue #80.
+
+### Next task
+
+Merge the execution evidence, close issues #80 and #77, build the M10 Power BI
+semantic model and six-page report, then remove or allow expiry of trial assets.

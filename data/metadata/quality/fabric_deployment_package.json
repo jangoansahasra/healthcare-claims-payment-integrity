@@ -11,10 +11,10 @@
   "cloud_execution_performed": false,
   "execution_status": "package_ready",
   "fabric_trial_activated": false,
-  "generated_at_utc": "2026-08-10T19:31:22.427150+00:00",
-  "manifest_sha256": "239c24ee703764fcd9e121544603940412d413873457a1824c4b2a861695c0ab",
+  "generated_at_utc": "2026-08-11T03:55:01.766522+00:00",
+  "manifest_sha256": "ca30430153956744e85bee3034dddda3a189b564bc59bd5666a4f2a4d79727d0",
   "ordinary_table_count": 23,
-  "package_size_bytes": 9317841,
+  "package_size_bytes": 9317822,
   "report_version": 1,
   "restricted_table_count": 3,
   "table_count": 26

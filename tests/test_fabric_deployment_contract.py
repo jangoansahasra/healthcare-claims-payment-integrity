@@ -1,9 +1,11 @@
+import json
 from pathlib import Path
 
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT_PATH = ROOT / "config/fabric_deployment_contract.yml"
+EXECUTION_EVIDENCE_PATH = ROOT / "data/metadata/quality/fabric_execution.json"
 
 
 def load_contract() -> dict:
@@ -15,19 +17,41 @@ def load_source_tables(path: str) -> dict:
     return source["tables"]
 
 
-def test_readiness_is_truthful_before_cloud_execution() -> None:
+def test_execution_status_matches_real_fabric_evidence() -> None:
     contract = load_contract()
     readiness = contract["verified_readiness"]
 
-    assert contract["deployment"]["execution_status"] == "package_ready"
-    assert contract["deployment"]["provisioning_performed"] is False
-    assert contract["deployment"]["cloud_success_claimed"] is False
-    assert readiness["fabric"]["license_type"] == "free"
-    assert readiness["fabric"]["trial_activated"] is False
-    assert readiness["fabric"]["capacity_status"] == "not_provisioned"
+    assert contract["deployment"]["execution_status"] == "passed"
+    assert contract["deployment"]["provisioning_performed"] is True
+    assert contract["deployment"]["cloud_success_claimed"] is True
+    assert readiness["fabric"]["license_type"] == "Power BI Individual Trial"
+    assert readiness["fabric"]["trial_activated"] is True
+    assert readiness["fabric"]["capacity_status"] == "active"
+    assert readiness["fabric"]["capacity_region"] == "North Central US"
+    assert readiness["fabric"]["workspace_created"] is True
+    assert readiness["fabric"]["notebook_executed"] is True
+    assert readiness["fabric"]["pipeline_executed"] is True
     assert readiness["azure"]["subscription_offer"] == "Azure for Students"
     assert readiness["azure"]["subscription_status"] == "active"
     assert readiness["azure"]["paid_resource_created_for_m09"] is False
+
+
+def test_sanitized_execution_evidence_reconciles() -> None:
+    evidence = json.loads(EXECUTION_EVIDENCE_PATH.read_text(encoding="utf-8"))
+
+    assert evidence["execution_status"] == "passed"
+    assert evidence["table_count"] == 26
+    assert evidence["ordinary_table_count"] == 23
+    assert evidence["restricted_table_count"] == 3
+    assert evidence["reconciliation_result_count"] == 33
+    assert evidence["reconciliation_passed_count"] == 33
+    assert evidence["reconciliation_failed_count"] == 0
+    assert evidence["notebook_status"] == "succeeded"
+    assert evidence["pipeline_status"] == "succeeded"
+    assert evidence["run_identifiers_retained_outside_git"] is True
+    assert evidence["screenshots_retained_outside_git"] is True
+    assert evidence["teardown_status"] == "retained_for_m10"
+    assert evidence["paid_resource_cost_usd"] == 0.0
 
 
 def test_sensitive_identifiers_are_prohibited() -> None:
