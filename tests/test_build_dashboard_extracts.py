@@ -1,8 +1,13 @@
+import os
 from pathlib import Path
 
 import pandas as pd
 
 from src.bi.build_dashboard_extracts import build_dashboard_extracts
+
+
+def _curated_root() -> Path:
+    return Path(os.environ.get("BI_CURATED_ROOT", "data/curated"))
 
 
 def test_dashboard_extracts_build_and_reconcile(tmp_path: Path) -> None:
@@ -11,6 +16,7 @@ def test_dashboard_extracts_build_and_reconcile(tmp_path: Path) -> None:
         output_root=output,
         quality_path=tmp_path / "quality.json",
         sample_root=tmp_path / "samples",
+        curated_root=_curated_root(),
     )
     assert report["status"] == "extracts_built"
     assert report["extract_count"] == 7
@@ -27,6 +33,7 @@ def test_dashboard_extracts_are_deterministic(tmp_path: Path) -> None:
                 output_root=tmp_path / name,
                 quality_path=tmp_path / f"{name}.json",
                 sample_root=tmp_path / f"{name}_samples",
+                curated_root=_curated_root(),
             )
         )
     first = {item["extract"]: item["sha256"] for item in reports[0]["extracts"]}
@@ -40,6 +47,7 @@ def test_sensitive_groups_are_suppressed(tmp_path: Path) -> None:
         output_root=output,
         quality_path=tmp_path / "quality.json",
         sample_root=tmp_path / "samples",
+        curated_root=_curated_root(),
     )
     review = pd.read_csv(output / "payment_integrity_review_leads.csv")
     suppressed = review["distinct_member_count"] < 11
@@ -54,6 +62,7 @@ def test_service_and_payment_dates_are_separate(tmp_path: Path) -> None:
         output_root=output,
         quality_path=tmp_path / "quality.json",
         sample_root=tmp_path / "samples",
+        curated_root=_curated_root(),
     )
     service = pd.read_csv(output / "cost_and_utilization.csv")
     payment = pd.read_csv(output / "payment_cash_flow.csv")
