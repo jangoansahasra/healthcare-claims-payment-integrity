@@ -23,6 +23,9 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Deterministic M10 dashboard-extract builder publishing seven governed,
+  tool-neutral CSV surfaces with 14 reconciled KPIs, privacy suppression,
+  explicit date roles, reproducible hashes, and small Git-safe samples.
 - Versioned M10 cross-tool BI semantic contract with governed metric formulas,
   explicit date roles, privacy suppression, and evaluation-data isolation.
 - Six-page Looker Studio dashboard specification and compact Power BI

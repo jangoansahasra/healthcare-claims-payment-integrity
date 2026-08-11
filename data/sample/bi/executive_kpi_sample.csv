@@ -1,0 +1,15 @@
+metric_id,display_name,date_role,metric_value
+BI001,Total allowed amount,service_month,350236971.70
+BI002,Total paid amount,service_month,288760492.94
+BI003,Allowed PMPM,service_month,2206.272735690978040391568921
+BI004,Paid PMPM,service_month,1819.009568367076965718821262
+BI005,Claims per 1000 member months,service_month,463.67152558174695
+BI006,Units per 1000 member months,service_month,8392.628790646693459992692729
+BI007,Net payment cash flow,payment_month,317543149.29
+BI008,Review lead count,run_timestamp,500
+BI009,Amount at risk,run_timestamp,20178428.64
+BI010,Top 10 concentration share,service_month,0.7004364131679206402347592420
+BI011,HHI concentration,service_month,0.06973911474747767732559396409
+BI012,Total cost change,service_month,34901195.82
+BI013,Active early warning count,service_month,17
+BI014,Simulated policy effect,policy_event_month,160.2456

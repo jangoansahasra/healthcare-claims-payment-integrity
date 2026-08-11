@@ -37,6 +37,12 @@ isolation and separate service/payment date roles. The governed notebook and
 pipeline executed successfully on a Fabric Trial capacity in North Central US,
 with all 26 tables and 33 reconciliation results passing.
 
+M10 now publishes seven deterministic, tool-neutral dashboard extracts from
+the governed analytical surfaces. They reproduce all 14 contracted KPIs,
+apply the 11-member privacy threshold, keep service-month and payment-month
+measures separate, and exclude evaluation ground truth. Looker Studio and
+Power BI report construction and visual evidence remain in progress.
+
 ## Target deliverables
 
 - Trusted dimensional claims model with documented grain
@@ -79,6 +85,8 @@ ordinary and three restricted tables, and both the validation notebook and
 orchestration pipeline succeeded. The trial workspace is retained temporarily
 for the M10 Looker Studio dashboard and Power BI validation report, and no paid
 Azure resource was created.
+The governed M10 dashboard extracts are complete; the six Looker Studio pages
+and compact Power BI validation report are the next presentation-layer work.
 
 ## Safety and limitations
 

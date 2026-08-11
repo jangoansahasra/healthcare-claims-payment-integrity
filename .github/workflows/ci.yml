@@ -56,32 +56,33 @@ jobs:
             --quality-report "${{ runner.temp }}/anomalies.json"
           python -m src.transformation.build_trusted_claims \
             --source-root "${{ runner.temp }}/synthetic-anomalous" \
-            --output-root "${{ runner.temp }}/trusted-claims" \
+            --output-root "${{ runner.temp }}/curated/trusted_claims" \
             --sample-root "${{ runner.temp }}/samples" \
             --quality-report "${{ runner.temp }}/trusted.json"
           python -m src.payment_integrity.build_payment_integrity_engine \
-            --input-root "${{ runner.temp }}/trusted-claims" \
-            --output-root "${{ runner.temp }}/payment-integrity" \
+            --input-root "${{ runner.temp }}/curated/trusted_claims" \
+            --output-root "${{ runner.temp }}/curated/payment_integrity" \
             --sample-root "${{ runner.temp }}/samples" \
             --quality-report "${{ runner.temp }}/payment-integrity.json"
           python -m src.transformation.build_cost_intelligence \
-            --input-root "${{ runner.temp }}/trusted-claims" \
-            --output-root "${{ runner.temp }}/cost-intelligence" \
+            --input-root "${{ runner.temp }}/curated/trusted_claims" \
+            --output-root "${{ runner.temp }}/curated/cost_intelligence" \
             --sample-root "${{ runner.temp }}/samples" \
             --quality-report "${{ runner.temp }}/cost-intelligence.json"
           python -m src.transformation.build_policy_impact \
-            --input-root "${{ runner.temp }}/trusted-claims" \
-            --output-root "${{ runner.temp }}/policy-impact" \
+            --input-root "${{ runner.temp }}/curated/trusted_claims" \
+            --output-root "${{ runner.temp }}/curated/policy_impact" \
             --sample-root "${{ runner.temp }}/samples" \
             --quality-report "${{ runner.temp }}/policy-impact.json"
 
       - name: Run tests
         env:
-          TRUSTED_CLAIMS_TEST_ROOT: ${{ runner.temp }}/trusted-claims
-          FABRIC_TRUSTED_ROOT: ${{ runner.temp }}/trusted-claims
-          FABRIC_PAYMENT_INTEGRITY_ROOT: ${{ runner.temp }}/payment-integrity
-          FABRIC_COST_INTELLIGENCE_ROOT: ${{ runner.temp }}/cost-intelligence
-          FABRIC_POLICY_IMPACT_ROOT: ${{ runner.temp }}/policy-impact
-          FABRIC_EVALUATION_TRUSTED_ROOT: ${{ runner.temp }}/trusted-claims
-          FABRIC_EVALUATION_PAYMENT_INTEGRITY_ROOT: ${{ runner.temp }}/payment-integrity
+          TRUSTED_CLAIMS_TEST_ROOT: ${{ runner.temp }}/curated/trusted_claims
+          FABRIC_TRUSTED_ROOT: ${{ runner.temp }}/curated/trusted_claims
+          FABRIC_PAYMENT_INTEGRITY_ROOT: ${{ runner.temp }}/curated/payment_integrity
+          FABRIC_COST_INTELLIGENCE_ROOT: ${{ runner.temp }}/curated/cost_intelligence
+          FABRIC_POLICY_IMPACT_ROOT: ${{ runner.temp }}/curated/policy_impact
+          FABRIC_EVALUATION_TRUSTED_ROOT: ${{ runner.temp }}/curated/trusted_claims
+          FABRIC_EVALUATION_PAYMENT_INTEGRITY_ROOT: ${{ runner.temp }}/curated/payment_integrity
+          BI_CURATED_ROOT: ${{ runner.temp }}/curated
         run: python -m pytest

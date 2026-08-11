@@ -1639,3 +1639,28 @@ Publishing the M10 semantic-model and dashboard contract through issue #84.
 Build deterministic dashboard extracts, create and validate the six Looker
 Studio pages, reproduce selected executive KPIs in Power BI from Fabric, and
 capture sanitized refresh and screenshot evidence.
+
+## 2026-08-11 — M10 governed dashboard extracts
+
+### Completed
+
+- Built seven deterministic, tool-neutral CSV extracts covering all 14 M10
+  metrics and the six contracted Looker Studio page domains.
+- Reconciled counts exactly and governed financial measures within $0.01.
+- Reproduced PMPM and utilization measures from eligible member-month
+  denominators.
+- Applied the 11-distinct-member privacy threshold to review-lead breakdowns.
+- Preserved visible service-month and payment-month date roles.
+- Kept evaluation ground truth outside every ordinary dashboard feature.
+- Published bounded samples and a machine-readable quality report while
+  keeping full extracts outside Git.
+- Added deterministic-build, reconciliation, privacy, and date-role tests.
+
+### Current work
+
+Publishing the governed extract package through issue #86.
+
+### Next task
+
+Load the extracts into Looker Studio, build and validate all six pages, then
+reproduce selected executive KPIs in Power BI and capture sanitized evidence.
