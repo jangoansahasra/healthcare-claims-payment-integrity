@@ -28,7 +28,7 @@ claims-review policy.
 | Transformation | Python + DuckDB SQL | Fabric notebook/pipeline/warehouse |
 | Validation | pytest + SQL + SAS | Fabric pipeline checks |
 | Statistics | pandas, SciPy, statsmodels | Fabric notebook |
-| BI | Power BI Desktop/web | Power BI semantic model |
+| BI | Looker Studio + Power BI web | Governed cross-tool semantic model |
 | CI | GitHub Actions | GitHub Actions |
 
 M09 maps the existing M04-M07 schemas into a schema-enabled Fabric Lakehouse,
@@ -47,7 +47,7 @@ with all 26 tables and 33 reconciliation results passing.
 - Cost-change decomposition
 - Difference-in-differences policy evaluation
 - SAS/SQL/Python/Power BI reconciliation
-- Six-page Power BI report and formal KPI dictionary
+- Six-page Looker Studio dashboard, compact Power BI validation report, and formal KPI dictionary
 - Privacy, security, and data-quality controls
 
 ## Repository layout
@@ -77,7 +77,8 @@ Linux reproduced all 181 governed comparisons with zero failures or missing
 SAS values. M09 Fabric execution is complete: the Lakehouse contains 23
 ordinary and three restricted tables, and both the validation notebook and
 orchestration pipeline succeeded. The trial workspace is retained temporarily
-for the M10 Power BI report and no paid Azure resource was created.
+for the M10 Looker Studio dashboard and Power BI validation report, and no paid
+Azure resource was created.
 
 ## Safety and limitations
 
