@@ -1,0 +1,26 @@
+service_month,plan_key,metric_name,metric_value,history_month_count,baseline_median,baseline_mad,robust_z_score,relative_change,signal_status,explanation
+2025-01-01,1,allowed_pmpm,1868.0582,0,,,,,insufficient_history,allowed_pmpm: insufficient_history; history_months=0
+2025-01-01,1,claims_per_1000,448.0151,0,,,,,insufficient_history,claims_per_1000: insufficient_history; history_months=0
+2025-01-01,1,paid_pmpm,1545.9462,0,,,,,insufficient_history,paid_pmpm: insufficient_history; history_months=0
+2025-01-01,1,units_per_1000,8877.5992,0,,,,,insufficient_history,units_per_1000: insufficient_history; history_months=0
+2025-01-01,2,allowed_pmpm,1787.8860,0,,,,,insufficient_history,allowed_pmpm: insufficient_history; history_months=0
+2025-01-01,2,claims_per_1000,467.9912,0,,,,,insufficient_history,claims_per_1000: insufficient_history; history_months=0
+2025-01-01,2,paid_pmpm,1475.3022,0,,,,,insufficient_history,paid_pmpm: insufficient_history; history_months=0
+2025-01-01,2,units_per_1000,8450.3311,0,,,,,insufficient_history,units_per_1000: insufficient_history; history_months=0
+2025-01-01,3,allowed_pmpm,1895.8048,0,,,,,insufficient_history,allowed_pmpm: insufficient_history; history_months=0
+2025-01-01,3,claims_per_1000,380.5970,0,,,,,insufficient_history,claims_per_1000: insufficient_history; history_months=0
+2025-01-01,3,paid_pmpm,1561.3293,0,,,,,insufficient_history,paid_pmpm: insufficient_history; history_months=0
+2025-01-01,3,units_per_1000,11873.1343,0,,,,,insufficient_history,units_per_1000: insufficient_history; history_months=0
+2025-01-01,4,allowed_pmpm,2584.2771,0,,,,,insufficient_history,allowed_pmpm: insufficient_history; history_months=0
+2025-01-01,4,claims_per_1000,480.0937,0,,,,,insufficient_history,claims_per_1000: insufficient_history; history_months=0
+2025-01-01,4,paid_pmpm,2096.5704,0,,,,,insufficient_history,paid_pmpm: insufficient_history; history_months=0
+2025-01-01,4,units_per_1000,9000.0000,0,,,,,insufficient_history,units_per_1000: insufficient_history; history_months=0
+2025-02-01,1,allowed_pmpm,2049.3057,1,,,,,insufficient_history,allowed_pmpm: insufficient_history; history_months=1
+2025-02-01,1,claims_per_1000,447.0309,1,,,,,insufficient_history,claims_per_1000: insufficient_history; history_months=1
+2025-02-01,1,paid_pmpm,1687.5439,1,,,,,insufficient_history,paid_pmpm: insufficient_history; history_months=1
+2025-02-01,1,units_per_1000,7841.5677,1,,,,,insufficient_history,units_per_1000: insufficient_history; history_months=1
+2025-02-01,2,allowed_pmpm,2143.1178,1,,,,,insufficient_history,allowed_pmpm: insufficient_history; history_months=1
+2025-02-01,2,claims_per_1000,471.9680,1,,,,,insufficient_history,claims_per_1000: insufficient_history; history_months=1
+2025-02-01,2,paid_pmpm,1765.3484,1,,,,,insufficient_history,paid_pmpm: insufficient_history; history_months=1
+2025-02-01,2,units_per_1000,8156.4645,1,,,,,insufficient_history,units_per_1000: insufficient_history; history_months=1
+2025-02-01,3,allowed_pmpm,2610.2881,1,,,,,insufficient_history,allowed_pmpm: insufficient_history; history_months=1

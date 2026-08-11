@@ -1,0 +1,11 @@
+rule_id,rule_name,severity,review_lead_count,amount_at_risk,distinct_member_count,privacy_status
+PI001,Exact duplicate claim line,high,50.0000,42318.82,50,published
+PI002,Near-duplicate claim line,medium,50.0000,158584.83,50,published
+PI003,Unresolved payment after reversal,critical,50.0000,95057.12,50,published
+PI004,Impossible service and payment dates,high,50.0000,0.00,49,published
+PI005,Claim header and line total mismatch,high,50.0000,500.00,50,published
+PI006,Paid amount exceeds allowed amount,high,50.0000,500.00,50,published
+PI007,Unusual provider billing amount,medium,50.0000,81054.46,50,published
+PI008,Sudden provider utilization increase,medium,,,0,suppressed
+PI009,Repeated procedure above configurable limit,medium,50.0000,31603.76,50,published
+PI010,Inconsistent diagnosis and procedure category,medium,50.0000,0.00,49,published

@@ -23,7 +23,16 @@ fewer than 11 distinct synthetic members. All records are synthetic. Findings
 are review leads and policy estimates are synthetic analytical evidence, not
 fraud determinations, clinical guidance, production policy, or causal proof.
 
+The deterministic extract builder publishes seven tool-neutral CSV surfaces:
+executive KPIs, cost and utilization, payment cash flow, privacy-governed
+payment-integrity review leads, provider/service concentration, policy impact,
+and methodology signals. Full extracts remain under `data/generated/bi` and
+outside Git; only bounded samples and a machine-readable quality report are
+published.
+
 The six Looker Studio pages cover executive overview, cost and utilization,
 payment-integrity review leads, concentration, simulated policy impact, and
 investigation/methodology. Power BI independently validates selected Fabric
-KPIs. This contract-only change does not claim either dashboard is complete.
+KPIs. Extract preparation is complete, but neither dashboard is claimed as
+complete until the presentation tools are built and sanitized evidence is
+captured.

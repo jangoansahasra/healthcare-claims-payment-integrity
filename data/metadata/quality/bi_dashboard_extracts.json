@@ -1,0 +1,58 @@
+{
+  "checks": {
+    "count_reconciliation_exact": true,
+    "evaluation_ground_truth_not_accessed": true,
+    "financial_reconciliation_within_001": true,
+    "full_extracts_outside_git": true,
+    "metric_count_is_14": true,
+    "pmpm_denominator_exact": true,
+    "privacy_suppression_applied": true,
+    "service_payment_date_roles_separate": true,
+    "six_looker_pages_contracted": true
+  },
+  "contract_version": 1,
+  "dashboard_status": {
+    "looker_studio": "not_built",
+    "power_bi": "not_built"
+  },
+  "extract_count": 7,
+  "extracts": [
+    {
+      "extract": "executive_kpi",
+      "row_count": 14,
+      "sha256": "1eb3535da170f68fcd83fabc5fdb73760bd1956abf4b622ae6be7716aa707c1d"
+    },
+    {
+      "extract": "cost_and_utilization",
+      "row_count": 72,
+      "sha256": "1dd4a2b091bbfa9436f0f5328bf840f37880d23e5dd309544fe8df5602a5033d"
+    },
+    {
+      "extract": "payment_cash_flow",
+      "row_count": 76,
+      "sha256": "87929fb7c0ad1a26d47731a1a12e2a94a5569bb875845db8f2cd8b13ae32cc50"
+    },
+    {
+      "extract": "payment_integrity_review_leads",
+      "row_count": 10,
+      "sha256": "3eb26caf9ce8ce5c5379af1befaa8a29601e4478a4ef48b489489288ad01d79c"
+    },
+    {
+      "extract": "provider_service_concentration",
+      "row_count": 144,
+      "sha256": "f006cfffc4a0f3165cb514110a399c1ea4411aeb7c7edc5a2875e2206e936cc0"
+    },
+    {
+      "extract": "policy_impact",
+      "row_count": 15,
+      "sha256": "72fcfea276765f1a5a22fd5e7e89f9df081bcd518c6f062ff904395405340fd9"
+    },
+    {
+      "extract": "methodology_signals",
+      "row_count": 288,
+      "sha256": "cd4bb5e7fc1ccb966c6750f5b90876dedf17bd99df2a122b489bc44c15da8113"
+    }
+  ],
+  "privacy_threshold": 11,
+  "status": "extracts_built"
+}
