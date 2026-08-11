@@ -10,6 +10,8 @@ include validation evidence and corresponding documentation.
 
 ### Fixed
 
+- Switched Fabric notebook Parquet reads to the Lakehouse-relative `Files`
+  root after real OneLake execution rejected the absolute landing path
 - Enabled CI push validation for `codex/**` branches so agent-authored pull
   requests receive a head-SHA check even when GitHub omits the PR event
 - Prevented missing SAS reconciliation values from passing tolerance checks
@@ -21,6 +23,9 @@ include validation evidence and corresponding documentation.
 
 ### Added
 
+- Real M09 Fabric Trial execution evidence for a schema-enabled Lakehouse,
+  successful notebook and pipeline runs, 26 governed tables, and 33 passing
+  reconciliation results with private cloud identifiers excluded from Git
 - Deterministic 26-table M09 Fabric upload package with byte-preserved Parquet,
   SHA-256 manifests, governed row/key counts, Arrow schemas, date roles, access
   boundaries, and financial references
