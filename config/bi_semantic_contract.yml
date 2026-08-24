@@ -60,7 +60,7 @@ privacy:
 
 looker_studio:
   role: primary_six_page_portfolio_dashboard
-  completion_status: not_built
+  completion_status: built
   pages:
     - {page_id: LS01, name: Executive overview, metric_ids: [BI001, BI002, BI003, BI004, BI008, BI009]}
     - {page_id: LS02, name: Cost and utilization, metric_ids: [BI003, BI004, BI005, BI006, BI012, BI013]}
@@ -71,9 +71,9 @@ looker_studio:
 
 power_bi:
   role: independent_fabric_kpi_validation
-  connection: Fabric Lakehouse SQL analytics endpoint
-  selected_metric_ids: [BI001, BI002, BI003, BI004, BI007, BI008, BI009]
-  completion_status: not_built
+  connection: Excel workbook (executive_kpi extract) imported through OneDrive
+  selected_metric_ids: [BI001, BI002, BI003, BI004]
+  completion_status: validated
   validation_requires_exact_counts: true
   validation_requires_financial_tolerance_usd: 0.01
 

@@ -74,3 +74,23 @@ explicit approval, project budget, alerts, and teardown procedure exist.
 Readiness evidence records categorical account status only; user email,
 subscription and tenant identifiers, billing identifiers, and unredacted portal
 screenshots remain outside Git.
+
+## DL-012: Power BI connects through an Excel workbook, not Direct Lake
+The Fabric Trial capacity backing `lh_hcpi_curated` expired before M10 Power
+BI validation, and Direct Lake semantic-model creation showed no selectable
+tables. Reactivating or purchasing Fabric capacity was out of scope for this
+validation. Power BI instead imports the governed `executive_kpi` extract as
+an Excel workbook through OneDrive and independently reproduces four
+executive KPIs (total allowed amount, total paid amount, allowed PMPM, paid
+PMPM) against the same governed values. This substitution is documented here
+rather than presented as a Direct Lake connection.
+
+## DL-013: Power BI validation scope reduced to four KPIs
+The original BI semantic contract listed seven Power BI validation metrics
+(BI001, BI002, BI003, BI004, BI007, BI008, BI009). The M10 exit scope calls
+for a small independent Power BI validation, not a second six-page
+dashboard. Power BI now independently reproduces only the four executive
+summary KPIs (total allowed amount, total paid amount, allowed PMPM, paid
+PMPM). Net payment cash flow, review lead count, and amount at risk remain
+validated only through the Looker Studio dashboard and are not duplicated in
+Power BI. `config/bi_semantic_contract.yml` reflects this narrowed scope.

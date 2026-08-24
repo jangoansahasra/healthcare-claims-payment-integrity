@@ -1664,3 +1664,25 @@ Publishing the governed extract package through issue #86.
 
 Load the extracts into Looker Studio, build and validate all six pages, then
 reproduce selected executive KPIs in Power BI and capture sanitized evidence.
+
+## 2026-08-23 — M10 Power BI validation and dashboard completion
+### Completed
+- Confirmed all six Looker Studio pages are built against the governed BI
+  semantic contract with sanitized evidence captured.
+- Converted the governed `executive_kpi` extract to an Excel workbook and
+  imported it into Power BI through OneDrive, because the Fabric Trial
+  capacity had expired and Direct Lake showed no selectable tables (DL-012).
+- Built a four-card Power BI report reproducing total allowed amount, total
+  paid amount, allowed PMPM, and paid PMPM from the governed extract.
+- Verified zero count difference and financial differences within $0.01
+  against the governed extract for all four validated KPIs.
+- Captured a sanitized report screenshot with no account, tenant, or
+  workspace identifiers visible.
+- Updated the governed BI semantic-model documentation and quality metadata
+  to reflect the actual Power BI connection method and validation results.
+### Current work
+Completing the M10 exit workflow: tests, formatting, and the pull request
+against issue #86.
+### Next task
+Push the branch, open the draft pull request, get CI green, merge, and close
+issues #86 and #83.
