@@ -22,6 +22,11 @@ include validation evidence and corresponding documentation.
   result row to satisfy the governed result grain and primary key
 
 ### Added
+- Built and validated both M10 presentation tools: six complete Looker
+  Studio pages and a four-card Power BI report that independently reproduces
+  total allowed amount, total paid amount, allowed PMPM, and paid PMPM from
+  the governed extract via an Excel-workbook OneDrive import, with sanitized
+  evidence captured for both.
 
 - Deterministic M10 dashboard-extract builder publishing seven governed,
   tool-neutral CSV surfaces with 14 reconciled KPIs, privacy suppression,

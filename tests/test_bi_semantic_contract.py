@@ -74,16 +74,18 @@ def test_looker_studio_has_exactly_six_governed_pages() -> None:
         f"LS{number:02d}" for number in range(1, 7)
     ]
     assert all(page["metric_ids"] for page in looker["pages"])
-    assert looker["completion_status"] == "not_built"
+    assert looker["completion_status"] == "built"
 
 
 def test_power_bi_validation_scope_is_explicit() -> None:
     contract = load_contract()
     power_bi = contract["power_bi"]
-    assert power_bi["connection"] == "Fabric Lakehouse SQL analytics endpoint"
+    assert power_bi["connection"] == (
+        "Excel workbook (executive_kpi extract) imported through OneDrive"
+    )
     assert set(power_bi["selected_metric_ids"]) <= set(contract["metrics"])
     assert power_bi["validation_requires_financial_tolerance_usd"] == 0.01
-    assert power_bi["completion_status"] == "not_built"
+    assert power_bi["completion_status"] == "validated"
 
 
 def test_evidence_is_sanitized_and_outputs_are_local() -> None:

@@ -2,8 +2,11 @@
 
 M10 publishes one governed metric contract to two presentation tools. Looker
 Studio is the primary six-page portfolio dashboard. A compact Power BI report
-connects to the Fabric Lakehouse SQL analytics endpoint and independently
-reproduces selected executive KPIs. Neither presentation layer owns business
+independently reproduces four selected executive KPIs from the same governed
+extract. DL-012 records that Power BI imports the governed `executive_kpi`
+extract as an Excel workbook through OneDrive rather than connecting to the
+Fabric Lakehouse SQL analytics endpoint directly, because the Fabric Trial
+capacity expired before validation. Neither presentation layer owns business
 logic.
 
 The model consumes M09 tables in the `trusted`, `payment_integrity`,
@@ -32,7 +35,8 @@ published.
 
 The six Looker Studio pages cover executive overview, cost and utilization,
 payment-integrity review leads, concentration, simulated policy impact, and
-investigation/methodology. Power BI independently validates selected Fabric
-KPIs. Extract preparation is complete, but neither dashboard is claimed as
-complete until the presentation tools are built and sanitized evidence is
-captured.
+investigation/methodology, and are built with sanitized evidence captured.
+Power BI independently reproduces total allowed amount, total paid amount,
+allowed PMPM, and paid PMPM from the governed extract with zero count
+difference and financial differences within $0.01, and sanitized evidence has
+been captured for both presentation tools.
