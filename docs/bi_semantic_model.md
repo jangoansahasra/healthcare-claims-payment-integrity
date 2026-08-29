@@ -39,4 +39,8 @@ investigation/methodology, and are built with sanitized evidence captured.
 Power BI independently reproduces total allowed amount, total paid amount,
 allowed PMPM, and paid PMPM from the governed extract with zero count
 difference and financial differences within $0.01, and sanitized evidence has
-been captured for both presentation tools.
+been captured for both presentation tools. Seven manually reviewed screenshots
+that contain no account, tenant, subscription, workspace, run, personal, or
+record-level identifiers are published under `docs/images/bi`. Unreviewed and
+full-resolution working evidence remains under `data/generated` and outside
+Git.

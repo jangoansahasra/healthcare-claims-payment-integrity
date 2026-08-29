@@ -1686,3 +1686,25 @@ against issue #86.
 ### Next task
 Push the branch, open the draft pull request, get CI green, merge, and close
 issues #86 and #83.
+
+## 2026-08-29 — M11 portfolio dashboard gallery
+
+### Completed
+
+- Confirmed M10 dashboard completion and moved M10 to complete in the project
+  plan.
+- Manually reviewed six Looker Studio screenshots and one Power BI validation
+  screenshot for confidential or restricted information.
+- Published only sanitized, aggregate dashboard visuals under
+  `docs/images/bi`; generated working evidence remains excluded from Git.
+- Added the seven-page visual gallery to the README and made the screenshot
+  publication policy explicit in the BI semantic contract.
+
+### Current work
+
+Publishing the first M11 portfolio-delivery increment through issue #89.
+
+### Next task
+
+Add the final results narrative, architecture summary, presentation, and demo
+script; run the complete validation suite; and complete the M11 exit workflow.

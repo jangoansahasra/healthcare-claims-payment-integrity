@@ -40,8 +40,38 @@ with all 26 tables and 33 reconciliation results passing.
 M10 now publishes seven deterministic, tool-neutral dashboard extracts from
 the governed analytical surfaces. They reproduce all 14 contracted KPIs,
 apply the 11-member privacy threshold, keep service-month and payment-month
-measures separate, and exclude evaluation ground truth. Looker Studio and
-Power BI report construction and visual evidence remain in progress.
+measures separate, and exclude evaluation ground truth. The six-page Looker
+Studio dashboard and four-KPI Power BI validation report are complete.
+
+## Dashboard gallery
+
+### Executive overview
+
+![Looker Studio executive overview](docs/images/bi/looker_ls01_executive_overview.png)
+
+### Cost and utilization
+
+![Looker Studio cost and utilization](docs/images/bi/looker_ls02_cost_utilization.png)
+
+### Provider and service concentration
+
+![Looker Studio provider and service concentration](docs/images/bi/looker_ls03_provider_service.png)
+
+### Payment-integrity review leads
+
+![Looker Studio payment-integrity review leads](docs/images/bi/looker_ls04_payment_integrity.png)
+
+### Simulated policy impact
+
+![Looker Studio simulated policy impact](docs/images/bi/looker_ls05_policy_impact.png)
+
+### Methodology and early-warning signals
+
+![Looker Studio methodology and signals](docs/images/bi/looker_ls06_methodology_signals.png)
+
+### Independent Power BI KPI validation
+
+![Power BI KPI validation](docs/images/bi/power_bi_kpi_validation.png)
 
 ## Target deliverables
 
@@ -82,11 +112,10 @@ is complete. M08 independent SAS reconciliation is complete: SAS 9.4 M8 on
 Linux reproduced all 181 governed comparisons with zero failures or missing
 SAS values. M09 Fabric execution is complete: the Lakehouse contains 23
 ordinary and three restricted tables, and both the validation notebook and
-orchestration pipeline succeeded. The trial workspace is retained temporarily
-for the M10 Looker Studio dashboard and Power BI validation report, and no paid
-Azure resource was created.
-The governed M10 dashboard extracts are complete; the six Looker Studio pages
-and compact Power BI validation report are the next presentation-layer work.
+orchestration pipeline succeeded. No paid Azure resource was created. M10 is
+complete: the governed extracts, six Looker Studio pages, compact Power BI
+validation report, cross-tool KPI reconciliation, and sanitized visual evidence
+are finished. M11 portfolio packaging is in progress.
 
 ## Safety and limitations
 

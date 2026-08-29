@@ -22,6 +22,10 @@ include validation evidence and corresponding documentation.
   result row to satisfy the governed result grain and primary key
 
 ### Added
+- Published seven manually reviewed, sanitized M10 dashboard screenshots for
+  the M11 portfolio gallery, with generated working evidence still excluded
+  from Git.
+
 - Built and validated both M10 presentation tools: six complete Looker
   Studio pages and a four-card Power BI report that independently reproduces
   total allowed amount, total paid amount, allowed PMPM, and paid PMPM from

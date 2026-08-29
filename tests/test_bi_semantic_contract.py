@@ -88,14 +88,30 @@ def test_power_bi_validation_scope_is_explicit() -> None:
     assert power_bi["completion_status"] == "validated"
 
 
-def test_evidence_is_sanitized_and_outputs_are_local() -> None:
+def test_evidence_is_sanitized_and_generated_outputs_are_local() -> None:
     contract = load_contract()
     evidence = contract["evidence"]
     assert {"user_email", "tenant_id", "subscription_id", "pipeline_run_id"} <= set(
         evidence["prohibited_screenshot_fields"]
     )
-    assert evidence["screenshots_committed_to_git"] is False
+    assert evidence["screenshots_committed_to_git"] is True
+    assert evidence["published_screenshot_directory"] == "docs/images/bi"
+    assert evidence["publication_requires_manual_sanitization_review"] is True
     assert contract["dataset"]["full_output_committed_to_git"] is False
+
+
+def test_only_reviewed_dashboard_screenshots_are_published() -> None:
+    evidence_directory = ROOT / "docs" / "images" / "bi"
+    expected = {
+        "looker_ls01_executive_overview.png",
+        "looker_ls02_cost_utilization.png",
+        "looker_ls03_provider_service.png",
+        "looker_ls04_payment_integrity.png",
+        "looker_ls05_policy_impact.png",
+        "looker_ls06_methodology_signals.png",
+        "power_bi_kpi_validation.png",
+    }
+    assert {path.name for path in evidence_directory.glob("*.png")} == expected
 
 
 def test_quality_check_identifiers_are_complete() -> None:
