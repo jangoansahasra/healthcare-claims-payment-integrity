@@ -209,3 +209,6 @@ include validation evidence and corresponding documentation.
 - Technical profiles for 156.5 million prescriber-brand-generic records
 - Strict year-specific UTF-8 and Windows-1252 source decoding
 - Explicit preservation of beneficiary and age-group suppression lineage
+- Added the M11 recruiter-focused portfolio package: verified results narrative,
+  five-minute demo script, nine-slide PowerPoint presentation, PDF export, and
+  presentation outline.
