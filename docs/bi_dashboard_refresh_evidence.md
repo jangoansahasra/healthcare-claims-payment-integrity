@@ -37,3 +37,12 @@ PMPM, and paid PMPM from the same governed extract with zero count
 difference and financial differences within $0.01. Screenshots captured
 alongside this evidence expose no account, tenant, subscription,
 workspace, or run identifiers.
+
+## Published visual evidence
+
+The seven screenshots in `docs/images/bi` were manually reviewed before
+publication. They contain synthetic aggregate metrics and governed analytical
+labels only. They do not expose personal information, account details, cloud
+resource identifiers, provider identifiers, member identifiers, or restricted
+evaluation ground truth. Working screenshots and generated BI extracts remain
+excluded from Git.
