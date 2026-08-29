@@ -43,6 +43,15 @@ apply the 11-member privacy threshold, keep service-month and payment-month
 measures separate, and exclude evaluation ground truth. The six-page Looker
 Studio dashboard and four-KPI Power BI validation report are complete.
 
+## Portfolio documentation
+
+- [Verified project results](docs/portfolio_results.md)
+- [Governed BI semantic model](docs/bi_semantic_model.md)
+- [Dashboard refresh evidence](docs/bi_dashboard_refresh_evidence.md)
+- [Project implementation plan](docs/project_plan.md)
+- [Portfolio presentation](presentation/healthcare_claims_payment_integrity_portfolio.pdf)
+- [Five-minute demo script](docs/demo_script.md)
+
 ## Dashboard gallery
 
 ### Executive overview

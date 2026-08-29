@@ -1708,3 +1708,28 @@ Publishing the first M11 portfolio-delivery increment through issue #89.
 
 Add the final results narrative, architecture summary, presentation, and demo
 script; run the complete validation suite; and complete the M11 exit workflow.
+
+## 2026-08-29 — M11 portfolio narrative and presentation
+
+### Completed
+
+- Published a verified results narrative covering payment-integrity
+  performance, cost intelligence, simulated policy evaluation, SAS
+  reconciliation, Fabric execution, and governed BI delivery.
+- Created a recruiter-focused five-minute demo script and nine-slide
+  presentation outline.
+- Built and visually reviewed the final PowerPoint presentation and nine-page
+  PDF export.
+- Sanitized PowerPoint creator and last-modified metadata using the generic
+  `Healthcare Claims Analytics Portfolio` identity.
+- Linked the results, presentation, and demo materials from the main README.
+
+### Current work
+
+Validating and publishing the remaining M11 portfolio deliverables through
+issue #89.
+
+### Next task
+
+Run the complete validation suite, open the M11 pull request, merge after CI,
+mark M11 complete, and close issue #89.

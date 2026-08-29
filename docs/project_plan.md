@@ -34,7 +34,7 @@ auditors an explainable investigation queue.
 | M08 | SAS reconciliation | Complete | Key totals independently reproduced in SAS |
 | M09 | Fabric and Azure | Complete | Curated data and pipelines demonstrated in the cloud |
 | M10 | BI dashboards | Complete | Governed semantic model, deterministic extracts, six Looker Studio pages, and Power BI validation completed |
-| M11 | Portfolio delivery | In progress | README, results, screenshots, presentation, and demo completed |
+| M11 | Portfolio delivery | Complete | README, results, screenshots, presentation, and demo completed |
 
 ## Success measures
 

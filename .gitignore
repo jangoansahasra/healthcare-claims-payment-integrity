@@ -30,3 +30,6 @@ data/curated/*
 *.key
 local.settings.json
 .azure/
+
+# Microsoft Office temporary files.
+~$*.pptx
